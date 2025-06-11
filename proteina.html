@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GODO Suplementos</title>
+
+  <!-- Estilos de Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Hoja de estilos propia -->
+  <link href="styles.css" rel="stylesheet" />
+
+</head>
+
+<body>
+
+  <!-- 1. Barra superior -->
+  <div class="top-bar">
+    DESPACHAMOS EN EL DÍA
+  </div>
+
+  <!-- 2. Main bar -->
+  <div class="container-fluid py-2 border-bottom">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-3 text-center">
+        <a href="index.html">
+          <img src="assets/Logo-Godo.png" alt="Logo Godo" class="logo-img" />
+        </a>
+      </div>
+      <div class="col-12 col-md-7 my-2">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Buscar productos..." />
+          <button class="btn btn-godo">
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-12 col-md-1 d-flex justify-content-around my-2">
+        <button class="btn btn-godo square-button">
+          <i class="bi bi-person"></i>
+        </button>
+        <button class="btn btn-godo square-button">
+          <i class="bi bi-cart"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Barra de navegación -->
+
+  <nav class="navbar navbar-expand-lg bg-godo">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">PROTEINA</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">CREATINA</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              OTROS SUPLEMENTOS
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Aminoácidos</a></li>
+              <li><a class="dropdown-item" href="#">Ganadores de peso</a></li>
+              <li><a class="dropdown-item" href="#">Geles</a></li>
+              <li><a class="dropdown-item" href="#">Preentrenos</a></li>
+              <li><a class="dropdown-item" href="#">BCAA</a></li>
+              <li><a class="dropdown-item" href="#">NOX</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">COMBOS</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link text-white fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              MARCAS
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">BSN</a></li>
+              <li><a class="dropdown-item" href="#">Universal</a></li>
+              <li><a class="dropdown-item" href="#">ON</a></li>
+              <li><a class="dropdown-item" href="#">Star Nutrition</a></li>
+              <li><a class="dropdown-item" href="#">Gentech</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">ENVIOS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">PAGOS</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white fw-bold" href="#">UBICACION</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+<!-- Breadcrumb navigation -->
+<nav aria-label="breadcrumb" class="mt-3">
+  <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3 container">
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis" href="index.html">
+        <i class="bi bi-house-door-fill"></i>
+        <span class="visually-hidden">Inicio</span>
+      </a>
+    </li>
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Suplementos</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Proteína</li>
+  </ol>
+</nav>
+
+<!-- Contenedor del cuerpo -->
+
+<div class="container my-4">
+    <div class="row">
+      <!-- Sidebar de filtros -->
+      <aside class="col-md-3 mb-4">
+  <h5 class="mb-3">Filtrar por:</h5>
+
+  <!-- Peso -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Peso</h6>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="peso500">
+      <label class="form-check-label" for="peso500">500g</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="peso1kg">
+      <label class="form-check-label" for="peso1kg">1kg</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="peso2kg">
+      <label class="form-check-label" for="peso2kg">2kg</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="pesomas2kg">
+      <label class="form-check-label" for="pesomas2kg">Más de 2kg</label>
+    </div>
+  </div>
+
+  <!-- Marca -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Marca</h6>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="marcaStar">
+      <label class="form-check-label" for="marcaStar">Star Nutrition</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="marcaBSN">
+      <label class="form-check-label" for="marcaBSN">BSN</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="marcaUniversal">
+      <label class="form-check-label" for="marcaUniversal">Universal</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="marcaON">
+      <label class="form-check-label" for="marcaON">ON</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="marcaGentech">
+      <label class="form-check-label" for="marcaGentech">XBody</label>
+    </div>
+  </div>
+
+  <!-- Presentación -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Presentación</h6>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="doypack">
+      <label class="form-check-label" for="doypack">Doy Pack</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="tarro">
+      <label class="form-check-label" for="tarro">Tarro</label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="pastillas">
+      <label class="form-check-label" for="pastillas">Pastillas</label>
+    </div>
+  </div>
+
+  <!-- Envío gratis -->
+  <div class="mb-4">
+    <h6 class="fw-bold">Otros</h6>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" id="envioGratis">
+      <label class="form-check-label" for="envioGratis">Envío gratis</label>
+    </div>
+  </div>
+
+  <button class="btn btn-godo w-100">Aplicar filtros</button>
+</aside>
+
+      <!-- Productos -->
+      <section class="col-md-9">
+        <h2 class="text-center mb-4">PROTEINA</h2>
+        <div class="row g-3">
+          <!-- Producto -->
+          <div class="col-6 col-lg-4">
+            <div class="product-card h-100">
+                <img src="assets/Proteina-Platinum-3kg.jpg" class="img-fluid mb-2" alt="Producto" />
+                <h5>Whey Protein Platinum 3KG</h5>
+                <p class="text-muted">Proteínas</p>
+                <p class="fw-bold text-primary">$125.000</p>
+                <button class="btn btn-godo w-100">Agregar al carrito</button>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-4">
+            <div class="product-card h-100">
+              <img src="assets/Proteina-Whey-2lb-Doy.jpeg" class="img-fluid mb-2" alt="Producto" />
+                <h5>Whey Protein Doy Pack 2LB</h5>
+                <p class="text-muted">Proteínas</p>
+                <p class="fw-bold text-primary">$45.000</p>
+                <button class="btn btn-godo w-100">Agregar al carrito</button>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-4">
+            <div class="product-card h-100">
+              <img src="assets/Proteina-Whey-2lb.webp" class="img-fluid mb-2" alt="Producto" />
+                <h5>Whey Protein Platinum 2LB</h5>
+                <p class="text-muted">Proteínas</p>
+                <p class="fw-bold text-primary">$48.000</p>
+                <button class="btn btn-godo w-100">Agregar al carrito</button>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-4">
+            <div class="product-card h-100">
+              <img src="assets/Plant-Protein-2lb.jpeg" class="img-fluid mb-2" alt="Producto" />
+                <h5>Just Whey 2LB</h5>
+                <p class="text-muted">Proteínas</p>
+                <p class="fw-bold text-primary">$50.000</p>
+                <button class="btn btn-godo w-100">Agregar al carrito</button>
+            </div>
+          </div>
+
+          <div class="col-6 col-lg-4">
+            <div class="product-card h-100">
+              <img src="assets/Whey-Isolate-2lb.jpeg" class="img-fluid mb-2" alt="Producto" />
+                <h5>Whey Isolate 2LB</h5>
+                <p class="text-muted">Proteínas</p>
+                <p class="fw-bold text-primary">$100.000</p>
+                <button class="btn btn-godo w-100">Agregar al carrito</button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+  
+  <!-- 5. Botón "Ir arriba" -->
+  <button class="go-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+    ↑ Ir arriba
+  </button>
+
+  <!-- 6. Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <h5>Información</h5>
+          <ul>
+            <li>Registrarse</li>
+            <li>Ayuda para comprar</li>
+            <li>Pagos</li>
+            <li>Envios</li>
+            <li>Tarjetas de regalo</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5>Empresa</h5>
+          <ul>
+            <li>FAQ</li>
+            <li>Información de la empresa</li>
+            <li>Contáctenos</li>
+            <li>Garantía</li>
+            <li>Ubicación</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5>Redes Sociales</h5>
+          <ul>
+            <li>Facebook</li>
+            <li>Twitter</li>
+            <li>Instagram</li>
+            <li>Tiktok</li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <!-- Elfsight Google Reviews | Untitled Google Reviews -->
+          <script src="https://static.elfsight.com/platform/platform.js" async></script>
+          <div class="elfsight-app-5973b64d-c558-42bf-a0fc-7b558d16364c" data-elfsight-app-lazy></div>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2025 GODO Suplementos - Todos los derechos reservados
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS (opcional) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
