@@ -74,6 +74,9 @@ body {
     .bg-godo {
       background-color: #002f6c !important;
     }
+    .bg-godo-yellow {
+      background-color: #FFD700 !important;
+    }
     .btn-godo {
       background-color: #002f6c;
       color: white;
@@ -84,3 +87,45 @@ body {
       background-color: #001e4d; /* un tono más oscuro al pasar el mouse */
       color: white;
     }
+    h2 {
+      font-family: "Inter", sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #111;
+    }
+    .btn-godo-yellow {
+      background-color: #FFD700;
+      color: #111; /* texto negro para contraste */
+      border: none;
+      font-weight: 600;
+    }
+
+    .btn-godo-yellow:hover {
+      background-color: #e6c200; /* un poco más oscuro en hover */
+      color: #000;
+    }
+    .carousel-control-prev,
+    .carousel-control-next {
+      width: 48px;
+      height: 48px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%; /* opcional: si querés bordes redondeados */
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    z-index: 1000;
+  }
+
+    .cuenta-container:hover #cuenta-dropdown,
+    .carrito-container:hover #carrito-dropdown {
+      display: block;
+    }
+    .wide-cuenta-dropdown {
+    min-width: 300px;
+    max-width: 350px;
+  }

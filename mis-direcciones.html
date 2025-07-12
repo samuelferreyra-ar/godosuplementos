@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mis Direcciones - GODO Suplementos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+
+<body>
+  <div class="container py-5">
+    <h2 class="mb-4">Mis direcciones</h2>
+
+    <!-- Lista de direcciones -->
+    <ul class="list-group mb-4" id="lista-direcciones"></ul>
+
+    <!-- Formulario -->
+    <h5>Agregar o editar dirección</h5>
+    <form id="direccion-form" class="row g-3">
+      <input type="hidden" id="direccion-index" />
+      <div class="col-md-6">
+        <label class="form-label">Calle</label>
+        <input type="text" class="form-control" id="calle" required />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Número</label>
+        <input type="text" class="form-control" id="numero" required />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Piso</label>
+        <input type="text" class="form-control" id="piso" />
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Dpto</label>
+        <input type="text" class="form-control" id="departamento" />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Localidad</label>
+        <input type="text" class="form-control" id="localidad" required />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Provincia</label>
+        <input type="text" class="form-control" id="provincia" required />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label">Código Postal</label>
+        <input type="text" class="form-control" id="codigoPostal" required />
+      </div>
+      <div class="col-12 text-end">
+        <button type="submit" class="btn btn-godo">Guardar dirección</button>
+      </div>
+    </form>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "./js/firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    let uid = "";
+    let direcciones = [];
+
+    const form = document.getElementById("direccion-form");
+    const lista = document.getElementById("lista-direcciones");
+    console.log("DEBUG db:", db);
+    console.log("DEBUG tipo de db:", typeof db);
+
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        uid = user.uid;
+        const docRef = doc(db, "usuarios", uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          direcciones = data.direcciones || [];
+
+          console.log("Usuario:", data);
+          console.log("Direcciones:", direcciones);
+
+          renderDirecciones();
+        } else {
+          console.error("No existe el documento del usuario.");
+        }
+      }
+    });
+
+
+    function renderDirecciones() {
+      if (direcciones.length === 0) {
+        lista.innerHTML = "<li class='list-group-item text-muted'>No hay direcciones cargadas.</li>";
+        return;
+      }
+
+      lista.innerHTML = direcciones.map((dir, i) => `
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+          <div>
+            ${dir.calle} ${dir.numero}${dir.piso ? ", Piso " + dir.piso : ""}${dir.departamento ? ", Dpto " + dir.departamento : ""}<br />
+            ${dir.localidad}, ${dir.provincia}, CP ${dir.codigoPostal}
+          </div>
+          <div class="btn-group">
+            <button class="btn btn-sm btn-outline-primary" onclick="editarDireccion(${i})">Editar</button>
+            <button class="btn btn-sm btn-outline-danger" onclick="eliminarDireccion(${i})">Eliminar</button>
+            ${dir.principal
+              ? '<button class="btn btn-sm btn-success disabled">Principal</button>'
+              : `<button class="btn btn-sm btn-outline-success" onclick="marcarPrincipal(${i})">Marcar principal</button>`
+            }
+          </div>
+        </li>
+      `).join("");
+    }
+
+
+    window.editarDireccion = function (index) {
+      const dir = direcciones[index];
+      document.getElementById("direccion-index").value = index;
+      document.getElementById("calle").value = dir.calle;
+      document.getElementById("numero").value = dir.numero;
+      document.getElementById("piso").value = dir.piso || "";
+      document.getElementById("departamento").value = dir.departamento || "";
+      document.getElementById("localidad").value = dir.localidad;
+      document.getElementById("provincia").value = dir.provincia;
+      document.getElementById("codigoPostal").value = dir.codigoPostal;
+    };
+
+    window.eliminarDireccion = async function (index) {
+        if (!confirm("¿Deseás eliminar esta dirección?")) return;
+        direcciones.splice(index, 1);
+        await updateDoc(doc(db, "usuarios", uid), { direcciones });
+        renderDirecciones();
+        };
+
+    window.marcarPrincipal = async function (index) {
+        direcciones = direcciones.map((dir, i) => ({
+            ...dir,
+            principal: i === index
+        }));
+        await updateDoc(doc(db, "usuarios", uid), { direcciones });
+        renderDirecciones();
+        };
+
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      if (!uid) {
+        console.error("UID no definido aún. Esperá a que se cargue el usuario.");
+        return;
+      }
+
+      const nuevaDireccion = {
+        calle: document.getElementById("calle").value,
+        numero: document.getElementById("numero").value,
+        piso: document.getElementById("piso").value,
+        departamento: document.getElementById("departamento").value,
+        localidad: document.getElementById("localidad").value,
+        provincia: document.getElementById("provincia").value,
+        codigoPostal: document.getElementById("codigoPostal").value
+      };
+
+      const index = document.getElementById("direccion-index").value;
+
+      try {
+        if (index === "") {
+          direcciones.push(nuevaDireccion);
+        } else {
+          direcciones[index] = nuevaDireccion;
+        }
+
+        console.log("Guardando para UID:", uid);
+        const docRef = doc(db, "usuarios", uid); // <- esto debe estar dentro del bloque para garantizar que uid no sea vacío
+        await updateDoc(docRef, { direcciones });
+
+        // Mostrar toast
+        const toastElement = document.getElementById('toastConfirmacion');
+        const toast = new bootstrap.Toast(toastElement);
+        toast.show();
+
+        form.reset();
+        document.getElementById("direccion-index").value = "";
+        renderDirecciones();
+      } catch (error) {
+        console.error("Error guardando dirección:", error);
+      }
+    });
+
+
+  </script>
+
+  <!-- Toast de confirmación -->
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+      <div id="toastConfirmacion" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+          <div class="toast-body">
+            Dirección guardada correctamente.
+          </div>
+          <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+      </div>
+    </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

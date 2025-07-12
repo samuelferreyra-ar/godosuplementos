@@ -8,6 +8,9 @@
   <!-- Estilos de Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Fuentes Google -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
 
   <!-- Hoja de estilos propia -->
   <link href="styles.css" rel="stylesheet" />
@@ -17,41 +20,102 @@
 <body>
 
   <!-- 1. Barra superior -->
-  <div class="top-bar">
-    DESPACHAMOS EN EL DÍA
+  <div class="bg-danger text-white py-1">
+  <div class="container d-flex justify-content-between align-items-center small">
+    
+    <!-- Teléfono a la izquierda -->
+    <div>
+      <i class="bi bi-telephone-fill me-1"></i> (02284) 15 123-4567
+    </div>
+
+    <!-- Texto central -->
+    <div class="text-center flex-grow-1">DESPACHAMOS EN EL DÍA</div>
+
+    <!-- Correo a la derecha -->
+    <div>
+      <i class="bi bi-envelope-fill me-1"></i> contacto@godosuplementos.com
+    </div>
+    
   </div>
+</div>
+
 
   <!-- 2. Main bar -->
-  <div class="container-fluid py-2 border-bottom">
-    <div class="row align-items-center">
-      <div class="col-12 col-md-3 text-center">
-        <a href="index.html">
-          <img src="assets/Logo-Godo.png" alt="Logo Godo" class="logo-img" />
-        </a>
-      </div>
-      <div class="col-12 col-md-7 my-2">
-        <div class="input-group">
-          <input type="text" class="form-control" placeholder="Buscar productos..." />
-          <button class="btn btn-godo">
-            <i class="bi bi-search"></i>
-          </button>
-        </div>
-      </div>
-      <div class="col-12 col-md-1 d-flex justify-content-around my-2">
-        <button class="btn btn-godo square-button">
-          <i class="bi bi-person"></i>
-        </button>
-        <button class="btn btn-godo square-button">
-          <i class="bi bi-cart"></i>
+<div class="container py-2 border-bottom">
+  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+    
+    <!-- Logo -->
+    <div class="flex-shrink-0 text-center">
+      <a href="index.html">
+        <img src="assets/Logo-Godo.png" alt="Logo Godo" class="logo-img" />
+      </a>
+    </div>
+
+    <!-- Barra de búsqueda centrada -->
+    <div class="flex-grow-1 mx-auto" style="max-width: 600px;">
+      <div class="input-group">
+        <input type="text" class="form-control" placeholder="Buscar productos..." />
+        <button class="btn btn-godo">
+          <i class="bi bi-search"></i>
         </button>
       </div>
     </div>
+
+    <!-- Botones cuenta / carrito -->
+        <!-- Cuenta y Carrito -->
+    <div class="col-12 col-md-4 d-flex justify-content-end gap-3 my-2">
+      <!-- Cuenta -->
+      <div class="position-relative cuenta-container">
+        <button class="btn btn-godo btn-lg d-flex align-items-center" id="btn-cuenta">
+          <i class="bi bi-person me-2"></i><span>Cuenta</span>
+        </button>
+        <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow wide-cuenta-dropdown">
+          <!-- Contenido para usuarios no logueados -->
+          <div id="login-form">
+            <input id="login-email" type="email" class="form-control mb-2" placeholder="Correo electrónico">
+            <input id="login-password" type="password" class="form-control mb-2" placeholder="Contraseña">
+            <button id="btn-login" class="btn btn-primary w-100 mb-2">Iniciar Sesión</button>
+            <a href="registro.html" class="btn btn-outline-secondary w-100">Nuevo usuario</a>
+          </div>
+
+          <!-- Contenido para usuarios logueados -->
+          <div id="user-options" style="display: none;">
+            <a href="mis-datos.html" class="dropdown-item">Mis datos</a>
+            <a href="mis-direcciones.html" class="dropdown-item">Mis direcciones</a>
+            <hr />
+            <button id="btn-logout" class="btn btn-danger w-100">Cerrar sesión</button>
+          </div>
+      </div>
+
+      </div>
+
+      <!-- Carrito -->
+      <div class="position-relative carrito-container">
+        <button class="btn btn-godo-yellow btn-lg d-flex align-items-center" id="btn-carrito">
+          <i class="bi bi-cart me-2"></i><span>Carrito</span>
+        </button>
+        <div id="carrito-dropdown" class="dropdown-menu p-3 shadow" style="width: 300px;">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <img src="assets/producto-ejemplo.jpg" width="40" height="40"/>
+            <span class="mx-2">Proteína 3kg</span>
+            <div class="d-flex">
+              <button class="btn btn-sm btn-outline-secondary">-</button>
+              <span class="px-2">1</span>
+              <button class="btn btn-sm btn-outline-secondary">+</button>
+            </div>
+          </div>
+          <button class="btn btn-success w-100">COMPRAR</button>
+        </div>
+      </div>
+    </div>
+
   </div>
+</div>
 
   <!-- 3. Barra de navegación -->
 
   <nav class="navbar navbar-expand-lg bg-godo">
-    <div class="container-fluid">
+    <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -114,8 +178,8 @@
           <img src="assets/Proteina-Platinum-3kg.jpg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Proteínas</p>
-          <p class="fw-bold text-primary">$125.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$125.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
        <div class="col-6 col-md-3">
@@ -123,8 +187,8 @@
           <img src="assets/Proteina-Whey-2lb-Doy.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Doy Pack 2LB</h5>
           <p class="text-muted">Proteínas</p>
-          <p class="fw-bold text-primary">$45.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$45.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -132,8 +196,8 @@
           <img src="assets/Proteina-Whey-2lb.webp" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 2LB</h5>
           <p class="text-muted">Proteínas</p>
-          <p class="fw-bold text-primary">$48.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$48.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -141,8 +205,8 @@
           <img src="assets/Plant-Protein-2lb.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Just Whey 2LB</h5>
           <p class="text-muted">Proteínas</p>
-          <p class="fw-bold text-primary">$50.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$50.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -150,8 +214,8 @@
           <img src="assets/Whey-Isolate-2lb.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Isolate 2LB</h5>
           <p class="text-muted">Proteínas</p>
-          <p class="fw-bold text-primary">$100.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$100.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -159,8 +223,8 @@
           <img src="assets/Creatina-150g.webp" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Creatinas</p>
-          <p class="fw-bold text-primary">$45.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$45.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -168,8 +232,8 @@
           <img src="assets/Creatina-200g.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Creatinas</p>
-          <p class="fw-bold text-primary">$45.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$45.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -177,8 +241,8 @@
           <img src="assets/Creatina-300g-Doy.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Creatinas</p>
-          <p class="fw-bold text-primary">$45.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$45.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -186,8 +250,8 @@
           <img src="assets/Creatina-300g-Frasco.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Creatinas</p>
-          <p class="fw-bold text-primary">$45.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$45.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
       <div class="col-6 col-md-3">
@@ -195,8 +259,8 @@
           <img src="assets/Creatina-500g.jpeg" class="img-fluid mb-2" alt="Producto" />
           <h5>Whey Protein Platinum 3KG</h5>
           <p class="text-muted">Creatinas</p>
-          <p class="fw-bold text-primary">$50.000</p>
-          <button class="btn btn-godo w-100">Agregar al carrito</button>
+          <h4 class="fw-bold text-primary">$50.000</p>
+          <button class="btn btn-godo-yellow w-100 py-2">Agregar al carrito</button>
         </div>
       </div>
     </div>
@@ -255,5 +319,52 @@
 
   <!-- Bootstrap JS (opcional) -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Login Firebase -->
+
+  <script type="module">
+  import {
+    loginUsuario,
+    detectarUsuario,
+    cerrarSesion
+  } from "./js/auth.js";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Login
+    const loginBtn = document.getElementById("btn-login");
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        const email = document.getElementById("login-email").value;
+        const pass = document.getElementById("login-password").value;
+        loginUsuario(email, pass);
+      });
+    }
+
+    // Logout
+    const logoutBtn = document.getElementById("btn-logout");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", cerrarSesion);
+    }
+
+    // Mostrar estado usuario
+    detectarUsuario((user) => {
+      const cuentaBtn = document.getElementById("btn-cuenta");
+      const loginForm = document.getElementById("login-form");
+      const userOptions = document.getElementById("user-options");
+
+      if (user) {
+        cuentaBtn.innerHTML = `<i class="bi bi-person-check me-2"></i> ${user.email}`;
+        loginForm.style.display = "none";
+        userOptions.style.display = "block";
+      } else {
+        cuentaBtn.innerHTML = `<i class="bi bi-person me-2"></i><span>Cuenta</span>`;
+        loginForm.style.display = "block";
+        userOptions.style.display = "none";
+      }
+    });
+  });
+</script>
+
+
 </body>
 </html>
