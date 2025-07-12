@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mis pedidos</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container my-5">
+    <h2 class="mb-4">Mis pedidos</h2>
+    <div id="pedidos-lista">
+      <!-- Aquí se cargan los pedidos -->
+    </div>
+  </div>
+
+  <script type="module">
+    import { auth, db } from "./js/firebase.js";
+    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const pedidosLista = document.getElementById("pedidos-lista");
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Buscar pedidos donde usuario.uid == user.uid
+      const pedidosRef = collection(db, "pedidos");
+      const q = query(pedidosRef, where("usuario.uid", "==", user.uid));
+      const pedidosSnap = await getDocs(q);
+
+      if (pedidosSnap.empty) {
+        pedidosLista.innerHTML = "<p class='text-muted'>No hay pedidos registrados.</p>";
+        return;
+      }
+
+      let html = `<div class="accordion" id="accordionPedidos">`;
+      let i = 0;
+
+      pedidosSnap.forEach((pedidoDoc) => {
+        const pedido = pedidoDoc.data();
+
+        let itemsHTML = "";
+        let total = 0;
+
+        // Cambia "productos" por "items" si tu campo se llama distinto
+        (pedido.productos || []).forEach(item => {
+          const subtotal = (item.precio || 0) * (item.cantidad || 0);
+          total += subtotal;
+          itemsHTML += `
+            <tr>
+              <td>${item.nombre}</td>
+              <td>${item.cantidad}</td>
+              <td>$${item.precio}</td>
+              <td>$${subtotal}</td>
+            </tr>
+          `;
+        });
+
+        // Dirección: puede ser objeto o string (retiro en sucursal)
+        let direccion = "(Sin dirección)";
+        if (typeof pedido.direccion === "string") {
+          direccion = pedido.direccion;
+        } else if (pedido.direccion && typeof pedido.direccion === "object") {
+          direccion = `${pedido.direccion.calle || ""} ${pedido.direccion.numero || ""}, ${pedido.direccion.localidad || ""}, ${pedido.direccion.provincia || ""}, CP ${pedido.direccion.codigoPostal || ""}`;
+        }
+
+        html += `
+        <div class="accordion-item">
+          <h2 class="accordion-header" id="heading${i}">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${i}" aria-expanded="false" aria-controls="collapse${i}">
+              Pedido #${pedido.numeroPedido || pedidoDoc.id} | Fecha: ${pedido.fecha ? new Date(pedido.fecha).toLocaleString() : ""} | Total: $${total} | Estado: ${pedido.estado || "Pendiente"}
+            </button>
+          </h2>
+          <div id="collapse${i}" class="accordion-collapse collapse" aria-labelledby="heading${i}" data-bs-parent="#accordionPedidos">
+            <div class="accordion-body">
+              <strong>Items:</strong>
+              <table class="table table-sm">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Subtotal</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${itemsHTML}
+                </tbody>
+              </table>
+              <strong>Enviado a:</strong> ${direccion}
+            </div>
+          </div>
+        </div>
+        `;
+        i++;
+      });
+
+      html += "</div>";
+      pedidosLista.innerHTML = html;
+    });
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -129,3 +129,60 @@ body {
     min-width: 300px;
     max-width: 350px;
   }
+  .square-btn {
+  width: 70px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  border-radius: 8px !important;
+  font-size: 1.4rem;
+}
+.btn-godo-blue {
+  background-color: #002f6c !important;
+  color: #fff !important;
+  border: none !important;
+}
+.btn-godo-blue:hover,
+.btn-godo-blue:focus {
+  background-color: #0a1844 !important;
+  color: #fff !important;
+}
+.btn-success .bi-person {
+  color: #fff !important;
+}
+.btn-success.dropdown-toggle::after {
+  color: #fff !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+/* Control cantidad del carrito en tarjetas */
+.carrito-cantidad-control {
+  min-width: 130px;
+  background: #f6f6f6;
+  border-radius: 8px;
+  padding: 3px 5px;
+  border: 1px solid #ddd;
+  transition: background 0.3s;
+}
+.carrito-cantidad-control .cantidad-input {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  padding: 0;
+  height: 36px;
+}
+.carrito-cantidad-control .btn {
+  min-width: 36px;
+  height: 36px;
+  font-size: 1.2em;
+  padding: 0;
+}
+.carrito-cantidad-control.added-flash {
+  animation: agregadoAnimado 0.4s;
+}
+@keyframes agregadoAnimado {
+  0%   { background-color: #d4edda; }
+  100% { background-color: #f6f6f6; }
+}
