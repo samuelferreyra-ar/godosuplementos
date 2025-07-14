@@ -1,58 +1,42 @@
-import { auth, db } from './firebase.js';
-import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+const STORAGE_KEY = 'godo_carrito';
 
-// Leer carrito de localStorage
-export function getCarritoLocal() {
-  return JSON.parse(localStorage.getItem("carrito")) || [];
+export function getCarrito() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+  } catch (e) { return []; }
 }
 
-// Guardar carrito en localStorage
-export function setCarritoLocal(carrito) {
-  localStorage.setItem("carrito", JSON.stringify(carrito));
+export function setCarrito(carrito) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(carrito));
 }
 
-// Agregar producto (o sumar cantidad)
-export function agregarAlCarritoLocal(idProducto, cantidad = 1) {
-  let carrito = getCarritoLocal();
-  const idx = carrito.findIndex(p => p.id === idProducto);
+export function vaciarCarrito() {
+  localStorage.removeItem(STORAGE_KEY);
+}
+
+export function agregarProducto(producto, cantidad = 1) {
+  let carrito = getCarrito();
+  const idx = carrito.findIndex(p => p.id === producto.id);
   if (idx > -1) {
     carrito[idx].cantidad += cantidad;
   } else {
-    carrito.push({ id: idProducto, cantidad });
+    carrito.push({ ...producto, cantidad });
   }
-  setCarritoLocal(carrito);
+  setCarrito(carrito);
+  return carrito;
 }
 
-// Quitar producto
-export function quitarDelCarritoLocal(idProducto) {
-  let carrito = getCarritoLocal();
-  carrito = carrito.filter(p => p.id !== idProducto);
-  setCarritoLocal(carrito);
+export function actualizarCantidad(id, nuevaCantidad) {
+  let carrito = getCarrito();
+  carrito = carrito.map(item =>
+    item.id === id ? { ...item, cantidad: nuevaCantidad } : item
+  ).filter(item => item.cantidad > 0);
+  setCarrito(carrito);
+  return carrito;
 }
 
-// Actualizar cantidad
-export function setCantidadProducto(idProducto, cantidad) {
-  let carrito = getCarritoLocal();
-  const idx = carrito.findIndex(p => p.id === idProducto);
-  if (idx > -1) {
-    carrito[idx].cantidad = cantidad;
-    if (carrito[idx].cantidad < 1) carrito = carrito.filter(p => p.id !== idProducto);
-    setCarritoLocal(carrito);
-  }
-}
-
-// Sincronizar carrito local a Firestore
-export async function sincronizarCarritoConFirestore(user) {
-  const carritoLocal = getCarritoLocal();
-  const userRef = doc(db, "usuarios", user.uid);
-  await setDoc(userRef, { carrito: carritoLocal }, { merge: true });
-}
-
-// Traer carrito desde Firestore y guardar localmente
-export async function cargarCarritoDesdeFirestore(user) {
-  const userRef = doc(db, "usuarios", user.uid);
-  const snap = await getDoc(userRef);
-  if (snap.exists() && snap.data().carrito) {
-    setCarritoLocal(snap.data().carrito);
-  }
+export function eliminarProducto(id) {
+  let carrito = getCarrito().filter(item => item.id !== id);
+  setCarrito(carrito);
+  return carrito;
 }

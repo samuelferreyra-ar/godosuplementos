@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin - Productos | GODO Suplementos</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="styles.css" rel="stylesheet" />
+</head>
+<body>
+  <!-- Incluye aquí la barra/menu igual que index.html -->
+  <div class="container my-4">
+    <h2>Gestión de Productos</h2>
+    <button class="btn btn-primary mb-3" id="btn-nuevo-prod">Agregar producto</button>
+    <div id="productos-tabla"></div>
+    <!-- Modal/Form simple para crear/editar producto -->
+    <div id="form-producto" style="display:none" class="border p-3 mb-3">
+      <input type="hidden" id="prod-id">
+      <input type="text" class="form-control mb-2" id="prod-nombre" placeholder="Nombre">
+      <input type="text" class="form-control mb-2" id="prod-categoria" placeholder="Categoría">
+      <input type="text" class="form-control mb-2" id="prod-subcategoria" placeholder="Subcategoría">
+      <input type="text" class="form-control mb-2" id="prod-peso" placeholder="Peso">
+      <input type="text" class="form-control mb-2" id="prod-unidad" placeholder="Unidad">
+      <input type="number" class="form-control mb-2" id="prod-precio" placeholder="Precio">
+      <input type="number" class="form-control mb-2" id="prod-stock" placeholder="Stock">
+      <textarea class="form-control mb-2" id="prod-desc" placeholder="Descripción"></textarea>
+      <input type="text" class="form-control mb-2" id="prod-img1" placeholder="URL Imagen 1">
+      <input type="text" class="form-control mb-2" id="prod-img2" placeholder="URL Imagen 2">
+      <button class="btn btn-success" id="btn-guardar-prod">Guardar</button>
+      <button class="btn btn-secondary" id="btn-cancelar-prod">Cancelar</button>
+    </div>
+  </div>
+  <script type="module" src="js/admin-productos.js"></script>
+</body>
+</html>

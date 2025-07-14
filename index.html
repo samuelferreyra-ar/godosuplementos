@@ -4,249 +4,98 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>GODO Suplementos</title>
-
-  <!-- Estilos de Bootstrap -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  
-  <!-- Fuentes Google -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet">
-
-  <!-- Hoja de estilos propia -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="styles.css" rel="stylesheet" />
-
 </head>
-
 <body>
 
-  <!-- 1. Barra superior -->
-  <div class="bg-danger text-white py-1">
-  <div class="container d-flex justify-content-between align-items-center small">
-    
-    <!-- Teléfono a la izquierda -->
-    <div>
-      <i class="bi bi-telephone-fill me-1"></i> (02284) 15 123-4567
-    </div>
+  <!-- Barra superior -->
+  <nav class="navbar navbar-light bg-light px-3">
+    <a class="navbar-brand" href="index.html">GODO Suplementos</a>
+    <div class="d-flex align-items-center gap-3">
 
-    <!-- Texto central -->
-    <div class="text-center flex-grow-1">DESPACHAMOS EN EL DÍA</div>
-
-    <!-- Correo a la derecha -->
-    <div>
-      <i class="bi bi-envelope-fill me-1"></i> contacto@godosuplementos.com
-    </div>
-    
-  </div>
-</div>
-
-<!-- Toast de agregado al carrito -->
-<div class="toast align-items-center text-white bg-success border-0 position-fixed end-0 bottom-0 m-4"
-     id="toast-agregado" role="alert" style="z-index:9999; display:none;">
-  <div class="d-flex">
-    <div class="toast-body">
-      ¡Producto agregado al carrito!
-    </div>
-  </div>
-</div>
-
-  <!-- 2. Main bar -->
-<div class="container py-2 border-bottom">
-  <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-    
-    <!-- Logo -->
-    <div class="flex-shrink-0 text-center">
-      <a href="index.html">
-        <img src="assets/Logo-Godo.png" alt="Logo Godo" class="logo-img" />
-      </a>
-    </div>
-
-    <!-- Barra de búsqueda centrada -->
-    <div class="flex-grow-1 mx-auto" style="max-width: 600px;">
-      <div class="input-group">
-        <input type="text" class="form-control" placeholder="Buscar productos..." />
-        <button class="btn btn-godo">
-          <i class="bi bi-search"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- Botones cuenta / carrito -->
-        <!-- Cuenta y Carrito -->
-    <div class="col-12 col-md-4 d-flex justify-content-end gap-3 my-2">
-      <!-- Cuenta -->
+      <!-- Dropdown de Cuenta -->
       <div class="position-relative cuenta-container">
-        <button id="btn-cuenta" class="btn btn-outline-secondary dropdown-toggle square-btn" ...>
-          <i class="bi bi-person"></i>
-        </button>
-
-        <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow wide-cuenta-dropdown">
-          <!-- Contenido para usuarios no logueados -->
+        <button id="btn-cuenta" class="btn btn-outline-secondary">Cuenta</button>
+        <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow" style="right:0; left:auto; min-width:270px;">
+          <!-- Login Form (solo visible si no logueado) -->
           <div id="login-form">
             <input id="login-email" type="email" class="form-control mb-2" placeholder="Correo electrónico">
             <input id="login-password" type="password" class="form-control mb-2" placeholder="Contraseña">
             <button id="btn-login" class="btn btn-primary w-100 mb-2">Iniciar Sesión</button>
-            <a href="registro.html" class="btn btn-outline-secondary w-100">Nuevo usuario</a>
+            <a href="registro.html" class="btn btn-outline-secondary w-100 mb-2">Nuevo usuario</a>
+            <a href="recuperar.html" class="d-block text-center small">Recuperar contraseña</a>
           </div>
-
-          <!-- Contenido para usuarios logueados -->
-          <div id="user-options" style="display: none;">
-            <a href="mis-pedidos.html" class="dropdown-item">Mis pedidos</a>
-            <a href="mis-datos.html" class="dropdown-item">Mis datos</a>
-            <a href="mis-direcciones.html" class="dropdown-item">Mis direcciones</a>
-            <hr />
+          <!-- Opciones de usuario (solo visible si logueado) -->
+          <div id="user-options" style="display:none;">
+            <div class="mb-2">
+              <span id="user-email" class="fw-bold text-success"></span>
+            </div>
+            <a href="mis-pedidos.html" id="link-mis-pedidos" class="dropdown-item">Mis pedidos</a>
+            <a href="mis-direcciones.html" id="link-mis-direcciones" class="dropdown-item">Mis direcciones</a>
+            <a href="mis-cuenta.html" id="link-mi-cuenta" class="dropdown-item">Mi cuenta</a>
+            <a href="admin-pedidos.html" id="link-admin-pedidos" class="dropdown-item" style="display:none;">Pedidos</a>
+            <a href="admin-productos.html" id="link-admin-productos" class="dropdown-item" style="display:none;">Productos</a>
+            <hr>
             <button id="btn-logout" class="btn btn-danger w-100">Cerrar sesión</button>
           </div>
-      </div>
-
-      </div>
-
-      <!-- Carrito -->
-      <div class="position-relative carrito-container">
-        <button id="btn-carrito" class="btn btn-godo-yellow btn-lg d-flex align-items-center dropdown-toggle square-btn position-relative" data-bs-toggle="dropdown" aria-expanded="false">
-          <i class="bi bi-cart"></i>
-          <span id="carrito-contador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size: 0.8em; display:none;">0</span>
-        </button>
-        <div id="carrito-dropdown" class="dropdown-menu p-3 shadow" style="width: 300px;">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <img src="assets/producto-ejemplo.jpg" width="40" height="40"/>
-            <span class="mx-2">Proteína 3kg</span>
-            <div class="d-flex">
-              <button class="btn btn-sm btn-outline-secondary">-</button>
-              <span class="px-2">1</span>
-              <button class="btn btn-sm btn-outline-secondary">+</button>
-            </div>
-          </div>
-          <button class="btn btn-success w-100">COMPRAR</button>
         </div>
       </div>
-    </div>
 
-  </div>
-</div>
-
-  <!-- 3. Barra de navegación -->
-
-  <nav class="navbar navbar-expand-lg bg-godo">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="proteina.html">PROTEINA</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="#">CREATINA</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link text-white fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              OTROS SUPLEMENTOS
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Aminoácidos</a></li>
-              <li><a class="dropdown-item" href="#">Ganadores de peso</a></li>
-              <li><a class="dropdown-item" href="#">Geles</a></li>
-              <li><a class="dropdown-item" href="#">Preentrenos</a></li>
-              <li><a class="dropdown-item" href="#">BCAA</a></li>
-              <li><a class="dropdown-item" href="#">NOX</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="#">COMBOS</a>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link text-white fw-bold dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              MARCAS
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">BSN</a></li>
-              <li><a class="dropdown-item" href="#">Universal</a></li>
-              <li><a class="dropdown-item" href="#">ON</a></li>
-              <li><a class="dropdown-item" href="#">Star Nutrition</a></li>
-              <li><a class="dropdown-item" href="#">Gentech</a></li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="envios.html">ENVIOS</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="pagos.html">PAGOS</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white fw-bold" href="ubicacion.html">UBICACION</a>
-          </li>
-        </ul>
+      <!-- Botón Carrito simple -->
+      <div class="position-relative carrito-container">
+        <button id="btn-carrito" class="btn btn-warning position-relative">
+          <span class="me-2">Carrito</span>
+          <span id="carrito-contador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
+        </button>
       </div>
     </div>
   </nav>
 
-  <!-- 4. Productos más vendidos -->
-  <div class="container my-4">
-    <h2 class="text-center mb-4">Los más vendidos</h2>
-    <div class="row g-3" id="productos-mas-vendidos">
-      <!-- Aquí se inyectan las tarjetas dinámicamente -->
+  <!-- Toast para mensajes -->
+  <div class="toast align-items-center text-white bg-success border-0 position-fixed end-0 bottom-0 m-4" id="toast-agregado" role="alert" style="z-index:9999; display:none;">
+    <div class="d-flex">
+      <div class="toast-body"></div>
     </div>
   </div>
 
-  <!-- 5. Botón "Ir arriba" -->
-  <button class="go-top-btn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
-    ↑ Ir arriba
-  </button>
+  <!-- Sección de productos más vendidos -->
+  <div class="container my-5">
+    <h2>Los más vendidos</h2>
+    <div id="productos-mas-vendidos" class="row g-3"></div>
+  </div>
 
-  <!-- 6. Footer -->
-  <footer class="site-footer">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-3 mb-3">
-          <h5>Información</h5>
-          <ul>
-            <li>Registrarse</li>
-            <li>Ayuda para comprar</li>
-            <li>Pagos</li>
-            <li>Envios</li>
-            <li>Tarjetas de regalo</li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-3">
-          <h5>Empresa</h5>
-          <ul>
-            <li>FAQ</li>
-            <li>Información de la empresa</li>
-            <li>Contáctenos</li>
-            <li>Garantía</li>
-            <li>Ubicación</li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-3">
-          <h5>Redes Sociales</h5>
-          <ul>
-            <li>Facebook</li>
-            <li>Twitter</li>
-            <li>Instagram</li>
-            <li>Tiktok</li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-3">
-          <!-- Elfsight Google Reviews | Untitled Google Reviews -->
-          <script src="https://static.elfsight.com/platform/platform.js" async></script>
-          <div class="elfsight-app-5973b64d-c558-42bf-a0fc-7b558d16364c" data-elfsight-app-lazy></div>
-        </div>
-      </div>
+  <div id="barra-carrito"></div>
 
-      <div class="copyright">
-        © 2025 GODO Suplementos - Todos los derechos reservados
-      </div>
-    </div>
-  </footer>
-
-  <!-- Bootstrap JS (opcional) -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  
-  <!-- Main js -->
-
+  <!-- Scripts -->
   <script type="module" src="js/main.js"></script>
 
-</body>
+  <!-- Mostrar/ocultar dropdowns con hover/click -->
+  <script>
+    // Dropdown "Cuenta"
+    const cuentaBtn = document.getElementById('btn-cuenta');
+    const cuentaDropdown = document.getElementById('cuenta-dropdown');
+    cuentaBtn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      cuentaDropdown.style.display = cuentaDropdown.style.display === 'block' ? 'none' : 'block';
+    });
+    document.body.addEventListener('click', function () {
+      cuentaDropdown.style.display = 'none';
+    });
+    cuentaDropdown.addEventListener('click', function(e) {
+      e.stopPropagation();
+    });
 
+    // Opcional: Muestra contador del carrito si usas esa funcionalidad
+    if (localStorage.getItem('godo_carrito')) {
+      const c = JSON.parse(localStorage.getItem('godo_carrito')).length;
+      document.getElementById('carrito-contador').textContent = c;
+      document.getElementById('carrito-contador').style.display = c > 0 ? '' : 'none';
+    }
+    document.getElementById('btn-carrito').onclick = function () {
+      location.href = "carrito.html";
+    };
+  </script>
+</body>
 </html>

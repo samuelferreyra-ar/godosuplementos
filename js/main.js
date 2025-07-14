@@ -1,299 +1,238 @@
-import { agregarAlCarritoLocal, getCarritoLocal, setCantidadProducto, sincronizarCarritoConFirestore, cargarCarritoDesdeFirestore } from './carrito.js';
-import { db, auth } from './firebase.js';
-import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-import { detectarUsuario, cerrarSesion, loginUsuario } from "./auth.js";
+import { onUserStateChanged, getUserData, esAdmin, logout, login } from "./auth.js";
+import { getMasVendidos } from "./productos.js";
+import { agregarProducto, getCarrito, actualizarCantidad, eliminarProducto } from "./carrito.js";
+import { mostrarToast } from "./ui.js";
 
-document.addEventListener("DOMContentLoaded", async () => {
+// --- CONTADOR CARRITO ---
+function actualizarCarritoContador() {
+  const carrito = getCarrito();
+  const cc = document.getElementById('carrito-contador');
+  if (cc) {
+    cc.textContent = carrito.length;
+    cc.style.display = carrito.length > 0 ? '' : 'none';
+  }
+}
 
-  // =============================
-  //   RENDER PRODUCTOS DINÁMICOS
-  // =============================
-  
-  const productosContenedor = document.getElementById("productos-mas-vendidos");
-if (productosContenedor) {
-  const productosSnap = await getDocs(collection(db, "productos"));
-  let productos = [];
-  productosSnap.forEach(doc => {
-    const data = doc.data();
-    if (data.stock > 0) {
-      productos.push({ id: doc.id, ...data });
-    }
-  });
-  productos = shuffleArray(productos).slice(0, 8);
+// --- CONTROL DE CANTIDAD DINÁMICO ---
+function renderControlCantidad(producto, enCarrito) {
+  if (!enCarrito) {
+    return `<button class="btn btn-success agregar-carrito-btn" data-id="${producto.id}">Agregar al carrito</button>`;
+  }
+  let iconoMenos = enCarrito.cantidad === 1
+    ? `<button class="btn btn-outline-danger btn-carrito-trash" data-id="${producto.id}" title="Quitar"><i class="bi bi-trash"></i></button>`
+    : `<button class="btn btn-outline-secondary btn-carrito-menos" data-id="${producto.id}">–</button>`;
+  return `
+    <div class="input-group carrito-cantidad-control mt-2 justify-content-center">
+      ${iconoMenos}
+      <input type="number" class="form-control cantidad-input mx-1 text-center" style="width:60px"
+        min="1" max="${producto.stock}" value="${enCarrito.cantidad}" data-id="${producto.id}">
+      <button class="btn btn-outline-secondary btn-carrito-mas" data-id="${producto.id}">+</button>
+    </div>
+  `;
+}
 
-  // 1. Render tarjetas
-  productosContenedor.innerHTML = productos.map(producto => {
-    const carrito = getCarritoLocal();
-    const itemEnCarrito = carrito.find(x => x.id === producto.id);
-    const cantidad = itemEnCarrito ? itemEnCarrito.cantidad : 0;
-    return `
-      <div class="col-6 col-md-3">
-        <div class="product-card h-100 p-2 d-flex flex-column justify-content-between" data-id="${producto.id}">
-          <img src="${producto.imagen1}" class="img-fluid mb-2" alt="${producto.nombre}" />
-          <h5>${producto.nombre}</h5>
-          <p class="text-muted">${producto.categoria}</p>
-          <h4 class="fw-bold text-primary">$${producto.precio.toLocaleString('es-AR')}</h4>
-
-          <button class="btn btn-godo-yellow w-100 py-2 agregar-carrito" data-id="${producto.id}" style="${cantidad > 0 ? 'display:none;' : ''}">
-            Agregar al carrito
-          </button>
-          <div class="carrito-cantidad-control d-flex justify-content-center align-items-center my-1" style="${cantidad > 0 ? '' : 'display:none;'}">
-            <button class="btn btn-outline-secondary btn-restar" type="button">-</button>
-            <input type="text" class="form-control mx-1 cantidad-input" value="${cantidad || 1}">
-            <button class="btn btn-outline-secondary btn-sumar" type="button">+</button>
-          </div>
+// --- RENDER DE PRODUCTOS MÁS VENDIDOS ---
+async function renderMasVendidos() {
+  const contenedor = document.getElementById("productos-mas-vendidos");
+  if (!contenedor) return;
+  const productos = await getMasVendidos(8);
+  const carrito = getCarrito();
+  contenedor.innerHTML = productos.map(prod =>
+    `<div class="col-12 col-sm-6 col-md-3">
+      <div class="card h-100 text-center">
+        <img src="${prod.imagen1}" class="card-img-top" style="max-height:150px;object-fit:cover;">
+        <div class="card-body">
+          <h5 class="card-title">${prod.nombre}</h5>
+          <div>${prod.categoria}</div>
+          <div class="my-2 fw-bold">$${prod.precio}</div>
+          ${renderControlCantidad(prod, carrito.find(p => p.id === prod.id))}
         </div>
       </div>
-    `;
-  }).join('');
+    </div>`
+  ).join("");
+  asignarListenersMasVendidos(productos, contenedor);
+}
 
-  // 2. Asignar listeners para cada tarjeta
-      productos.forEach(producto => {
-        const card = productosContenedor.querySelector(`.product-card[data-id="${producto.id}"]`);
-        if (!card) return;
-
-        const btnAgregar = card.querySelector('.agregar-carrito');
-        const controlCantidad = card.querySelector('.carrito-cantidad-control');
-        const inputCantidad = card.querySelector('.cantidad-input');
-        const btnSumar = card.querySelector('.btn-sumar');
-        const btnRestar = card.querySelector('.btn-restar');
-
-        // --- Agregar al carrito
-        if (btnAgregar) {
-          btnAgregar.onclick = () => {
-            agregarAlCarritoLocal(producto.id, 1);
-            btnAgregar.style.display = "none";
-            controlCantidad.style.display = "";
-            inputCantidad.value = 1;
-            // Animación
-            controlCantidad.classList.add("added-flash");
-            setTimeout(() => controlCantidad.classList.remove("added-flash"), 500);
-            // Toast
-            mostrarToastAgregado();
-            actualizarDropdownCarrito();
-            actualizarContadorCarrito();
-          };
-        }
-
-        // --- Sumar
-        btnSumar.onclick = () => {
-          let cantidad = parseInt(inputCantidad.value) || 1;
-          cantidad++;
-          inputCantidad.value = cantidad;
-          agregarAlCarritoLocal(producto.id, cantidad);
-          controlCantidad.classList.add("added-flash");
-          setTimeout(() => controlCantidad.classList.remove("added-flash"), 400);
-          actualizarDropdownCarrito();
-          actualizarContadorCarrito();
-        };
-
-        // --- Restar
-        btnRestar.onclick = () => {
-          let cantidad = parseInt(inputCantidad.value) || 1;
-          cantidad--;
-          if (cantidad <= 0) {
-            // Quitar del carrito y volver a mostrar botón agregar
-            agregarAlCarritoLocal(producto.id, 0);
-            controlCantidad.style.display = "none";
-            btnAgregar.style.display = "";
-          } else {
-            inputCantidad.value = cantidad;
-            agregarAlCarritoLocal(producto.id, cantidad);
-            controlCantidad.classList.add("added-flash");
-            setTimeout(() => controlCantidad.classList.remove("added-flash"), 400);
-          }
-          actualizarDropdownCarrito();
-          actualizarContadorCarrito();
-        };
-
-        // --- Cambiar cantidad manualmente
-        inputCantidad.onblur = () => {
-          let cantidad = parseInt(inputCantidad.value) || 1;
-          if (cantidad <= 0) {
-            agregarAlCarritoLocal(producto.id, 0);
-            controlCantidad.style.display = "none";
-            btnAgregar.style.display = "";
-          } else {
-            inputCantidad.value = cantidad;
-            agregarAlCarritoLocal(producto.id, cantidad);
-            controlCantidad.classList.add("added-flash");
-            setTimeout(() => controlCantidad.classList.remove("added-flash"), 400);
-          }
-          actualizarDropdownCarrito();
-          actualizarContadorCarrito();
-        };
-      });
-    }
-
-  // =============================
-  //     DROPDOWN DEL CARRITO
-  // =============================
-  const carritoBtn = document.getElementById("btn-carrito");
-  if (carritoBtn) {
-    carritoBtn.addEventListener("mouseenter", actualizarDropdownCarrito);
-  }
-
-  // =============================
-  //     BOTÓN "CUENTA" Y DROPDOWN
-  // =============================
-
-  const cuentaBtn = document.getElementById("btn-cuenta");
-  const cuentaDropdown = document.getElementById("cuenta-dropdown");
-
-  detectarUsuario((user) => {
-    if (!cuentaBtn || !cuentaDropdown) return;
-
-    if (user) {
-      cuentaBtn.classList.remove("btn-godo-blue");
-      cuentaBtn.classList.add("btn-success");
-      cuentaBtn.classList.add("square-btn");
-      cuentaBtn.innerHTML = `<i class="bi bi-person"></i>`;
-
-      cuentaDropdown.innerHTML = `
-        <div class="dropdown-header fw-bold text-success">${user.email}</div>
-        <a class="dropdown-item" href="mis-datos.html">Mis datos</a>
-        <a class="dropdown-item" href="mis-direcciones.html">Mis direcciones</a>
-        <a class="dropdown-item" href="mis-pedidos.html">Mis pedidos</a>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item text-danger" id="btn-cerrar-sesion">Cerrar sesión</button>
-      `;
-      document.getElementById("btn-cerrar-sesion").onclick = cerrarSesion;
-    } else {
-      cuentaBtn.classList.remove("btn-success");
-      cuentaBtn.classList.add("btn-godo-blue");
-      cuentaBtn.classList.add("square-btn");
-      cuentaBtn.innerHTML = `<i class="bi bi-person"></i>`;
-      cuentaDropdown.innerHTML = `
-        <div class="dropdown-header">Inicie sesión para acceder a su cuenta.</div>
-        <form class="px-4 py-3">
-          <div class="mb-3">
-            <input type="email" class="form-control" id="login-email" placeholder="Correo electrónico">
-          </div>
-          <div class="mb-3">
-            <input type="password" class="form-control" id="login-password" placeholder="Contraseña">
-          </div>
-          <button type="button" class="btn btn-primary w-100" id="btn-login">Iniciar sesión</button>
-          <a href="registro.html" class="btn btn-link w-100">Nuevo usuario</a>
-        </form>
-      `;
-      document.getElementById("btn-login").onclick = () => {
-        const email = document.getElementById("login-email").value;
-        const pass = document.getElementById("login-password").value;
-        loginUsuario(email, pass);
-      }
-    }
+// --- LISTENERS PARA LOS CONTROLES DINÁMICOS ---
+function asignarListenersMasVendidos(productos, contenedor) {
+  contenedor.querySelectorAll(".agregar-carrito-btn").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-id");
+      const prod = productos.find(p => p.id === id);
+      agregarProducto(prod, 1);
+      mostrarToast("Producto agregado al carrito!");
+      actualizarCarritoContador();
+      renderMasVendidos();
+      mostrarBarraCarrito();
+    };
   });
-
-    actualizarContadorCarrito();
-
-}); // Fin de DOMContentLoaded
-
-// ========= FUNCIONES AUXILIARES =========
-
-//Toast de agregado al carrito
-
-function mostrarToastAgregado() {
-  const toast = document.getElementById("toast-agregado");
-  if (!toast) return;
-  toast.style.display = "block";
-  setTimeout(() => toast.style.display = "none", 1200);
+  contenedor.querySelectorAll(".btn-carrito-trash").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-id");
+      eliminarProducto(id);
+      actualizarCarritoContador();
+      renderMasVendidos();
+      mostrarBarraCarrito();
+    };
+  });
+  contenedor.querySelectorAll(".btn-carrito-menos").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-id");
+      let carrito = getCarrito();
+      const prod = carrito.find(p => p.id === id);
+      if (prod.cantidad > 1) {
+        actualizarCantidad(id, prod.cantidad - 1);
+        actualizarCarritoContador();
+        renderMasVendidos();
+        mostrarBarraCarrito();
+      }
+    };
+  });
+  contenedor.querySelectorAll(".btn-carrito-mas").forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.getAttribute("data-id");
+      const prod = productos.find(p => p.id === id);
+      let carrito = getCarrito();
+      const enCarrito = carrito.find(p => p.id === id);
+      if (enCarrito.cantidad < prod.stock) {
+        actualizarCantidad(id, enCarrito.cantidad + 1);
+        actualizarCarritoContador();
+        renderMasVendidos();
+        mostrarBarraCarrito();
+      } else {
+        mostrarToast("No hay más stock disponible", "danger");
+      }
+    };
+  });
+  contenedor.querySelectorAll(".cantidad-input").forEach(input => {
+    input.onkeydown = e => {
+      if (e.key === "Enter") {
+        const id = input.getAttribute("data-id");
+        const prod = productos.find(p => p.id === id);
+        let val = parseInt(input.value);
+        if (val < 1) val = 1;
+        if (val > prod.stock) {
+          val = prod.stock;
+          mostrarToast("Solo hay " + prod.stock + " en stock.", "danger");
+        }
+        actualizarCantidad(id, val);
+        actualizarCarritoContador();
+        renderMasVendidos();
+        mostrarBarraCarrito();
+      }
+    };
+  });
 }
 
-// Mezcla un array (Fisher-Yates)
-function shuffleArray(array) {
-  return array.map(value => ({ value, sort: Math.random() }))
-              .sort((a, b) => a.sort - b.sort)
-              .map(({ value }) => value);
-}
-
-//Función de actualización del contador del carrito
-
-function actualizarContadorCarrito() {
-  const carrito = getCarritoLocal();
-  const totalItems = carrito.reduce((acc, item) => acc + item.cantidad, 0);
-  const badge = document.getElementById("carrito-contador");
-  if (badge) {
-    badge.textContent = totalItems;
-    badge.style.display = totalItems > 0 ? "inline-block" : "none";
-  }
-}
-
-// Renderiza el dropdown del carrito
-async function actualizarDropdownCarrito() {
-  const dropdown = document.getElementById("carrito-dropdown");
-  const carrito = getCarritoLocal();
-
-  if (!dropdown) return;
-
-  if (carrito.length === 0) {
-    dropdown.innerHTML = `<div class="text-center text-muted">Tu carrito está vacío.</div>`;
+// --- BARRA LATERAL DE CARRITO ---
+function mostrarBarraCarrito() {
+  const barra = document.getElementById('barra-carrito');
+  if (!barra) return;
+  const carrito = getCarrito();
+  if (!carrito.length) {
+    barra.innerHTML = '';
+    barra.style.display = 'none';
+    document.body.style.marginRight = '0';
     return;
   }
-
-  let productosSnap = await getDocs(collection(db, "productos"));
-  let productos = [];
-  productosSnap.forEach(docu => productos.push({id: docu.id, ...docu.data()}));
-
-  let html = "";
-  carrito.forEach(item => {
-    const prod = productos.find(p => p.id === item.id);
-    if (!prod) return;
-    html += `
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <img src="${prod.imagen1}" width="40" height="40"/>
-        <span class="mx-2">${prod.nombre}</span>
-        <div class="d-flex">
-          <button class="btn btn-sm btn-outline-secondary btn-restar" data-id="${prod.id}">-</button>
-          <span class="px-2">${item.cantidad}</span>
-          <button class="btn btn-sm btn-outline-secondary btn-sumar" data-id="${prod.id}">+</button>
-        </div>
+  barra.style.display = 'block';
+  document.body.style.marginRight = '370px';
+  const total = carrito.reduce((a,p)=>a+p.precio*p.cantidad,0);
+  barra.innerHTML = `
+    <div style="
+      position:fixed; top:0; right:0; height:100vh; width:370px; background:#fff; box-shadow:-2px 0 8px #aaa;
+      z-index:1100; display:flex; flex-direction:column;">
+      <div class="p-3 border-bottom fw-bold fs-5">Mi carrito</div>
+      <div class="flex-grow-1 overflow-auto">
+        ${carrito.map(prod=>`
+          <div class="d-flex align-items-center border-bottom p-2">
+            <img src="${prod.imagen1}" width="42" height="42" class="rounded me-2" style="object-fit:cover">
+            <div class="flex-grow-1">
+              <b>${prod.nombre}</b>
+              <div class="small">x${prod.cantidad} – $${prod.precio * prod.cantidad}</div>
+            </div>
+          </div>
+        `).join("")}
       </div>
-    `;
-  });
-
-  html += `<button class="btn btn-success w-100 mt-2" id="btn-comprar">COMPRAR</button>
-          <button class="btn btn-outline-primary w-100 mt-2" id="btn-ver-carrito">Ver carrito</button>`;
-  dropdown.innerHTML = html;
-
-  // Listeners para sumar/restar cantidades
-  dropdown.querySelectorAll(".btn-sumar").forEach(btn => {
-    btn.onclick = () => {
-      setCantidadProducto(btn.dataset.id, getCarritoLocal().find(x=>x.id===btn.dataset.id).cantidad+1);
-      actualizarDropdownCarrito();
-      actualizarContadorCarrito();
-    };
-  });
-  dropdown.querySelectorAll(".btn-restar").forEach(btn => {
-    btn.onclick = () => {
-      setCantidadProducto(btn.dataset.id, getCarritoLocal().find(x=>x.id===btn.dataset.id).cantidad-1);
-      actualizarDropdownCarrito();
-      actualizarContadorCarrito();
-    };
-  });
-  // Comprar
-  dropdown.querySelector("#btn-comprar").onclick = () => {
-    if (!auth.currentUser) {
-      window.location.href = "login.html";
-    } else {
-      window.location.href = "comprar.html";
-    }
-  };
-  // Ver carrito
-  dropdown.querySelector("#btn-ver-carrito").onclick = () => {
-    window.location.href = "carrito.html";
-  };
-
-  actualizarContadorCarrito();
-
+      <div class="p-3 border-top">
+        <div class="fw-bold mb-2">Total: $${total}</div>
+        <a href="comprar.html" class="btn btn-success w-100">Comprar</a>
+      </div>
+    </div>
+  `;
 }
 
-// Sincronización del carrito al loguear
-onAuthStateChanged(auth, async (user) => {
-  if (user) {
-    await sincronizarCarritoConFirestore(user);
-    await cargarCarritoDesdeFirestore(user);
-    actualizarDropdownCarrito();
-    actualizarContadorCarrito();
+// --- MENU CUENTA Y LOGIN ---
+document.addEventListener('DOMContentLoaded', async () => {
+  // CUENTA
+  onUserStateChanged(async user => {
+    const cuentaDropdown = document.getElementById("cuenta-dropdown");
+    const loginForm = document.getElementById("login-form");
+    const userOptions = document.getElementById("user-options");
+    const userEmailSpan = document.getElementById("user-email");
+    const linkMisPedidos = document.getElementById("link-mis-pedidos");
+    const linkMisDirecciones = document.getElementById("link-mis-direcciones");
+    const linkMiCuenta = document.getElementById("link-mi-cuenta");
+    const linkAdminPedidos = document.getElementById("link-admin-pedidos");
+    const linkAdminProductos = document.getElementById("link-admin-productos");
+
+    if (user) {
+      const userData = await getUserData(user.uid);
+      loginForm.style.display = "none";
+      userOptions.style.display = "block";
+      if (userEmailSpan) userEmailSpan.textContent = user.email;
+
+      if (esAdmin(userData)) {
+        if (linkMisPedidos) linkMisPedidos.style.display = "none";
+        if (linkMisDirecciones) linkMisDirecciones.style.display = "none";
+        if (linkMiCuenta) linkMiCuenta.style.display = "none";
+        if (linkAdminPedidos) linkAdminPedidos.style.display = "block";
+        if (linkAdminProductos) linkAdminProductos.style.display = "block";
+      } else {
+        if (linkMisPedidos) linkMisPedidos.style.display = "block";
+        if (linkMisDirecciones) linkMisDirecciones.style.display = "block";
+        if (linkMiCuenta) linkMiCuenta.style.display = "block";
+        if (linkAdminPedidos) linkAdminPedidos.style.display = "none";
+        if (linkAdminProductos) linkAdminProductos.style.display = "none";
+      }
+    } else {
+      loginForm.style.display = "block";
+      userOptions.style.display = "none";
+      if (userEmailSpan) userEmailSpan.textContent = "";
+    }
+  });
+
+  // LOGIN
+  const btnLogin = document.getElementById("btn-login");
+  if (btnLogin) {
+    btnLogin.addEventListener("click", async () => {
+      const email = document.getElementById("login-email").value;
+      const pass = document.getElementById("login-password").value;
+      try {
+        await login(email, pass);
+        location.reload();
+      } catch (e) {
+        mostrarToast("Usuario o contraseña inválidos", "danger");
+      }
+    });
   }
+
+  // LOGOUT
+  const btnLogout = document.getElementById("btn-logout");
+  if (btnLogout) {
+    btnLogout.addEventListener("click", async () => {
+      await logout();
+      location.reload();
+    });
+  }
+
+  // MÁS VENDIDOS
+  renderMasVendidos();
+
+  // BARRA CARRITO AL INICIO
+  mostrarBarraCarrito();
+
+  // CONTADOR CARRITO AL INICIO
+  actualizarCarritoContador();
+
 });
