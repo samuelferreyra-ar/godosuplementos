@@ -4,7 +4,7 @@ import { getPedidosUsuario } from './pedidos.js';
 document.addEventListener('DOMContentLoaded', () => {
   onUserStateChanged(async user => {
     if (!user) return location.href = "login.html";
-    const pedidos = await getPedidosUsuario(user.email);
+    const pedidos = await getPedidosUsuario(user.uid);
     const cont = document.getElementById("pedidos-lista");
     if (!pedidos.length) return cont.innerHTML = "<div>No tienes pedidos aún.</div>";
     cont.innerHTML = pedidos.map((p, i) => `
@@ -25,7 +25,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>${prod.nombre} x${prod.cantidad} — $${prod.precio} c/u</li>
               `).join("")}
             </ul>
-            <b>Dirección:</b> ${p.direccion || '-'}
+            <b>Dirección:</b> ${
+              p.direccion && typeof p.direccion === "object"
+                ? [
+                    p.direccion.calle,
+                    p.direccion.numero,
+                    p.direccion.piso,
+                    p.direccion.departamento,
+                    p.direccion.localidad,
+                    p.direccion.provincia,
+                    p.direccion.codigo_postal
+                  ]
+                    .filter(Boolean)
+                    .join(", ")
+                : (p.direccion || "-")
+            }
           </div>
         </div>
       </div>

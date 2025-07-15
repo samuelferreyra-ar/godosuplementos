@@ -30,5 +30,5 @@ export async function getUserData(uid) {
 
 // Helper para saber si es admin (ajusta el campo según tu modelo)
 export function esAdmin(userData) {
-  return userData?.email === "admin@godosuplementos.com"; // O pon un campo rol en Firestore
+  return userData?.admin === true; // O pon un campo rol en Firestore
 }

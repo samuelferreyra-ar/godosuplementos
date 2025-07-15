@@ -1,34 +1,51 @@
-import { auth, db } from './firebase-config.js';
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { onUserStateChanged } from './auth.js';
+import { auth, db } from "./firebase-config.js";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { mostrarToast } from "./ui.js";
 
-onUserStateChanged(user => {
-  if (user) location.href = "index.html";
-});
+// Asume que tienes un form con los IDs de campos: nombre, email, pass, telefono
+document.getElementById("form-registro").onsubmit = async (e) => {
+  e.preventDefault();
 
-document.getElementById("btn-registrar").onclick = async () => {
-  const nombre = reg-nombre.value;
-  const email = reg-email.value;
-  const pass = reg-pass.value;
-  const telefono = reg-telefono.value;
-  const msg = document.getElementById("registro-msg");
-  msg.textContent = "";
+  const nombre = document.getElementById("registro-nombre").value.trim();
+  const email = document.getElementById("registro-email").value.trim();
+  const pass = document.getElementById("registro-pass").value;
+  const telefono = document.getElementById("registro-telefono")?.value.trim() || "";
+
   if (!nombre || !email || !pass) {
-    msg.innerHTML = `<div class="alert alert-warning">Completa todos los campos.</div>`;
+    mostrarToast("Todos los campos son obligatorios", "danger");
     return;
   }
+  if (pass.length < 6) {
+    mostrarToast("La contraseña debe tener al menos 6 caracteres", "danger");
+    return;
+  }
+
   try {
-    const res = await createUserWithEmailAndPassword(auth, email, pass);
-    await setDoc(doc(db, "usuarios", res.user.uid), {
+    // 1. Crear usuario en Auth
+    const cred = await createUserWithEmailAndPassword(auth, email, pass);
+    const user = cred.user;
+
+    // 2. Crear usuario en Firestore
+    await setDoc(doc(db, "usuarios", user.uid), {
       nombre,
       email,
       telefono,
-      direcciones: []
+      direcciones: [],
+      admin: false
     });
-    msg.innerHTML = `<div class="alert alert-success">¡Cuenta creada! Redirigiendo...</div>`;
-    setTimeout(()=>location.href="index.html", 1000);
-  } catch(e) {
-    msg.innerHTML = `<div class="alert alert-danger">${e.message}</div>`;
+
+    mostrarToast("¡Registro exitoso! Redirigiendo...", "success");
+    setTimeout(() => location.href = "index.html", 1000);
+  } catch (e) {
+    // Si ya existe en Auth pero falla Firestore, borrar usuario de Auth
+    if (auth.currentUser) {
+      try { await deleteUser(auth.currentUser); } catch {}
+    }
+    if (e.code === "auth/email-already-in-use") {
+      mostrarToast("El email ya está registrado.", "danger");
+    } else {
+      mostrarToast(e.message, "danger");
+    }
   }
 };

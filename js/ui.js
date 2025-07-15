@@ -1,6 +1,10 @@
 export function mostrarToast(mensaje, tipo = "success") {
   // Usa tu toast de index.html (puedes mejorar esto luego)
   const toast = document.getElementById("toast-agregado");
+  if (!toast) {
+    alert(mensaje); // Fallback simple, nunca se rompe el flujo
+    return;
+  }
   toast.querySelector(".toast-body").textContent = mensaje;
   toast.className = `toast align-items-center text-white bg-${tipo} border-0 position-fixed end-0 bottom-0 m-4`;
   toast.style.display = "block";

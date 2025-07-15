@@ -9,14 +9,16 @@
 </head>
 <body>
   <div class="container my-5" style="max-width:400px">
+    <form id="form-registro">
     <h2 class="mb-4">Crear cuenta nueva</h2>
     <div id="registro-msg"></div>
-    <input type="text" class="form-control mb-2" id="reg-nombre" placeholder="Nombre completo">
-    <input type="email" class="form-control mb-2" id="reg-email" placeholder="Correo electrónico">
-    <input type="password" class="form-control mb-2" id="reg-pass" placeholder="Contraseña">
-    <input type="text" class="form-control mb-2" id="reg-telefono" placeholder="Teléfono">
-    <button class="btn btn-primary w-100 mb-2" id="btn-registrar">Crear cuenta</button>
-    <a href="login.html" class="btn btn-outline-secondary w-100">Ya tengo cuenta</a>
+    <input type="text" id="registro-nombre" placeholder="Nombre completo" required>
+    <input type="email" id="registro-email" placeholder="Email" required>
+    <input type="password" id="registro-pass" placeholder="Contraseña" required>
+    <input type="tel" id="registro-telefono" placeholder="Teléfono (opcional)">
+    <button type="submit">Registrarme</button>
+  </form>
+  <a href="login.html" class="btn btn-outline-secondary w-100">Ya tengo cuenta</a>
   </div>
   <script type="module" src="js/registro.js"></script>
 </body>

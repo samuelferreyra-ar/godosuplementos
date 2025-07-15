@@ -1,19 +1,38 @@
-import { login } from './auth.js';
-import { onUserStateChanged } from './auth.js';
+import { auth, db } from "./firebase-config.js";
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { mostrarToast } from "./ui.js";
 
-onUserStateChanged(user => {
-  if (user) location.href = "index.html";
-});
+// Asume un form con id="form-login" y campos: login-email, login-pass
+document.getElementById("form-login").onsubmit = async (e) => {
+  e.preventDefault();
 
-document.getElementById("btn-login").onclick = async () => {
-  const email = login-email.value;
-  const pass = login-password.value;
-  const msg = document.getElementById("login-msg");
-  msg.textContent = "";
+  const email = document.getElementById("login-email").value.trim();
+  const pass = document.getElementById("login-pass").value;
+
+  if (!email || !pass) {
+    mostrarToast("Email y contraseña requeridos", "danger");
+    return;
+  }
   try {
-    await login(email, pass);
-    location.href = "index.html";
-  } catch(e) {
-    msg.innerHTML = `<div class="alert alert-danger">Usuario o contraseña incorrectos.</div>`;
+    const cred = await signInWithEmailAndPassword(auth, email, pass);
+    const user = cred.user;
+
+    // Buscar datos extendidos en Firestore
+    const userSnap = await getDoc(doc(db, "usuarios", user.uid));
+    if (!userSnap.exists()) {
+      mostrarToast("Usuario registrado solo parcialmente. Contacte soporte.", "danger");
+      return;
+    }
+
+    mostrarToast("¡Login exitoso!", "success");
+    setTimeout(() => location.href = "index.html", 1000);
+
+  } catch (e) {
+    if (e.code === "auth/user-not-found" || e.code === "auth/wrong-password") {
+      mostrarToast("Usuario o contraseña incorrectos", "danger");
+    } else {
+      mostrarToast(e.message, "danger");
+    }
   }
 };

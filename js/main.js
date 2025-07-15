@@ -145,12 +145,19 @@ function mostrarBarraCarrito() {
       <div class="p-3 border-bottom fw-bold fs-5">Mi carrito</div>
       <div class="flex-grow-1 overflow-auto">
         ${carrito.map(prod=>`
-          <div class="d-flex align-items-center border-bottom p-2">
-            <img src="${prod.imagen1}" width="42" height="42" class="rounded me-2" style="object-fit:cover">
+          <div class="d-flex align-items-center border-bottom p-2 gap-2">
+            <img src="${prod.imagen1}" width="42" height="42" class="rounded" style="object-fit:cover">
             <div class="flex-grow-1">
               <b>${prod.nombre}</b>
-              <div class="small">x${prod.cantidad} – $${prod.precio * prod.cantidad}</div>
+              <div class="small"> $${prod.precio * prod.cantidad}</div>
             </div>
+            <div class="btn-group me-2" style="min-width:120px">
+              <button class="btn btn-outline-secondary btn-sm barra-menos" data-id="${prod.id}">–</button>
+              <input type="number" min="1" max="${prod.stock}" value="${prod.cantidad}" data-id="${prod.id}"
+                class="form-control form-control-sm text-center barra-cant" style="width:45px;">
+              <button class="btn btn-outline-secondary btn-sm barra-mas" data-id="${prod.id}">+</button>
+            </div>
+            <button class="btn btn-danger btn-sm barra-del ms-2" data-id="${prod.id}" title="Eliminar"><i class="bi bi-x"></i></button>
           </div>
         `).join("")}
       </div>
@@ -160,6 +167,67 @@ function mostrarBarraCarrito() {
       </div>
     </div>
   `;
+
+  // Asignar listeners:
+  barra.querySelectorAll('.barra-menos').forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      let carrito = getCarrito();
+      const prod = carrito.find(p => p.id === id);
+      if (prod.cantidad > 1) {
+        actualizarCantidad(id, prod.cantidad - 1);
+        actualizarCarritoContador();
+        mostrarBarraCarrito();
+        renderMasVendidos();
+      }
+    }
+  });
+
+  barra.querySelectorAll('.barra-mas').forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      let carrito = getCarrito();
+      const prod = carrito.find(p => p.id === id);
+      if (prod.cantidad < prod.stock) {
+        actualizarCantidad(id, prod.cantidad + 1);
+        actualizarCarritoContador();
+        mostrarBarraCarrito();
+        renderMasVendidos();
+      } else {
+        mostrarToast("No hay más stock disponible", "danger");
+      }
+    }
+  });
+
+  barra.querySelectorAll('.barra-del').forEach(btn => {
+    btn.onclick = () => {
+      const id = btn.dataset.id;
+      eliminarProducto(id);
+      actualizarCarritoContador();
+      mostrarBarraCarrito();
+      renderMasVendidos();
+    }
+  });
+
+  barra.querySelectorAll('.barra-cant').forEach(input => {
+    input.onkeydown = e => {
+      if (e.key === "Enter") {
+        const id = input.dataset.id;
+        let carrito = getCarrito();
+        const prod = carrito.find(p => p.id === id);
+        let val = parseInt(input.value);
+        if (val < 1) val = 1;
+        if (val > prod.stock) {
+          val = prod.stock;
+          mostrarToast("Solo hay " + prod.stock + " en stock.", "danger");
+        }
+        actualizarCantidad(id, val);
+        actualizarCarritoContador();
+        mostrarBarraCarrito();
+        renderMasVendidos();
+      }
+    }
+  });
 }
 
 // --- MENU CUENTA Y LOGIN ---

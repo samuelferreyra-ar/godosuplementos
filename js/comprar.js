@@ -1,6 +1,6 @@
 import { getCarrito, vaciarCarrito } from './carrito.js';
 import { onUserStateChanged, getUserData } from './auth.js';
-import { crearPedido } from './pedidos.js';
+import { guardarPedidoDescontandoStock } from './pedidos.js';
 
 let userData, user;
 
@@ -67,7 +67,7 @@ document.getElementById("btn-realizar-pedido").onclick = async () => {
     metodo_pago: metodoPago
   };
   try {
-    await crearPedido(pedido);
+    await guardarPedidoDescontandoStock(pedido);
     vaciarCarrito();
     document.getElementById("compra-msg").innerHTML = `<div class="alert alert-success">¡Pedido realizado con éxito! Redirigiendo...</div>`;
     setTimeout(()=>location.href="index.html",1500);
