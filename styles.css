@@ -1,188 +1,162 @@
 body {
-      background-color: #fff;
-      color: #333;
-    }
+  background: #fff;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: #222;
+}
 
-    .top-bar {
-      background-color: #c00000;
-      color: white;
-      text-align: center;
-      padding: 0.3rem;
-      font-weight: bold;
-    }
+.godo-navbar {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
 
-    .logo-img {
-      max-height: 70px;
-    }
+.godo-navbar .navbar-brand {
+  color: #FFD700 !important;
+  font-size: 1.6rem;
+}
 
-    .menu-bar a {
-      color: white;
-      font-weight: bold;
-      margin-right: 1rem;
-    }
-
-    .product-card {
-      border: 1px solid #ccc;
-      padding: 1rem;
-      text-align: center;
-      height: 100%;
-    }
-
-    .go-top-btn {
-      width: 100%;
-      background-color: #002147;
-      color: white;
-      padding: 1rem;
-      border: none;
-      font-weight: bold;
-    }
-
-    .site-footer {
-      background-color: #333;
-      color: white;
-      padding: 2rem 1rem;
-    }
-
-    .site-footer h5 {
-      font-weight: bold;
-    }
-
-    .site-footer ul {
-      list-style: none;
-      padding-left: 0;
-    }
-
-    .site-footer ul li {
-      margin-bottom: 0.5rem;
-    }
-
-    .copyright {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-top: 1rem;
-    }
-    .square-button {
-      padding: 0.75rem;
-      width: 3.2rem;
-      height: 3.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.2rem;
-    }
-    .bg-godo {
-      background-color: #002f6c !important;
-    }
-    .bg-godo-yellow {
-      background-color: #FFD700 !important;
-    }
-    .btn-godo {
-      background-color: #002f6c;
-      color: white;
-      border: none;
-    }
-
-    .btn-godo:hover {
-      background-color: #001e4d; /* un tono más oscuro al pasar el mouse */
-      color: white;
-    }
-    h2 {
-      font-family: "Inter", sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #111;
-    }
-    .btn-godo-yellow {
-      background-color: #FFD700;
-      color: #111; /* texto negro para contraste */
-      border: none;
-      font-weight: 600;
-    }
-
-    .btn-godo-yellow:hover {
-      background-color: #e6c200; /* un poco más oscuro en hover */
-      color: #000;
-    }
-    .carousel-control-prev,
-    .carousel-control-next {
-      width: 48px;
-      height: 48px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 50%; /* opcional: si querés bordes redondeados */
-      top: 50%;
-      transform: translateY(-50%);
-    }
-    .dropdown-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    right: 0;
-    z-index: 1000;
-  }
-
-    .cuenta-container:hover #cuenta-dropdown,
-    .carrito-container:hover #carrito-dropdown {
-      display: block;
-    }
-    .wide-cuenta-dropdown {
-    min-width: 300px;
-    max-width: 350px;
-  }
-  .square-btn {
-  width: 70px;
-  height: 60px;
+.godo-card {
+  border-radius: 18px;
+  box-shadow: 0 8px 38px 0 rgba(0,47,108,0.27), 0 1.5px 6px 0 rgba(0,0,0,0.09);
+  overflow: hidden;
+  background: #fff;
+  transition: box-shadow 0.2s;
+  height: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 0 !important;
-  border-radius: 8px !important;
-  font-size: 1.4rem;
+  padding-bottom: 0.6rem !important;
+  flex: 1 1 auto;
 }
-.btn-godo-blue {
-  background-color: #002f6c !important;
-  color: #fff !important;
-  border: none !important;
+.godo-card:hover {
+  box-shadow: 0 16px 56px 0 rgba(0,47,108,0.38), 0 3px 12px 0 rgba(0,0,0,0.17);
+  transform: translateY(-7px) scale(1.03);
+  transition: box-shadow 0.23s cubic-bezier(.4,1.02,.27,1), transform 0.23s cubic-bezier(.4,1.02,.27,1);
+  z-index: 2;
 }
-.btn-godo-blue:hover,
-.btn-godo-blue:focus {
-  background-color: #0a1844 !important;
-  color: #fff !important;
+
+.godo-card-img {
+  width: 100%;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  background: #f7f7f7;
 }
-.btn-success .bi-person {
-  color: #fff !important;
-}
-.btn-success.dropdown-toggle::after {
-  color: #fff !important;
-  filter: none !important;
-  opacity: 1 !important;
-}
-/* Control cantidad del carrito en tarjetas */
-.carrito-cantidad-control {
-  min-width: 130px;
-  background: #f6f6f6;
-  border-radius: 8px;
-  padding: 3px 5px;
-  border: 1px solid #ddd;
-  transition: background 0.3s;
-}
-.carrito-cantidad-control .cantidad-input {
-  width: 40px;
-  text-align: center;
+
+.godo-card-title {
+  color: #002f6c;
   font-weight: bold;
-  padding: 0;
-  height: 36px;
+  font-size: 1.2rem;
+  margin: 0.7rem 0 0.4rem 0;
+  min-height: 44px;
+  letter-spacing: 0.02em;
+  font-weight: 500;
 }
-.carrito-cantidad-control .btn {
-  min-width: 36px;
-  height: 36px;
-  font-size: 1.2em;
-  padding: 0;
+
+.godo-card-price {
+  color: #002f6c;
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-bottom: 1rem;
 }
-.carrito-cantidad-control.added-flash {
-  animation: agregadoAnimado 0.4s;
+
+.godo-card-title,
+.godo-card-price {
+  text-align: center;
+  width: 100%;
 }
-@keyframes agregadoAnimado {
-  0%   { background-color: #d4edda; }
-  100% { background-color: #f6f6f6; }
+
+.godo-card-btn {
+  background: #FFD700;
+  color: #002f6c;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  padding: 0.9rem 1.2rem;
+  margin-top: auto;
+  margin-bottom: 0.7rem;
+  transition: background 0.18s;
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+.godo-card-btn:hover {
+  background: #002f6c;
+  color: #FFD700;
+}
+
+/* NAVBAR SECUNDARIA */
+.godo-categories-navbar {
+  background: #002f6c !important;
+  box-shadow: 0 2px 6px rgba(0,47,108,0.08);
+  font-size: 1.02rem;
+}
+.godo-nav-cat {
+  color: white !important;
+  font-weight: 600;
+  margin-right: 1.1rem;
+  transition: color 0.18s;
+}
+.godo-nav-cat:hover {
+  color: #FFD700 !important;
+}
+.godo-nav-info {
+  color: #FFD700 !important;
+  font-weight: 600;
+  margin-right: 0.6rem;
+}
+.godo-nav-info i {
+  font-size: 1.17em;
+  vertical-align: -2px;
+  margin-right: 2px;
+}
+
+/* Barra scroll-top */
+.godo-scroll-top-bar {
+  background: #001c39;
+  color: white;
+  text-align: center;
+  padding: 0.8rem 0 0.8rem 0;
+}
+
+/* Footer */
+.godo-footer {
+  background: #002f6c;
+  color: #fff;
+}
+.godo-footer a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: color 0.16s;
+}
+.godo-footer a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.text-gold { color: white !important; }
+.godo-footer-social i {
+  font-size: 1.25rem;
+  color: #FFD700;
+  transition: color 0.15s;
+}
+.godo-footer-social:hover i {
+  color: #fff;
+}
+.godo-footer-copyright {
+  background: #001c39;
+  color: #FFD700;
+  font-size: 0.96rem;
+  letter-spacing: 0.01em;
+}
+
+@media (min-width: 768px) {
+  #productos-mas-vendidos .col-6 {
+    flex: 0 0 auto;
+    width: 22%;
+    max-width: 22%;
+  }
+}
+
+@media (max-width: 767px) {
+  .godo-card-title { font-size: 1rem; }
+  .godo-card-price { font-size: 1.06rem; }
 }

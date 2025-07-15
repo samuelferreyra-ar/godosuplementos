@@ -16,7 +16,7 @@ function actualizarCarritoContador() {
 // --- CONTROL DE CANTIDAD DINÁMICO ---
 function renderControlCantidad(producto, enCarrito) {
   if (!enCarrito) {
-    return `<button class="btn btn-success agregar-carrito-btn" data-id="${producto.id}">Agregar al carrito</button>`;
+    return `<button class="godo-card-btn agregar-carrito-btn" data-id="${producto.id}">Agregar al carrito</button>`;
   }
   let iconoMenos = enCarrito.cantidad === 1
     ? `<button class="btn btn-outline-danger btn-carrito-trash" data-id="${producto.id}" title="Quitar"><i class="bi bi-trash"></i></button>`
@@ -39,12 +39,11 @@ async function renderMasVendidos() {
   const carrito = getCarrito();
   contenedor.innerHTML = productos.map(prod =>
     `<div class="col-12 col-sm-6 col-md-3">
-      <div class="card h-100 text-center">
-        <img src="${prod.imagen1}" class="card-img-top" style="max-height:150px;object-fit:cover;">
-        <div class="card-body">
-          <h5 class="card-title">${prod.nombre}</h5>
-          <div>${prod.categoria}</div>
-          <div class="my-2 fw-bold">$${prod.precio}</div>
+      <div class="godo-card w-100">
+        <img src="${prod.imagen1}" class="godo-card-img" alt="${prod.nombre}">
+        <div class="px-3 pt-2 pb-1 flex-grow-1 d-flex flex-column">
+        <div class="godo-card-title">${prod.nombre}</div>
+        <div class="godo-card-price mb-2">$${prod.precio}</div>
           ${renderControlCantidad(prod, carrito.find(p => p.id === prod.id))}
         </div>
       </div>

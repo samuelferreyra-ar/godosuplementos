@@ -11,13 +11,17 @@
 <body>
 
   <!-- Barra superior -->
-  <nav class="navbar navbar-light bg-light px-3">
-    <a class="navbar-brand" href="index.html">GODO Suplementos</a>
-    <div class="d-flex align-items-center gap-3">
+  <nav class="navbar navbar-expand-lg navbar-dark godo-navbar px-3 py-2">
+    <a class="navbar-brand d-flex align-items-center" href="index.html">
+      <img src="assets/Logo-Godo.png" alt="Logo GODO" height="38" class="me-2" style="max-height:60px;">
+    </a>
+    <div class="ms-auto d-flex align-items-center gap-3">
 
       <!-- Dropdown de Cuenta -->
       <div class="position-relative cuenta-container">
-        <button id="btn-cuenta" class="btn btn-outline-secondary">Cuenta</button>
+        <button id="btn-cuenta" class="btn godo-navbar-icon-btn me-2" title="Cuenta">
+          <i class="bi bi-person"></i>
+        </button>
         <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow" style="right:0; left:auto; min-width:270px;">
           <!-- Login Form (solo visible si no logueado) -->
           <div id="login-form">
@@ -45,13 +49,35 @@
 
       <!-- Botón Carrito simple -->
       <div class="position-relative carrito-container">
-        <button id="btn-carrito" class="btn btn-warning position-relative">
-          <span class="me-2">Carrito</span>
+        <button id="btn-carrito" class="btn godo-navbar-icon-btn btn-warning position-relative" title="Carrito">
+          <i class="bi bi-cart"></i>
           <span id="carrito-contador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
         </button>
       </div>
     </div>
   </nav>
+
+  <!-- ======= NAVBAR SECUNDARIA ======= -->
+  <nav class="godo-categories-navbar navbar navbar-expand-lg py-0">
+    <div class="container-fluid d-flex justify-content-between">
+      <div class="navbar-nav flex-row flex-wrap align-items-center">
+        <a class="nav-link godo-nav-cat" href="#proteina">Proteína</a>
+        <a class="nav-link godo-nav-cat" href="#creatina">Creatina</a>
+        <a class="nav-link godo-nav-cat" href="#pre-entreno">Pre-entreno</a>
+        <a class="nav-link godo-nav-cat" href="#vitaminas">Vitaminas</a>
+        <a class="nav-link godo-nav-cat" href="#aminoacidos">Aminoácidos</a>
+        <a class="nav-link godo-nav-cat" href="#otros">Otros Suplementos</a>
+        <a class="nav-link godo-nav-cat" href="#combos">Combos</a>
+        <a class="nav-link godo-nav-cat" href="#marcas">Marcas</a>
+      </div>
+      <div class="navbar-nav flex-row align-items-center">
+        <a class="nav-link godo-nav-info me-3" href="#envios"><i class="bi bi-truck"></i> Envíos</a>
+        <a class="nav-link godo-nav-info me-3" href="#pagos"><i class="bi bi-credit-card"></i> Pagos</a>
+        <a class="nav-link godo-nav-info" href="#ubicacion"><i class="bi bi-geo-alt"></i> Ubicación</a>
+      </div>
+    </div>
+  </nav>
+
 
   <!-- Toast para mensajes -->
   <div class="toast align-items-center text-white bg-success border-0 position-fixed end-0 bottom-0 m-4" id="toast-agregado" role="alert" style="z-index:9999; display:none;">
@@ -61,15 +87,73 @@
   </div>
 
   <!-- Sección de productos más vendidos -->
-  <div class="container my-5">
-    <h2>Los más vendidos</h2>
-    <div id="productos-mas-vendidos" class="row g-3"></div>
-  </div>
+  <div class="container my-4">
+  <h2 class="text-center fw-bold mb-4" style="color:#002f6c;">Los más vendidos</h2>
+  <div id="productos-mas-vendidos" class="row g-3 justify-content-center"></div>
+</div>
 
   <div id="barra-carrito"></div>
 
+<!-- ======= IR ARRIBA ======= -->
+
+<div class="godo-scroll-top-bar" id="godo-scroll-top-bar" title="Ir arriba" style="cursor:pointer;">
+  <i class="bi bi-chevron-up me-2"></i> Ir arriba
+</div>
+
+
+<!-- ======= FOOTER ======= -->
+  <footer class="godo-footer">
+    <div class="container py-3">
+      <div class="row text-center text-md-start">
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+          <img src="Logo-Godo.png" alt="GODO" style="max-width:90px;">
+          <p class="mt-2 small text-white-50">Suplementos de calidad, con atención personalizada y envíos a todo el país.</p>
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+          <h6 class="text-gold mb-2">Productos</h6>
+          <ul class="list-unstyled">
+            <li><a href="#proteina">Proteína</a></li>
+            <li><a href="#creatina">Creatina</a></li>
+            <li><a href="#pre-entreno">Pre-entreno</a></li>
+            <li><a href="#vitaminas">Vitaminas</a></li>
+            <li><a href="#aminoacidos">Aminoácidos</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0">
+          <h6 class="text-gold mb-2">Ayuda</h6>
+          <ul class="list-unstyled">
+            <li><a href="#envios">Envíos</a></li>
+            <li><a href="#pagos">Pagos</a></li>
+            <li><a href="#ubicacion">Ubicación</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+        <div class="col-12 col-md-3">
+          <h6 class="text-gold mb-2">Seguinos</h6>
+          <div class="mb-1">
+            <a href="#" class="godo-footer-social me-2"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="godo-footer-social me-2"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="godo-footer-social me-2"><i class="bi bi-whatsapp"></i></a>
+          </div>
+          <p class="small text-white-50 mb-0">Lunes a Sábados<br>9:00 a 20:00hs</p>
+        </div>
+      </div>
+    </div>
+    <div class="godo-footer-copyright py-2 text-center">
+      <span class="small text-white-50">&copy; 2024 GODO Suplementos - Todos los derechos reservados</span>
+    </div>
+  </footer>
+
   <!-- Scripts -->
   <script type="module" src="js/main.js"></script>
+
+  <!-- Boton "ir arriba" -->
+  
+  <script>
+    document.getElementById("godo-scroll-top-bar").onclick = () => {
+      window.scrollTo({top: 0, behavior: "smooth"});
+    };
+  </script>
 
   <!-- Mostrar/ocultar dropdowns con hover/click -->
   <script>

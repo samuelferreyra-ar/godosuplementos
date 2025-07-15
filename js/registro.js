@@ -1,5 +1,5 @@
 import { auth, db } from "./firebase-config.js";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { setDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import { mostrarToast } from "./ui.js";
 
@@ -26,6 +26,7 @@ document.getElementById("form-registro").onsubmit = async (e) => {
     const cred = await createUserWithEmailAndPassword(auth, email, pass);
     const user = cred.user;
 
+
     // 2. Crear usuario en Firestore
     await setDoc(doc(db, "usuarios", user.uid), {
       nombre,
@@ -35,8 +36,15 @@ document.getElementById("form-registro").onsubmit = async (e) => {
       admin: false
     });
 
-    mostrarToast("¡Registro exitoso! Redirigiendo...", "success");
-    setTimeout(() => location.href = "index.html", 1000);
+    // 3. Enviar email de verificación
+    await sendEmailVerification(user);
+    mostrarToast("¡Te enviamos un email para verificar tu cuenta! Por favor, revisá tu casilla.", "success");
+    // Opcional: Desloguealo automáticamente hasta que verifique el mail
+    setTimeout(() => {
+      auth.signOut();
+      location.href = "index.html";
+    }, 2200);
+
   } catch (e) {
     // Si ya existe en Auth pero falla Firestore, borrar usuario de Auth
     if (auth.currentUser) {
