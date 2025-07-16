@@ -15,8 +15,6 @@ if (!id) {
 (async () => {
   const productos = await obtenerProductosParaBusqueda();
   const prod = productos.find(p => p.id === id);
-  console.log("ID buscado:", id);
-console.log("IDs disponibles:", productos.map(p => p.id));
   if (!prod) {
     document.body.innerHTML = "<div class='container my-5'><div class='alert alert-warning'>Producto no encontrado.</div></div>";
     return;

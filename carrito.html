@@ -3,12 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Carrito | GODO Suplementos</title>
+  <title>Carrito - GODO Suplementos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="styles.css" rel="stylesheet" />
 </head>
 <body>
-  <!-- Incluye aquí la barra/menu igual que index.html -->
+
+  <!-- NAVBAR 1 -->
+
+  <div id="navbar1"></div>
+
+  <!-- ======= NAVBAR 2 ======= -->
+  
+  <div id="navbar2"></div>
+
+  <!-- ======= TOAST PARA MENSAJES ======= -->
+
+  <div class="toast align-items-center text-white bg-success border-0 position-fixed end-0 bottom-0 m-4" id="toast-agregado" role="alert" style="z-index:9999; display:none;">
+    <div class="d-flex">
+      <div class="toast-body"></div>
+    </div>
+  </div>
+
+  <!-- CARRITO -->
   <div class="container my-4">
     <h2>Mi Carrito</h2>
     <div id="carrito-lista"></div>
@@ -16,6 +34,81 @@
     <button class="btn btn-success mt-3" id="btn-comprar">Comprar</button>
     <div id="carrito-msg" class="mt-3"></div>
   </div>
+
+  
+<!-- ======= IR ARRIBA ======= -->
+
+<div class="godo-scroll-top-bar" id="godo-scroll-top-bar" title="Ir arriba" style="cursor:pointer;">
+  <i class="bi bi-chevron-up me-2"></i> Ir arriba
+</div>
+
+<!-- ======= FOOTER ======= -->
+  
+  <div id="footer"></div>
+
+<!-- Script para incluir los fragmentos, adaptado para los dropdowns-->
+  <script>
+    async function includeHtml(id, file, callback) {
+      const res = await fetch(file);
+      const html = await res.text();
+      document.getElementById(id).innerHTML = html;
+      if (callback) callback(); // Ejecuta código luego de cargar el fragmento
+    }
+
+    // Navbar1 y código dependiente
+    includeHtml('navbar1', 'navbar1.html', function() {
+      // TODO: ¡Ahora SÍ existen los elementos del navbar1!
+
+      // Dropdown "Cuenta"
+      const cuentaBtn = document.getElementById('btn-cuenta');
+      const cuentaDropdown = document.getElementById('cuenta-dropdown');
+      cuentaBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        cuentaDropdown.style.display = cuentaDropdown.style.display === 'block' ? 'none' : 'block';
+      });
+      document.body.addEventListener('click', function () {
+        cuentaDropdown.style.display = 'none';
+      });
+      cuentaDropdown.addEventListener('click', function(e) {
+        e.stopPropagation();
+      });
+
+      // Opcional: Muestra contador del carrito si usas esa funcionalidad
+      if (localStorage.getItem('godo_carrito')) {
+        const c = JSON.parse(localStorage.getItem('godo_carrito')).length;
+        document.getElementById('carrito-contador').textContent = c;
+        document.getElementById('carrito-contador').style.display = c > 0 ? '' : 'none';
+      }
+      document.getElementById('btn-carrito').onclick = function () {
+        location.href = "carrito.html";
+      };
+    });
+
+    // Los otros fragmentos no necesitan callback especial:
+    includeHtml('navbar2', 'navbar2.html');
+    includeHtml('footer', 'footer.html');
+  </script>
+
+<!-- Fuzzy search -->
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+  <script type="module" src="js/busqueda.js"></script>
+
+<!-- Script base -->
+
+  <script type="module" src="js/main.js"></script>
+
+<!-- Boton "ir arriba" -->
+  
+  <script>
+    document.getElementById("godo-scroll-top-bar").onclick = () => {
+      window.scrollTo({top: 0, behavior: "smooth"});
+    };
+  </script>
+
+<!-- Boton "ir arriba" -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
   <script type="module" src="js/carrito-pagina.js"></script>
 </body>
 </html>

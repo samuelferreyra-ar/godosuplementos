@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // CUENTA
   onUserStateChanged(async user => {
     const cuentaDropdown = document.getElementById("cuenta-dropdown");
-    const loginForm = document.getElementById("login-form");
+    const loginForm = document.getElementById("form-login-dropdown");
     const userOptions = document.getElementById("user-options");
     const userEmailSpan = document.getElementById("user-email");
     const linkMisPedidos = document.getElementById("link-mis-pedidos");
@@ -292,6 +292,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   });
 
   // LOGIN
+
+  const form = document.getElementById("form-login-dropdown");
+  if (form) {
+    form.onsubmit = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value;
+      const pass = document.getElementById("login-password").value;
+      try {
+        await login(email, pass);
+        location.reload();
+      } catch (e) {
+        mostrarToast("Usuario o contraseña inválidos", "danger");
+      }
+    };
+  }
+
+  /*
   const btnLogin = document.getElementById("btn-login");
   if (btnLogin) {
     btnLogin.addEventListener("click", async () => {
@@ -304,7 +321,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         mostrarToast("Usuario o contraseña inválidos", "danger");
       }
     });
-  }
+  }*/
 
   // LOGOUT
   const btnLogout = document.getElementById("btn-logout");
