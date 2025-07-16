@@ -10,65 +10,102 @@
 </head>
 <body>
 
-  <!-- Barra superior -->
-  <nav class="navbar navbar-expand-lg navbar-dark godo-navbar px-3 py-2">
-    <a class="navbar-brand d-flex align-items-center" href="index.html">
-      <img src="assets/Logo-Godo.png" alt="Logo GODO" height="38" class="me-2" style="max-height:60px;">
-    </a>
-    <div class="ms-auto d-flex align-items-center gap-3">
+  <!-- NAVBAR 1 -->
 
-      <!-- Dropdown de Cuenta -->
-      <div class="position-relative cuenta-container">
-        <button id="btn-cuenta" class="btn godo-navbar-icon-btn me-2" title="Cuenta">
-          <i class="bi bi-person"></i>
-        </button>
-        <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow" style="right:0; left:auto; min-width:270px;">
-          <!-- Login Form (solo visible si no logueado) -->
-          <div id="login-form">
-            <input id="login-email" type="email" class="form-control mb-2" placeholder="Correo electrónico">
-            <input id="login-password" type="password" class="form-control mb-2" placeholder="Contraseña">
-            <button id="btn-login" class="btn btn-primary w-100 mb-2">Iniciar Sesión</button>
-            <a href="registro.html" class="btn btn-outline-secondary w-100 mb-2">Nuevo usuario</a>
-            <a href="recuperar.html" class="d-block text-center small">Recuperar contraseña</a>
-          </div>
-          <!-- Opciones de usuario (solo visible si logueado) -->
-          <div id="user-options" style="display:none;">
-            <div class="mb-2">
-              <span id="user-email" class="fw-bold text-success"></span>
-            </div>
-            <a href="mis-pedidos.html" id="link-mis-pedidos" class="dropdown-item">Mis pedidos</a>
-            <a href="mis-direcciones.html" id="link-mis-direcciones" class="dropdown-item">Mis direcciones</a>
-            <a href="mi-cuenta.html" id="link-mi-cuenta" class="dropdown-item">Mi cuenta</a>
-            <a href="admin-pedidos.html" id="link-admin-pedidos" class="dropdown-item" style="display:none;">Pedidos</a>
-            <a href="admin-productos.html" id="link-admin-productos" class="dropdown-item" style="display:none;">Productos</a>
-            <hr>
-            <button id="btn-logout" class="btn btn-danger w-100">Cerrar sesión</button>
-          </div>
+  <nav class="godo-navbar navbar navbar-expand-lg navbar-dark px-3 py-2 align-items-center">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+      <a class="navbar-brand d-flex align-items-center" href="index.html">
+        <img src="assets/Logo-Godo.png" alt="Logo GODO" height="76" class="me-2">
+      </a>
+      <div class="flex-grow-1 d-flex justify-content-center">
+        <!-- Barra de búsqueda -->
+        <div class="godo-searchbar-container position-relative mx-3" style="max-width:1000px; min-width:700px;">
+          <form id="godo-search-form" autocomplete="off" class="d-flex">
+            <input type="text" id="godo-search-input" class="form-control godo-search-input"
+              placeholder="Buscar productos..." aria-label="Buscar">
+            <button type="submit" class="btn godo-search-btn" tabindex="-1">
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+          <ul id="godo-search-suggestions" class="godo-search-suggestions"></ul>
         </div>
       </div>
+      <div class="d-flex align-items-center">
+        <!-- Dropdown de Cuenta -->
+        <div class="position-relative cuenta-container">
+          <button id="btn-cuenta" class="btn godo-navbar-icon-btn me-2" title="Cuenta">
+            <i class="bi bi-person"></i>
+          </button>
+          <div id="cuenta-dropdown" class="dropdown-menu p-3 shadow" style="right:0; left:auto; min-width:270px;">
+            <!-- Login Form (solo visible si no logueado) -->
+            <div id="login-form">
+              <input id="login-email" type="email" class="form-control mb-2" placeholder="Correo electrónico">
+              <input id="login-password" type="password" class="form-control mb-2" placeholder="Contraseña">
+              <button id="btn-login" class="btn btn-primary w-100 mb-2">Iniciar Sesión</button>
+              <a href="registro.html" class="btn btn-outline-secondary w-100 mb-2">Nuevo usuario</a>
+              <a href="recuperar.html" class="d-block text-center small">Recuperar contraseña</a>
+            </div>
+            <!-- Opciones de usuario (solo visible si logueado) -->
+            <div id="user-options" style="display:none;">
+              <div class="mb-2">
+                <span id="user-email" class="fw-bold text-success"></span>
+              </div>
+              <a href="mis-pedidos.html" id="link-mis-pedidos" class="dropdown-item">Mis pedidos</a>
+              <a href="mis-direcciones.html" id="link-mis-direcciones" class="dropdown-item">Mis direcciones</a>
+              <a href="mi-cuenta.html" id="link-mi-cuenta" class="dropdown-item">Mi cuenta</a>
+              <a href="admin-pedidos.html" id="link-admin-pedidos" class="dropdown-item" style="display:none;">Pedidos</a>
+              <a href="admin-productos.html" id="link-admin-productos" class="dropdown-item" style="display:none;">Productos</a>
+              <hr>
+              <button id="btn-logout" class="btn btn-danger w-100">Cerrar sesión</button>
+            </div>
+          </div>
+        </div>
 
-      <!-- Botón Carrito simple -->
-      <div class="position-relative carrito-container">
-        <button id="btn-carrito" class="btn godo-navbar-icon-btn btn-warning position-relative" title="Carrito">
-          <i class="bi bi-cart"></i>
-          <span id="carrito-contador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
-        </button>
+        <!-- Botón Carrito simple -->
+        <div class="position-relative carrito-container">
+          <button id="btn-carrito" class="btn godo-navbar-icon-btn btn-warning position-relative" title="Carrito">
+            <i class="bi bi-cart"></i>
+            <span id="carrito-contador" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">0</span>
+          </button>
+        </div>
       </div>
     </div>
   </nav>
 
-  <!-- ======= NAVBAR SECUNDARIA ======= -->
-  <nav class="godo-categories-navbar navbar navbar-expand-lg py-0">
+  <!-- ======= NAVBAR 2 ======= -->
+  <nav class="godo-categories-navbar navbar navbar-expand-lg py-2">
     <div class="container-fluid d-flex justify-content-between">
       <div class="navbar-nav flex-row flex-wrap align-items-center">
+        <!-- Dropdown personalizado -->
+        <div class="nav-item dropdown godo-nav-dropdown">
+          <a class="nav-link godo-nav-cat dropdown-toggle d-flex align-items-center" href="#" id="todosDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-list me-2"></i> Todos los Suplementos
+          </a>
+          <ul class="dropdown-menu godo-cat-dropdown" aria-labelledby="todosDropdown">
+            <li><a class="dropdown-item" href="#vitaminas">Proteinas</a></li>
+            <li><a class="dropdown-item" href="#aminoacidos">Creatinas</a></li>
+            <li><a class="dropdown-item" href="#omega">Pre-entrenos</a></li>
+            <li><a class="dropdown-item" href="#otros">Aminoácidos</a></li>
+            <li><a class="dropdown-item" href="#aminoacidos">Vitaminas</a></li>
+            <li><a class="dropdown-item" href="#omega">Omega</a></li>
+            <li><a class="dropdown-item" href="#otros">Ganadores de peso</a></li>
+          </ul>
+        </div>
         <a class="nav-link godo-nav-cat" href="#proteina">Proteína</a>
         <a class="nav-link godo-nav-cat" href="#creatina">Creatina</a>
         <a class="nav-link godo-nav-cat" href="#pre-entreno">Pre-entreno</a>
-        <a class="nav-link godo-nav-cat" href="#vitaminas">Vitaminas</a>
-        <a class="nav-link godo-nav-cat" href="#aminoacidos">Aminoácidos</a>
-        <a class="nav-link godo-nav-cat" href="#otros">Otros Suplementos</a>
         <a class="nav-link godo-nav-cat" href="#combos">Combos</a>
-        <a class="nav-link godo-nav-cat" href="#marcas">Marcas</a>
+        <!-- Dropdown marcas -->
+        <div class="nav-item dropdown godo-nav-dropdown">
+          <a class="nav-link godo-nav-cat dropdown-toggle" href="#" id="marcasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Marcas
+          </a>
+          <ul class="dropdown-menu godo-cat-dropdown" aria-labelledby="marcasDropdown">
+            <li><a class="dropdown-item" href="#star-nutrition">Star Nutrition</a></li>
+            <li><a class="dropdown-item" href="#ena">ENA</a></li>
+            <li><a class="dropdown-item" href="#gold-nutrition">Gold Nutrition</a></li>
+          </ul>
+        </div>
       </div>
       <div class="navbar-nav flex-row align-items-center">
         <a class="nav-link godo-nav-info me-3" href="#envios"><i class="bi bi-truck"></i> Envíos</a>
@@ -78,15 +115,16 @@
     </div>
   </nav>
 
+  <!-- ======= TOAST PARA MENSAJES ======= -->
 
-  <!-- Toast para mensajes -->
   <div class="toast align-items-center text-white bg-success border-0 position-fixed end-0 bottom-0 m-4" id="toast-agregado" role="alert" style="z-index:9999; display:none;">
     <div class="d-flex">
       <div class="toast-body"></div>
     </div>
   </div>
 
-  <!-- Sección de productos más vendidos -->
+  <!-- ======= SECCION MAS VENDIDOS ======= -->
+
   <div class="container my-4">
   <h2 class="text-center fw-bold mb-4" style="color:#002f6c;">Los más vendidos</h2>
   <div id="productos-mas-vendidos" class="row g-3 justify-content-center"></div>
@@ -144,7 +182,13 @@
     </div>
   </footer>
 
-  <!-- Scripts -->
+  <!-- Fuzzy search -->
+
+  <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.0.0/dist/fuse.min.js"></script>
+  <script type="module" src="js/busqueda.js"></script>
+
+  <!-- Script base -->
+
   <script type="module" src="js/main.js"></script>
 
   <!-- Boton "ir arriba" -->
@@ -154,6 +198,9 @@
       window.scrollTo({top: 0, behavior: "smooth"});
     };
   </script>
+
+  <!-- Boton "ir arriba" -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- Mostrar/ocultar dropdowns con hover/click -->
   <script>

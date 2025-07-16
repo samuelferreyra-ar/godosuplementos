@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Producto | GODO Suplementos</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+  <!-- Podés incluir tu navbar aquí -->
+
+  <div class="container py-4">
+    <div class="row gy-4">
+      <!-- IMÁGENES -->
+      <div class="col-12 col-md-6 d-flex align-items-center">
+        <div id="producto-carousel" class="carousel slide w-100" data-bs-ride="carousel">
+          <div class="carousel-inner" id="producto-imagenes"></div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#producto-carousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#producto-carousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+          </button>
+        </div>
+      </div>
+      <!-- DETALLES -->
+      <div class="col-12 col-md-6 d-flex flex-column justify-content-center">
+        <h2 class="producto-nombre"></h2>
+        <div class="producto-marca-peso mb-2 text-muted small"></div>
+        <div class="producto-precio mb-2"></div>
+        <div class="producto-stock mb-2"></div>
+        <div class="producto-descripcion mb-3"></div>
+        <div class="d-flex align-items-center mb-3">
+          <button class="btn btn-outline-secondary me-2" id="cantidad-menos" type="button"><i class="bi bi-dash"></i></button>
+          <input type="number" id="cantidad-input" value="1" min="1" class="form-control text-center" style="width:70px;">
+          <button class="btn btn-outline-secondary ms-2" id="cantidad-mas" type="button"><i class="bi bi-plus"></i></button>
+        </div>
+        <button class="btn btn-lg godo-card-btn" id="agregar-carrito-btn">
+          <i class="bi bi-cart-plus"></i> Agregar al carrito
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Toast para mensajes -->
+  <div id="toast-container"></div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="js/producto.js"></script>
+  <script type="module" src="js/ui.js"></script>
+</body>
+</html>

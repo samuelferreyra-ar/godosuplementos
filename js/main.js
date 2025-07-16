@@ -1,5 +1,5 @@
 import { onUserStateChanged, getUserData, esAdmin, logout, login } from "./auth.js";
-import { getMasVendidos } from "./productos.js";
+import { getMasVendidos, obtenerProductosParaBusqueda } from "./productos.js";
 import { agregarProducto, getCarrito, actualizarCantidad, eliminarProducto } from "./carrito.js";
 import { mostrarToast } from "./ui.js";
 
@@ -39,9 +39,9 @@ async function renderMasVendidos() {
   const carrito = getCarrito();
   contenedor.innerHTML = productos.map(prod =>
     `<div class="col-12 col-sm-6 col-md-3">
-      <div class="godo-card w-100">
-        <img src="${prod.imagen1}" class="godo-card-img" alt="${prod.nombre}">
-        <div class="px-3 pt-2 pb-1 flex-grow-1 d-flex flex-column">
+      <div class="godo-card w-100" data-id="${prod.id}" style="cursor:pointer;">
+      <img src="${prod.imagen1}" class="godo-card-img" alt="${prod.nombre}">
+      <div class="px-3 pt-2 pb-1 flex-grow-1 d-flex flex-column">
         <div class="godo-card-title">${prod.nombre}</div>
         <div class="godo-card-price mb-2">$${prod.precio}</div>
           ${renderControlCantidad(prod, carrito.find(p => p.id === prod.id))}
@@ -49,8 +49,30 @@ async function renderMasVendidos() {
       </div>
     </div>`
   ).join("");
+  // Hace clickeable toda la card, salvo el botón de agregar al carrito
+document.querySelectorAll('.godo-card').forEach(card => {
+  card.addEventListener("click", function (e) {
+    // Si se hizo click en el botón de agregar al carrito, no navegar
+    if (e.target.classList.contains('agregar-carrito-btn')) return;
+    const id = this.getAttribute('data-id');
+    if (id) {
+      window.location.href = `producto.html?id=${id}`;
+    }
+  });
+});
+
+// Evita que el click en el botón de agregar al carrito propague y lleve al detalle
+document.querySelectorAll('.agregar-carrito-btn').forEach(btn => {
+  btn.addEventListener("click", function(e) {
+    e.stopPropagation();
+    const id = this.getAttribute('data-id');
+    // Aquí tu lógica de agregar al carrito, por ejemplo:
+    // agregarAlCarrito(producto, 1);
+  });
+});
   asignarListenersMasVendidos(productos, contenedor);
 }
+
 
 // --- LISTENERS PARA LOS CONTROLES DINÁMICOS ---
 function asignarListenersMasVendidos(productos, contenedor) {

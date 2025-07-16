@@ -148,6 +148,133 @@ body {
   letter-spacing: 0.01em;
 }
 
+.godo-navbar-icon-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  border-radius: 14px !important;
+  background: #fff;
+  color: #002f6c;
+  border: 2px solid #FFD700;
+  box-shadow: 0 1px 6px rgba(0,47,108,0.12);
+  transition: background 0.16s, color 0.16s, border-color 0.14s;
+}
+.godo-navbar-icon-btn:hover,
+.godo-navbar-icon-btn:focus {
+  background: #FFD700;
+  color: #002f6c;
+  border-color: #002f6c;
+}
+.btn-warning.godo-navbar-icon-btn {
+  background: #FFD700;
+  color: #002f6c;
+  border-color: #FFD700;
+}
+.btn-warning.godo-navbar-icon-btn:hover {
+  background: #fffbe0;
+  color: #002f6c;
+  border-color: #FFD700;
+}
+
+/* SEARCH BAR */
+
+.godo-searchbar-container {
+  min-width: 180px;
+  z-index: 1050;
+}
+.godo-search-input {
+  border-radius: 22px 0 0 22px;
+  border-right: none;
+  background: #f7faff;
+  border: 1.5px solid #002f6c;
+  font-size: 1rem;
+  box-shadow: 0 1px 8px rgba(0,47,108,0.07);
+}
+.godo-search-btn {
+  border-radius: 0 22px 22px 0;
+  border-left: none;
+  background: #FFD700;
+  color: #002f6c;
+  font-weight: bold;
+  border: 1.5px solid #002f6c;
+  border-left: none;
+  margin-left: -1px;
+  padding: 0 16px;
+  font-size: 1.18rem;
+  transition: background 0.15s, color 0.15s;
+}
+.godo-search-btn:hover { background: #e6be00; color: #fff; }
+
+.godo-search-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1.5px solid #FFD700;
+  border-top: none;
+  z-index: 1060;
+  max-height: 270px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 5px 16px rgba(0,47,108,0.13);
+  display: none;
+}
+.godo-search-suggestions li {
+  padding: 0.69em 1.1em;
+  cursor: pointer;
+  transition: background 0.12s;
+  font-size: 1rem;
+  color: #002f6c;
+}
+.godo-search-suggestions li:hover,
+.godo-search-suggestions li.active {
+  background: #FFD700;
+  color: #002f6c;
+  font-weight: 600;
+}
+
+/* Dropdown navbar categorías */
+.godo-cat-dropdown {
+  background: #002f6c;
+  border-radius: 0 0 13px 13px;
+  min-width: 210px;
+  border: 1.5px solid #FFD700;
+  margin-top: 2px;
+  box-shadow: 0 8px 22px rgba(0,47,108,0.12);
+}
+
+.godo-cat-dropdown .dropdown-item {
+  color: #FFD700;
+  font-weight: 600;
+  transition: background 0.14s, color 0.14s;
+  padding: 0.65em 1.3em;
+}
+
+.godo-cat-dropdown .dropdown-item:hover,
+.godo-cat-dropdown .dropdown-item:focus {
+  color: #002f6c;
+  background: #FFD700;
+}
+
+.godo-nav-dropdown .dropdown-toggle::after {
+  margin-left: 0.46em;
+  vertical-align: 0.09em;
+}
+
+.godo-nav-dropdown .dropdown-toggle i {
+  font-size: 1.15em;
+  margin-right: 0.2em;
+  vertical-align: -2px;
+}
+
 @media (min-width: 768px) {
   #productos-mas-vendidos .col-6 {
     flex: 0 0 auto;

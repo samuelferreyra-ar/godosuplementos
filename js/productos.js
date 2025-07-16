@@ -16,3 +16,12 @@ export async function getProductoById(id) {
   const snap = await getDoc(ref);
   return snap.exists() ? { id, ...snap.data() } : null;
 }
+
+// ¡Esta función sirve tanto para el main como para la búsqueda!
+export async function obtenerProductosParaBusqueda() {
+  const snapshot = await getDocs(collection(db, "productos"));
+  return snapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
