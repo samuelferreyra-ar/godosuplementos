@@ -1,7 +1,17 @@
+html, body {
+  height: 100%;
+  min-height: 100vh;
+}
 body {
   background: #fff;
   font-family: 'Segoe UI', Arial, sans-serif;
   color: #222;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1 0 auto; /* el contenido principal crece para ocupar el espacio */
 }
 
 .godo-navbar {
@@ -119,6 +129,7 @@ body {
 }
 
 /* Footer */
+
 .godo-footer {
   background: #002f6c;
   color: #fff;

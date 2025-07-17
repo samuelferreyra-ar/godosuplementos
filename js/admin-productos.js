@@ -121,7 +121,10 @@ document.getElementById('btn-guardar-prod').onclick = async function() {
       await crearProducto(nuevoProducto);
       mostrarToast('Producto creado', 'success');
     }
-    // Opcional: cerrá el form/modal, refrescá la lista, etc.
+    setTimeout(() => {
+    location.reload();
+  }, 700); // 700 ms es tiempo suficiente para ver el mensaje
+
   } catch (e) {
     mostrarToast('Error al guardar el producto: ' + e.message, 'danger');
   }
