@@ -14,7 +14,7 @@ function render() {
   cont.innerHTML = `
     <table class="table table-bordered table-sm align-middle">
       <thead><tr>
-        <th>Nombre</th><th>Marca</th><th>Categoría</th><th>Subcat.</th><th>Peso</th><th>Unidad</th><th>Precio</th><th>Stock</th><th>Imagen1</th><th>Imagen2</th><th>Acciones</th>
+        <th>Nombre</th><th>Marca</th><th>Categoría</th><th>Subcat.</th><th>Sabor</th><th>Peso</th><th>Unidad</th><th>Precio</th><th>Stock</th><th>Imagen1</th><th>Imagen2</th><th>Acciones</th>
       </tr></thead>
       <tbody>
         ${productos.map((p,i)=>`
@@ -23,6 +23,7 @@ function render() {
             <td>${p.marca}</td>
             <td>${p.categoria}</td>
             <td>${p.subcategoria}</td>
+            <td>${p.sabor}</td>
             <td>${p.peso}</td>
             <td>${p.unidad}</td>
             <td>$${p.precio}</td>
@@ -54,7 +55,7 @@ function mostrarForm(idx = null) {
   editIdx = idx;
   document.getElementById("form-producto").style.display = "";
   const prod = idx!==null ? productos[idx] : {};
-  ["id","nombre","marca","categoria","subcategoria","peso","unidad","precio","stock","desc","img1","img2"].forEach(f=>{
+  ["id","nombre","marca","categoria","subcategoria","sabor","peso","unidad","precio","stock","desc","img1","img2"].forEach(f=>{
     const k = f==="img1"?"imagen1":f==="img2"?"imagen2":f;
     document.getElementById("prod-"+f).value = prod?.[k] || "";
   });
@@ -84,6 +85,7 @@ document.getElementById('btn-guardar-prod').onclick = async function() {
   const marca = document.getElementById('prod-marca').value.trim();
   const categoria = document.getElementById('prod-categoria').value.trim();
   const subcategoria = document.getElementById('prod-subcategoria').value.trim();
+  const sabor = document.getElementById('prod-sabor').value.trim();
   const peso = document.getElementById('prod-peso').value.trim();
   const unidad = document.getElementById('prod-unidad').value.trim();
   const precio = Number(document.getElementById('prod-precio').value);
@@ -104,6 +106,7 @@ document.getElementById('btn-guardar-prod').onclick = async function() {
     marca,
     categoria,
     subcategoria,
+    sabor,
     peso,
     unidad,
     precio,
