@@ -40,3 +40,5 @@ export function eliminarProducto(id) {
   setCarrito(carrito);
   return carrito;
 }
+
+window.agregarProducto = agregarProducto;

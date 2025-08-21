@@ -59,15 +59,22 @@ if (!id) {
     if (val > prod.stock) inputCantidad.value = prod.stock;
   };
 
-  // Agregar al carrito
-  document.getElementById('agregar-carrito-btn').onclick = () => {
-    const cant = parseInt(inputCantidad.value) || 1;
-    if (cant < 1 || cant > prod.stock) {
-      mostrarToast("Cantidad inválida.", "danger");
-      return;
-    }
-    agregarProducto(prod, cant);
-    mostrarToast("Producto agregado al carrito.", "success");
-  };
+  // Agregar al carrito (handler único para desktop y móvil)
+function handleAddToCart() {
+  const inputCantidad = document.getElementById('cantidad-input');
+  const cant = parseInt(inputCantidad.value) || 1;
+  if (cant < 1 || cant > prod.stock) {
+    mostrarToast("Cantidad inválida.", "danger");
+    return;
+  }
+  agregarProducto(prod, cant);
+  mostrarToast("Producto agregado al carrito.", "success");
+}
+
+const btnDesktop = document.getElementById('agregar-carrito-btn');
+if (btnDesktop) btnDesktop.onclick = handleAddToCart;
+
+const btnSticky = document.getElementById('agregar-carrito-btn-sticky');
+if (btnSticky) btnSticky.onclick = handleAddToCart;
 
 })();

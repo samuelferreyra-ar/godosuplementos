@@ -298,3 +298,68 @@ main {
   .godo-card-title { font-size: 1rem; }
   .godo-card-price { font-size: 1.06rem; }
 }
+#barra-carrito {
+  z-index: 2000 !important; /* más alto que la navbar (que suele estar en 1030) */
+}
+
+/* ==== Offcanvas de filtros: comportamiento en móvil ==== */
+@media (max-width: 991.98px) {
+  /* Que el offcanvas quede SIEMPRE por encima de cualquier barra/buscador */
+  .offcanvas {
+    z-index: 2000; /* > que el z-index de tu navbar/buscador */
+  }
+
+  /* Evitar overflow lateral y forzar wrap de labels largos */
+  #offcanvasFiltros .offcanvas-body {
+    overflow-x: hidden;
+  }
+  #offcanvasFiltros .form-check-label {
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: anywhere;
+  }
+
+  /* Si tus filtros usan .row adentro, evitá márgenes negativos en el offcanvas */
+  #offcanvasFiltros .row {
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  /* Hacer que el panel de filtros scrollee por dentro del offcanvas */
+  #offcanvasFiltrosBody .filtros-scroll,
+  #offcanvasFiltros #filtros-contenedor {
+    max-height: calc(100dvh - 140px); /* header + padding + botón */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+
+  /* Inputs number a ancho completo para no generar scroll lateral */
+  #offcanvasFiltros input[type="number"] {
+    width: 100%;
+  }
+
+  /* Botón "Aplicar filtros" siempre visible (no se pierde al final) */
+  #offcanvasFiltros .btn-apply-filters {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 12px;
+  }
+}
+/* Layout “flex” sin márgenes negativos: más robusto en móvil */
+#offcanvasFiltros .form-check {
+  padding: .2rem 0;        /* podés conservar tu padding vertical */
+  padding-left: 0;         /* quitamos padding izquierdo */
+  display: flex;
+  align-items: center;
+  gap: .5rem;              /* separación checkbox–texto */
+}
+#offcanvasFiltros .form-check-input {
+  float: none;             /* anulamos el float del BS */
+  margin-left: 0;          /* eliminamos el margen negativo */
+}
+#offcanvasFiltros .form-check-label {
+  white-space: normal;     /* por si el texto es largo */
+  overflow-wrap: anywhere;
+}

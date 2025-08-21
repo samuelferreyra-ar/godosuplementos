@@ -1,0 +1,144 @@
+
+/* =========================
+   MOBILE OVERRIDES v1
+   Targets: 360x740, 430x932
+   Load AFTER styles.css
+   ========================= */
+
+/* Base */
+:root {
+  --godo-primary: #002f6c;
+  --godo-accent: #FFD700;
+}
+
+@media (max-width: 991.98px) {
+  /* Reduce brand logo height */
+  .godo-navbar .navbar-brand img { height: 48px; }
+
+  /* Searchbar full width and stack-friendly */
+  .godo-searchbar-container {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .godo-searchbar-container form { width: 100%; }
+  .godo-search-input { font-size: 0.95rem; }
+  .godo-search-btn { font-size: 1rem; padding: 0 12px; }
+
+  /* Account/cart icons spacing */
+  .godo-navbar .godo-navbar-icon-btn { padding: 0.35rem 0.6rem; font-size: 1.1rem; }
+}
+
+/* Category navbar becomes horizontally scrollable pills */
+@media (max-width: 991.98px) {
+  .godo-categories-navbar .navbar-nav {
+    overflow-x: auto;
+    flex-wrap: nowrap !important;
+    gap: .25rem;
+    scrollbar-width: thin;
+  }
+  .godo-nav-cat {
+    white-space: nowrap;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Product cards grid: 2-up on phones */
+@media (max-width: 575.98px) {
+  #productos-mas-vendidos .col-12,
+  #categoria-lista .col-12,
+  #resultados-lista .col-12 {
+    width: 50% !important;
+    flex: 0 0 50% !important;
+  }
+  .godo-card-img {
+    height: 140px !important;
+    object-fit: contain;
+  }
+  .godo-card-title { font-size: .95rem !important; line-height: 1.2; min-height: 2.4em; }
+  .godo-card-price { font-size: 1rem !important; }
+}
+
+/* Slightly larger phones (430x932) */
+@media (min-width: 401px) and (max-width: 575.98px) {
+  .godo-card-img { height: 160px !important; }
+  .godo-card-title { font-size: 1rem !important; }
+}
+
+/* Filters: aside hidden on mobile, use Offcanvas */
+#filtros-aside { display: none; }
+@media (min-width: 992px) {
+  #filtros-aside { display: block; }
+  .filters-toggle { display:none !important; }
+}
+@media (max-width: 991.98px) {
+  .filters-toggle { display:block; }
+}
+
+/* Offcanvas tweaks */
+.offcanvas .offcanvas-title { font-weight: 700; color: var(--godo-primary); }
+.offcanvas .form-check { padding: .2rem 0; }
+.offcanvas .btn-apply-filters { position: sticky; bottom: 0; width: 100%; }
+
+/* Product page CTA sticky */
+@media (max-width: 575.98px) {
+  .godo-sticky-cta {
+    position: sticky;
+    bottom: 0;
+    left: 0; right: 0;
+    z-index: 1030;
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,.08);
+    padding: .5rem .75rem;
+  }
+  .godo-sticky-cta .btn {
+    width: 100%;
+    font-size: 1.05rem;
+    padding: .65rem .75rem;
+  }
+}
+
+/* Fix container padding on narrow phones */
+@media (max-width: 360px) {
+  .container, .container-fluid { padding-left: .5rem; padding-right: .5rem; }
+}
+
+@media (max-width: 991.98px) {
+  .godo-navbar .container-fluid {
+    flex-direction: column !important;
+  }
+  .godo-navbar .navbar-brand,
+  .godo-navbar .godo-searchbar-container,
+  .godo-navbar .carrito-container,
+  .godo-navbar .cuenta-container {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+  .godo-navbar .godo-searchbar-container form {
+    justify-content: center;
+  }
+}
+@media (max-width: 576px) {
+  .producto-card .btn-agregar {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+  .producto-card .btn-agregar {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+@media (max-width: 576px) {
+  #cuenta-dropdown {
+    left: 0 !important;
+    right: 0 !important;
+    width: 90% !important;
+    transform: none !important;
+  }
+}
