@@ -3,16 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ubicacion - GODO Suplementos</title>
+  <title>Pagos - GODO Suplementos</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
   <link href="styles.css" rel="stylesheet" />
   <link href="mobile-overrides.css" rel="stylesheet" />
-  <style>
-    /* Asegura mapa responsive sin estilos globales extra */
-    .map-wrap { position: relative; padding-top: 56.25%; border-radius: 12px; overflow: hidden; }
-    .map-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-  </style>
 </head>
 <body>
   <!-- NAVBAR 1 -->
@@ -26,52 +21,69 @@
   <main class="container">
 
     <section class="page-hero">
-      <h1>Ubicación</h1>
-      <p>Encontranos en nuestra tienda. Hacé zoom, arrastrá el mapa o abrilo en Google Maps para indicaciones.</p>
+      <h1>Pagos</h1>
+      <p>Estos son los medios de pago que aceptamos y cómo se procesan.</p>
     </section>
 
     <section class="card">
-      <h2>Dirección</h2>
-      <address>
-        <strong>GODO Suplementos</strong><br>
-        Dr. Agustin Correa y Soria 15<br>
-        SFV de Catamarca, Catamarca, Argentina<br>
-        <a href="tel:+5493834235970">+54 383 154235970</a>
-      </address>
+      <h2>Medios de pago aceptados</h2>
+      <ul class="payment-list">
+        <li><strong>Tarjetas de crédito y débito</strong> (Visa, Mastercard, Amex, etc.).</li>
+        <li><strong>Transferencia/Depósito</strong> bancaria.</li>
+        <li><strong>Billeteras</strong> digitales (Mercado Pago, etc.).</li>
+        <li><strong>Efectivo</strong> en retiro en tienda (si corresponde).</li>
+      </ul>
+      <p class="note">Las promociones en cuotas dependen del medio de pago y pueden variar por banco/emisor.</p>
     </section>
 
     <section class="card">
-      <h2>Cómo llegar</h2>
+      <h2>Seguridad y procesamiento</h2>
       <ul>
-        <li><strong>Colectivo:</strong> líneas XX, YY (bajarse en parada Z).</li>
+        <li>Los pagos con tarjeta se procesan mediante <em>pasarelas certificadas</em> (PCI DSS).</li>
+        <li>No almacenamos datos completos de tu tarjeta en nuestros servidores.</li>
+        <li>Podemos solicitar validación adicional para prevenir fraude.</li>
       </ul>
     </section>
 
     <section class="card">
-      <h2>Mapa</h2>
-
-      <!-- OPCIÓN B: Embed con dirección (sin key; simple y suele ser suficiente) -->
-      <div class="map-wrap">
-        <iframe
-          loading="lazy" allowfullscreen
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3506.6103910418196!2d-65.8064887235117!3d-28.491277761004966!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x942429162a0348e1%3A0x325d72a2a54c326d!2sGodo%20Suplementos!5e0!3m2!1ses!2sar!4v1756874379982!5m2!1ses!2sar"">
-        </iframe>
-      </div>
+      <h2>Comprobantes y facturación</h2>
+      <ul>
+        <li>Recibís un email con el comprobante del pago.</li>
+        <li>Si necesitás factura, completá los datos de facturación al finalizar la compra.</li>
+      </ul>
+      <details>
+        <summary>Transferencia bancaria: pasos</summary>
+        <div>
+          <ol>
+            <li>Elegí <b>Transferencia</b> al finalizar la compra.</li>
+            <li>Te mostraremos los datos bancarios y te llegarán por email/WhatsApp.</li>
+            <li>Realizá la transferencia y subí el comprobante en <em>Mi cuenta &gt; Mis pedidos</em> o envialo por WhatsApp.</li>
+            <li>Confirmamos acreditación y despachamos.</li>
+          </ol>
+        </div>
+      </details>
     </section>
 
     <section class="card">
-      <h2>Horarios de atención</h2>
-      <ul>
-        <li>Lunes a Viernes: 9:00 – 13:00 / 17:00 – 20:30</li>
-        <li>Sábado: 9:30 – 13:30</li>
-        <li>Domingo y feriados: cerrado</li>
-      </ul>
+      <h2>Preguntas frecuentes</h2>
+      <details>
+        <summary>¿Puedo pagar en cuotas?</summary>
+        <div><p>Depende del medio de pago y promociones vigentes. En el checkout verás las opciones disponibles.</p></div>
+      </details>
+      <details>
+        <summary>¿Tienen contraentrega?</summary>
+        <div><p>Sólo para <em>retiro en tienda</em> (si está habilitado). Para envíos, el pago debe acreditarse antes del despacho.</p></div>
+      </details>
+      <details>
+        <summary>Mi pago fue rechazado</summary>
+        <div><p>Verificá saldo/límite, datos de la tarjeta y que el banco no haya bloqueado la operación. Si persiste, probá otro medio o escribinos.</p></div>
+      </details>
     </section>
   </main>
   <!-- ======= CARRITO LATERAL ======= -->
 
   <div id="barra-carrito"></div>
-  <!-- ======= IR ARRIBA ======= -->
+    <!-- ======= IR ARRIBA ======= -->
 
 <div class="godo-scroll-top-bar" id="godo-scroll-top-bar" title="Ir arriba" style="cursor:pointer;">
   <i class="bi bi-chevron-up me-2"></i> Ir arriba

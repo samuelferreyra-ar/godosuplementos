@@ -1,6 +1,6 @@
 import { onUserStateChanged, getUserData, esAdmin, logout, login } from "./auth.js";
 import { getMasVendidos, obtenerProductosParaBusqueda } from "./productos.js";
-import { agregarProducto, getCarrito, actualizarCantidad, eliminarProducto } from "./carrito.js";
+import { agregarProducto, getCarrito, actualizarCantidad, eliminarProducto, vaciarCarrito } from "./carrito.js";
 import { mostrarToast } from "./ui.js";
 
 // Estado de la barra de carrito
@@ -277,11 +277,30 @@ function mostrarBarraCarrito() {
         `).join("")}
       </div>
       <div class="p-3 border-top">
-        <div class="fw-bold mb-2">Total: $${total}</div>
-        <a href="comprar.html" class="btn btn-success w-100">Comprar</a>
+        <div class="fw-bold mb-2">Total: ${formatoPrecioArs(total)}</div>
+        <button id="btn-whatsapp-barra" class="btn btn-success w-100 mb-2">
+          <i class="bi bi-whatsapp"></i> Enviar por WhatsApp
+        </button>
       </div>
     </div>
   `;
+
+  const btnWA = barra.querySelector('#btn-whatsapp-barra');
+btnWA?.addEventListener('click', () => {
+  const carritoAhora = getCarrito();
+  if (!carritoAhora.length) return;
+
+  const texto = armarMensajeSoloProductos(carritoAhora);
+  abrirWhatsApp(WHATSAPP_NUM, texto);
+
+  // Si querés conservar el carrito por si el cliente no envía el mensaje, comentá el bloque de abajo.
+  setTimeout(() => {
+    try { vaciarCarrito(); } catch {}
+    try { actualizarCarritoContador(); } catch {}
+    try { mostrarBarraCarrito(); } catch {}
+  }, 1200);
+});
+
 
   // Mostrar/ocultar
   if (barraAbierta) {
@@ -328,6 +347,44 @@ function mostrarBarraCarrito() {
 }
 
 //HELPERS
+
+// --- WHATSAPP (Godo Suplementos) ---
+const WHATSAPP_NUM = "5493834235967"; // formato internacional AR sin '+'
+
+function formatoPrecioArs(n) {
+  return (Number(n) || 0).toLocaleString("es-AR", { style: "currency", currency: "ARS", maximumFractionDigits: 0 });
+}
+
+function armarMensajeSoloProductos(carrito) {
+  const lineas = carrito.map(p => {
+    const nombre = p.nombre || p.titulo || p.id || "Producto";
+    const marca  = p.marca ? ` ${p.marca}` : "";
+    const peso   = p.peso ? ` ${p.peso}` : "";
+    const cant   = p.cantidad || 1;
+    const sub    = (Number(p.precio) || 0) * cant;
+    return `• ${nombre}${marca}${peso} x${cant} – ${formatoPrecioArs(sub)}`;
+  }).join("\n");
+
+  const total = carrito.reduce((a, p) => a + (Number(p.precio)||0) * (p.cantidad||1), 0);
+
+  return [
+    "🛒 *Pedido* – GODO Suplementos",
+    "",
+    lineas || "—",
+    "",
+    `*Total:* ${formatoPrecioArs(total)}`
+  ].join("\n");
+}
+
+function esMobile() { return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent); }
+
+function abrirWhatsApp(numero, texto) {
+  const n = (numero || "").replace(/\D/g, "");
+  const url = esMobile()
+    ? `https://wa.me/${n}?text=${encodeURIComponent(texto)}`
+    : `https://web.whatsapp.com/send?phone=${n}&text=${encodeURIComponent(texto)}`;
+  window.location.href = url;
+}
 
 function abrirBarraCarrito() { barraAbierta = true; mostrarBarraCarrito(); }
 function cerrarBarraCarrito() { barraAbierta = false; mostrarBarraCarrito(); }
