@@ -94,9 +94,14 @@ document.getElementById('btn-guardar-prod').onclick = async function() {
   const imagen1 = document.getElementById('prod-img1').value.trim();     // OJO acá
   const imagen2 = document.getElementById('prod-img2').value.trim();     // OJO acá
 
-  // Validación básica
-  if (!nombre || !categoria || !precio || !stock) {
-    mostrarToast('Faltan datos obligatorios', 'danger');
+  const nombreOk    = !!nombre;
+  const categoriaOk = !!categoria;
+  // Ajustá las reglas a tu negocio:
+  const precioOk    = Number.isFinite(precio) && precio > 0;   // >0 si no querés precios en 0
+  const stockOk     = Number.isFinite(stock)  && stock >= 0;   // >=0 para permitir “sin stock”
+
+  if (!nombreOk || !categoriaOk || !precioOk || !stockOk) {
+    mostrarToast('Faltan datos obligatorios (revisá precio/stock)', 'danger');
     return;
   }
 
