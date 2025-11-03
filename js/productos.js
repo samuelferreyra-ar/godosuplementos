@@ -1,14 +1,22 @@
 import { db } from './firebase-config.js';
-import { collection, getDocs, query, orderBy, limit } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+  collection, getDocs, query, orderBy, limit, where, doc, getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+// Helper general: por defecto solo stock > 0
+export async function obtenerProductos({ incluirSinStock = false } = {}) {
+  const base = collection(db, "productos");
+  const q = incluirSinStock ? base : query(base, where("stock", ">", 0));
+  const snap = await getDocs(q);
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
+}
 
 export async function getMasVendidos(max = 8) {
-  // Idealmente usá un campo ventas, por ahora trae los primeros 8 que haya
-  const q = query(collection(db, "productos"), /*orderBy("ventas", "desc"),*/ limit(max));
+  // Si más adelante usás "ventas", lo agregás al query ordenado
+  const base = collection(db, "productos");
+  const q = query(base, where("stock", ">", 0), /* orderBy("ventas","desc"), */ limit(max));
   const snap = await getDocs(q);
-  let productos = [];
-  snap.forEach(doc => productos.push({ id: doc.id, ...doc.data() }));
-  // Si no hay campo ventas, solo toma los primeros 8
-  return productos;
+  return snap.docs.map(d => ({ id: d.id, ...d.data() }));
 }
 
 export async function getProductoById(id) {
@@ -17,11 +25,8 @@ export async function getProductoById(id) {
   return snap.exists() ? { id, ...snap.data() } : null;
 }
 
-// ¡Esta función sirve tanto para el main como para la búsqueda!
+// La usa búsqueda / listados públicos
 export async function obtenerProductosParaBusqueda() {
-  const snapshot = await getDocs(collection(db, "productos"));
-  return snapshot.docs.map(doc => ({
-    id: doc.id,
-    ...doc.data()
-  }));
+  // Solo con stock
+  return obtenerProductos({ incluirSinStock: false });
 }

@@ -15,6 +15,17 @@ if (!id) {
 (async () => {
   const productos = await obtenerProductosParaBusqueda();
   const prod = productos.find(p => p.id === id);
+  if (!prod || prod.stock <= 0) {
+  const cont = document.querySelector('#detalle-producto') || document.body;
+  cont.innerHTML = `
+    <div class="container my-5">
+      <div class="alert alert-warning">
+        Este producto no tiene stock disponible en este momento.
+      </div>
+      <a href="index.html" class="btn btn-primary">Volver al inicio</a>
+    </div>`;
+  throw new Error("Producto sin stock");
+  }
   if (!prod) {
     document.body.innerHTML = "<div class='container my-5'><div class='alert alert-warning'>Producto no encontrado.</div></div>";
     return;

@@ -363,3 +363,36 @@ main {
   white-space: normal;     /* por si el texto es largo */
   overflow-wrap: anywhere;
 }
+
+/* Mejorar contraste y clicabilidad de las flechas del carrusel de producto */
+#producto-carousel .carousel-control-prev,
+#producto-carousel .carousel-control-next{
+  width: auto;                /* no ocupar 15% del ancho */
+  padding: .25rem .5rem;
+}
+
+#producto-carousel .carousel-control-prev-icon,
+#producto-carousel .carousel-control-next-icon{
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,.45); /* halo oscuro semi-transparente */
+  background-size: 60% 60%;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+@media (hover:hover){
+  #producto-carousel .carousel-control-prev-icon:hover,
+  #producto-carousel .carousel-control-next-icon:hover{
+    background-color: rgba(0,0,0,.6);
+  }
+}
+
+/* Si tus fotos suelen ser oscuras, invertí el SVG a claro */
+#producto-carousel.carousel-dark .carousel-control-prev-icon,
+#producto-carousel.carousel-dark .carousel-control-next-icon{
+  filter: invert(1) grayscale(100%); /* vuelve el ícono oscuro -> claro */
+}
+
