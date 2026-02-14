@@ -33,24 +33,58 @@
     <h2>Gestión de Productos</h2>
     <button class="btn btn-primary mb-3" id="btn-nuevo-prod">Agregar producto</button>
     <div id="productos-tabla"></div>
-    <!-- Modal/Form simple para crear/editar producto -->
-    <div id="form-producto" style="display:none" class="border p-3 mb-3">
-      <input type="hidden" id="prod-id">
-      <input type="text" class="form-control mb-2" id="prod-nombre" placeholder="Nombre">
-      <input type="text" class="form-control mb-2" id="prod-marca" placeholder="Marca">
-      <input type="text" class="form-control mb-2" id="prod-categoria" placeholder="Categoría">
-      <input type="text" class="form-control mb-2" id="prod-subcategoria" placeholder="Subcategoría">
-      <input type="text" class="form-control mb-2" id="prod-sabor" placeholder="Sabor">
-      <input type="text" class="form-control mb-2" id="prod-peso" placeholder="Peso">
-      <input type="text" class="form-control mb-2" id="prod-unidad" placeholder="Unidad">
-      <input type="number" class="form-control mb-2" id="prod-precio" placeholder="Precio">
-      <input type="number" class="form-control mb-2" id="prod-stock" placeholder="Stock" min="0" step="1">
-      <textarea class="form-control mb-2" id="prod-desc" placeholder="Descripción"></textarea>
-      <input type="text" class="form-control mb-2" id="prod-img1" placeholder="URL Imagen 1">
-      <input type="text" class="form-control mb-2" id="prod-img2" placeholder="URL Imagen 2">
-      <button class="btn btn-success" id="btn-guardar-prod">Guardar</button>
-      <button class="btn btn-secondary" id="btn-cancelar-prod">Cancelar</button>
+    <!-- Modal Bootstrap para crear/editar producto -->
+    <div class="modal fade" id="productoModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="productoModalTitle">Producto</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+
+          <div class="modal-body">
+            <!-- Mantengo el mismo contenedor y el mismo formulario/inputs -->
+            <div id="form-producto" class="border p-3">
+              <input type="hidden" id="prod-id">
+
+              <input type="text" class="form-control mb-2" id="prod-nombre" placeholder="Nombre">
+              <input type="text" class="form-control mb-2" id="prod-marca" placeholder="Marca">
+              <select class="form-select mb-2" id="prod-categoria">
+                <option value="">Seleccionar categoría</option>
+                <option value="creatinas">Creatinas</option>
+                <option value="proteinas">Proteinas</option>
+                <option value="combos">Combos</option>
+                <option value="magnesio">Magnesio</option>
+                <option value="aminoacidos">Aminoacidos</option>
+                <option value="colageno">Colageno</option>
+                <option value="omega">Omega</option>
+                <option value="pre-entrenos">Pre-entrenos</option>
+                <option value="ganadores">Ganadores</option>
+                <option value="vitaminas">Vitaminas</option>
+                <option value="quemadores">Quemadores</option>
+                <option value="otros">Otros</option>
+              </select>
+              <input type="text" class="form-control mb-2" id="prod-subcategoria" placeholder="Subcategoría">
+              <input type="text" class="form-control mb-2" id="prod-sabor" placeholder="Sabor">
+              <input type="text" class="form-control mb-2" id="prod-peso" placeholder="Peso">
+              <input type="text" class="form-control mb-2" id="prod-unidad" placeholder="Unidad">
+              <input type="number" class="form-control mb-2" id="prod-precio" placeholder="Precio">
+              <input type="number" class="form-control mb-2" id="prod-stock" placeholder="Stock" min="0" step="1">
+              <textarea class="form-control mb-2" id="prod-desc" placeholder="Descripción"></textarea>
+              <input type="text" class="form-control mb-2" id="prod-img1" placeholder="URL Imagen 1">
+              <input type="text" class="form-control mb-2" id="prod-img2" placeholder="URL Imagen 2">
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <!-- Mantengo los mismos IDs de botones -->
+            <button class="btn btn-success" id="btn-guardar-prod">Guardar</button>
+            <button class="btn btn-secondary" id="btn-cancelar-prod" data-bs-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 
 </main>

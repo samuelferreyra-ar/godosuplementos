@@ -1,5 +1,5 @@
 import { onUserStateChanged, getUserData, esAdmin, logout, login } from "./auth.js";
-import { getMasVendidos, obtenerProductosParaBusqueda } from "./productos.js";
+import { obtenerProductosParaBusqueda } from "./productos.js";
 import { agregarProducto, getCarrito, actualizarCantidad, eliminarProducto, vaciarCarrito } from "./carrito.js";
 import { mostrarToast } from "./ui.js";
 
@@ -136,12 +136,34 @@ function attachCardListenersGenerico(productos, contenedor, onUpdate = () => {})
   });
 }
 
-// --- RENDER DE PRODUCTOS MÁS VENDIDOS ---
-async function renderMasVendidos() {
+// --- HOME: LISTADO PAGINADO (12 en 12) ---
+let _homeAll = [];
+let _homeCount = 12;
+
+async function renderHomeProductos() {
   const contenedor = document.getElementById("productos-mas-vendidos");
   if (!contenedor) return;
-  const productos = await getMasVendidos(8);
-  renderCardsUnificado(contenedor, productos, () => renderMasVendidos());
+
+  // Cargar una sola vez (mantiene el “orden BD” tal como venga del getDocs)
+  if (!_homeAll.length) {
+    _homeAll = await obtenerProductosParaBusqueda(); // por defecto: solo stock > 0
+  }
+
+  const visibles = _homeAll.slice(0, _homeCount);
+
+  renderCardsUnificado(contenedor, visibles, () => renderHomeProductos());
+
+  // Botón mostrar más
+  const btn = document.getElementById("btn-mostrar-mas");
+  if (btn) {
+    const hayMas = _homeCount < _homeAll.length;
+    btn.style.display = hayMas ? "" : "none";
+
+    btn.onclick = () => {
+      _homeCount = Math.min(_homeCount + 12, _homeAll.length);
+      renderHomeProductos();
+    };
+  }
 }
 
 
@@ -154,7 +176,7 @@ function asignarListenersMasVendidos(productos, contenedor) {
       agregarProducto(prod, 1);
       mostrarToast("Producto agregado al carrito!");
       actualizarCarritoContador();
-      renderMasVendidos();
+      renderHomeProductos();
       mostrarBarraCarrito();
     };
   });
@@ -163,7 +185,7 @@ function asignarListenersMasVendidos(productos, contenedor) {
       const id = btn.getAttribute("data-id");
       eliminarProducto(id);
       actualizarCarritoContador();
-      renderMasVendidos();
+      renderHomeProductos();
       mostrarBarraCarrito();
     };
   });
@@ -175,7 +197,7 @@ function asignarListenersMasVendidos(productos, contenedor) {
       if (prod.cantidad > 1) {
         actualizarCantidad(id, prod.cantidad - 1);
         actualizarCarritoContador();
-        renderMasVendidos();
+        renderHomeProductos();
         mostrarBarraCarrito();
       }
     };
@@ -189,7 +211,7 @@ function asignarListenersMasVendidos(productos, contenedor) {
       if (enCarrito.cantidad < prod.stock) {
         actualizarCantidad(id, enCarrito.cantidad + 1);
         actualizarCarritoContador();
-        renderMasVendidos();
+        renderHomeProductos();
         mostrarBarraCarrito();
       } else {
         mostrarToast("No hay más stock disponible", "danger");
@@ -209,7 +231,7 @@ function asignarListenersMasVendidos(productos, contenedor) {
         }
         actualizarCantidad(id, val);
         actualizarCarritoContador();
-        renderMasVendidos();
+        renderHomeProductos();
         mostrarBarraCarrito();
       }
     };
@@ -320,14 +342,14 @@ btnWA?.addEventListener('click', () => {
   barra.querySelectorAll(".barra-menos").forEach(btn => {
     btn.onclick = () => { const id = btn.dataset.id; let carrito = getCarrito();
       const prod = carrito.find(p => p.id === id);
-      if (prod && prod.cantidad > 1) { actualizarCantidad(id, prod.cantidad - 1); actualizarCarritoContador(); mostrarBarraCarrito(); renderMasVendidos?.(); }
+      if (prod && prod.cantidad > 1) { actualizarCantidad(id, prod.cantidad - 1); actualizarCarritoContador(); mostrarBarraCarrito(); renderHomeProductos?.(); }
     };
   });
 
   barra.querySelectorAll(".barra-mas").forEach(btn => {
     btn.onclick = () => { const id = btn.dataset.id; let carrito = getCarrito();
       const prod = carrito.find(p => p.id === id);
-      if (prod && prod.cantidad < prod.stock) { actualizarCantidad(id, prod.cantidad + 1); actualizarCarritoContador(); mostrarBarraCarrito(); renderMasVendidos?.(); }
+      if (prod && prod.cantidad < prod.stock) { actualizarCantidad(id, prod.cantidad + 1); actualizarCarritoContador(); mostrarBarraCarrito(); renderHomeProductos?.(); }
     };
   });
 
@@ -335,13 +357,13 @@ btnWA?.addEventListener('click', () => {
     inp.onchange = () => { const id = inp.dataset.id; let val = parseInt(inp.value) || 1;
       let carrito = getCarrito(); const prod = carrito.find(p => p.id === id);
       if (!prod) return; if (val < 1) val = 1; if (val > prod.stock) val = prod.stock;
-      actualizarCantidad(id, val); actualizarCarritoContador(); mostrarBarraCarrito(); renderMasVendidos?.();
+      actualizarCantidad(id, val); actualizarCarritoContador(); mostrarBarraCarrito(); renderHomeProductos?.();
     };
   });
 
   barra.querySelectorAll(".barra-del").forEach(btn => {
     btn.onclick = () => { const id = btn.dataset.id;
-      eliminarProducto(id); actualizarCarritoContador(); mostrarBarraCarrito(); renderMasVendidos?.();
+      eliminarProducto(id); actualizarCarritoContador(); mostrarBarraCarrito(); renderHomeProductos?.();
     };
   });
 }
@@ -471,7 +493,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // MÁS VENDIDOS
-  renderMasVendidos();
+  renderHomeProductos();
 
   // BARRA CARRITO AL INICIO
   barraAbierta = window.innerWidth >= 992 && getCarrito().length > 0;

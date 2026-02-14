@@ -4,6 +4,7 @@ import { collection, getDocs, addDoc, updateDoc, deleteDoc, doc } from "https://
 import { mostrarToast} from './ui.js';
 
 let productos = [], editIdx = null;
+let productoModal = null;
 
 function render() {
   const cont = document.getElementById("productos-tabla");
@@ -53,16 +54,28 @@ function render() {
 
 function mostrarForm(idx = null) {
   editIdx = idx;
-  document.getElementById("form-producto").style.display = "";
-  const prod = idx!==null ? productos[idx] : {};
-  ["id","nombre","marca","categoria","subcategoria","sabor","peso","unidad","precio","stock","desc","img1","img2"].forEach(f=>{
-    const k = f==="img1"?"imagen1":f==="img2"?"imagen2":f;
-    document.getElementById("prod-"+f).value = prod?.[k] || "";
+
+  // Título del modal
+  document.getElementById("productoModalTitle").textContent =
+    (idx !== null) ? "Editar producto" : "Agregar producto";
+
+  const prod = idx !== null ? productos[idx] : {};
+
+  ["id","nombre","marca","categoria","subcategoria","sabor","peso","unidad","precio","stock","desc","img1","img2"].forEach(f => {
+    const k = f === "img1" ? "imagen1" : f === "img2" ? "imagen2" : f;
+    document.getElementById("prod-" + f).value = prod?.[k] || "";
   });
+
+  productoModal.show();
 }
 
 function ocultarForm() {
-  document.getElementById("form-producto").style.display = "none";
+  // Limpieza opcional (no cambia el contenido, solo lo deja "en blanco")
+  ["id","nombre","marca","categoria","subcategoria","sabor","peso","unidad","precio","stock","desc","img1","img2"].forEach(f=>{
+    document.getElementById("prod-" + f).value = "";
+  });
+
+  productoModal.hide();
 }
 
 onUserStateChanged(async user => {
@@ -74,6 +87,13 @@ onUserStateChanged(async user => {
   snap.forEach(docu => productos.push({ id: docu.id, ...docu.data() }));
   render();
 });
+
+// Inicializar modal Bootstrap
+productoModal = new bootstrap.Modal(document.getElementById("productoModal"), {
+  backdrop: "static", // opcional: evita cerrar tocando afuera
+  keyboard: false     // opcional: evita cerrar con ESC
+});
+
 
 document.getElementById("btn-nuevo-prod").onclick = () => mostrarForm();
 document.getElementById("btn-cancelar-prod").onclick = ocultarForm;
@@ -129,6 +149,9 @@ document.getElementById('btn-guardar-prod').onclick = async function() {
       await crearProducto(nuevoProducto);
       mostrarToast('Producto creado', 'success');
     }
+
+    ocultarForm();
+
     setTimeout(() => {
     location.reload();
   }, 700); // 700 ms es tiempo suficiente para ver el mensaje
