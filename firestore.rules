@@ -1,0 +1,120 @@
+rules_version = '2';
+
+// GODO Suplementos — reglas de Firestore
+// Modelo: productos con variantes como mapa embebido; pedidos escritos solo
+// desde Cloud Functions (el Admin SDK no pasa por estas reglas).
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helpers -----------------------------------------------------------
+
+    // Acepta el custom claim (destino) y el campo del documento (actual), para
+    // poder migrar a claims sin tocar las reglas. El get() no está sujeto a
+    // reglas y se cachea dentro de la misma request.
+    function esAdmin() {
+      return request.auth != null && (
+        request.auth.token.get('admin', false) == true ||
+        get(/databases/$(database)/documents/usuarios/$(request.auth.uid)).data.get('admin', false) == true
+      );
+    }
+
+    function noModifica(campos) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(campos);
+    }
+
+    // --- Catálogo ----------------------------------------------------------
+    // Lectura pública (la tienda funciona sin sesión). Escritura solo admin:
+    // incluye el mapa `variantes`, `stockTotal`, `precioMin`, `precioMax`.
+
+    match /productos/{productoId} {
+      allow read: if true;
+      allow create, update, delete: if esAdmin();
+    }
+
+    // Modelo nuevo: un documento por producto, variantes como mapa embebido.
+    // El stock lo descuentan las Cloud Functions (el Admin SDK no pasa por
+    // estas reglas); el panel escribe reposiciones y altas.
+    match /productos_v2/{productoId} {
+      allow read: if true;
+      allow create, update, delete: if esAdmin();
+    }
+
+    // Parametros de la tienda: costo de envio, umbral de envio gratis,
+    // medios de pago habilitados. Los lee el checkout sin sesion.
+    match /config/{documento} {
+      allow read: if true;
+      allow write: if esAdmin();
+    }
+
+    // Numeracion de pedidos. Solo la tocan las Functions, dentro de la misma
+    // transaccion que crea el pedido.
+    match /contadores/{documento} {
+      allow read, write: if false;
+    }
+
+    // Cupones: cerrados a todo el mundo, admin incluido.
+    // Si el navegador pudiera leer esta coleccion, cualquiera enumeraria los
+    // codigos vigentes desde la consola. Se prueban con validarCupon y se
+    // canjean dentro de crearPedido; los crea generarCupones. Las tres son
+    // Cloud Functions y usan el Admin SDK, que no pasa por estas reglas.
+    match /cupones/{codigo} {
+      allow read, write: if false;
+    }
+
+    // --- Historial de movimientos de stock ---------------------------------
+    // Append-only: se agrega, nunca se edita ni se borra. Así el historial
+    // sirve como auditoría real de entradas, ventas y ajustes.
+
+    match /movimientosStock/{movimientoId} {
+      allow read: if esAdmin();
+      allow create: if esAdmin();
+      allow update, delete: if false;
+    }
+
+    // --- Pedidos -----------------------------------------------------------
+    // Ninguna escritura desde el navegador. Los crea y actualiza la Cloud
+    // Function que recalcula totales, valida stock y confirma el pago.
+    // El cliente solo lee los suyos.
+
+    match /pedidos/{pedidoId} {
+      allow create, update, delete: if false;
+
+      allow read: if request.auth != null && (
+        esAdmin() ||
+        resource.data.get('clienteId', '') == request.auth.uid ||
+        // compatibilidad con los pedidos viejos: { usuario: { uid } }
+        resource.data.get('usuario', {}).get('uid', '') == request.auth.uid
+      );
+    }
+
+    // --- Reseñas -----------------------------------------------------------
+    // Las pega el dueño a mano desde WhatsApp e Instagram; no las escribe el
+    // público. Solo se leen las publicadas (la query debe filtrar por
+    // publicada == true, si no Firestore la rechaza entera).
+
+    match /resenas/{resenaId} {
+      allow read: if resource.data.get('publicada', false) == true || esAdmin();
+      allow create, update, delete: if esAdmin();
+    }
+
+    // --- Usuarios ----------------------------------------------------------
+    // Cada uno lee y edita solo su documento, y `admin` no es escribible desde
+    // el cliente bajo ninguna circunstancia: se otorga a mano en la consola o
+    // por custom claim.
+
+    match /usuarios/{userId} {
+      allow read: if request.auth != null && (request.auth.uid == userId || esAdmin());
+
+      allow create: if request.auth != null
+        && request.auth.uid == userId
+        && request.resource.data.get('admin', false) == false;
+
+      allow update: if request.auth != null
+        && request.auth.uid == userId
+        && noModifica(['admin']);
+
+      allow delete: if false;
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": ["node_modules", ".git", "*.local"]
+    }
+  ],
+  "hosting": {
+    "//": "El sitio vive en la raíz del repo, que es como quedó de GitHub Pages. Al terminar el rediseño esto pasa a apuntar a la carpeta nueva.",
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      ".firebaserc",
+      "firestore.rules",
+      "**/.*",
+      "**/node_modules/**",
+      "functions/**",
+      "tools/**",
+      "**/*.zip",
+      "README.md"
+    ],
+    "rewrites": [
+      {
+        "source": "/api/crearPedido",
+        "function": { "functionId": "crearPedido", "region": "southamerica-west1" }
+      },
+      {
+        "source": "/api/cancelarPedido",
+        "function": { "functionId": "cancelarPedido", "region": "southamerica-west1" }
+      },
+      {
+        "source": "/api/validarCupon",
+        "function": { "functionId": "validarCupon", "region": "southamerica-west1" }
+      },
+      {
+        "source": "/api/generarCupones",
+        "function": { "functionId": "generarCupones", "region": "southamerica-west1" }
+      }
+    ],
+    "headers": [
+      {
+        "//": "Las fotos se reemplazan manteniendo el nombre, así que un día de caché, no un año.",
+        "source": "**/*.@(webp|png|jpg|jpeg|avif|gif|svg|ico)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400" }]
+      },
+      {
+        "//": "El HTML, el CSS y el JS no llevan hash en el nombre: si se cachean, un deploy no llega hasta que expiren.",
+        "source": "**/*.@(html|css|js)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
+      }
+    ]
+  }
+}

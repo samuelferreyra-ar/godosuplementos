@@ -1,0 +1,21 @@
+# NUNCA subir la clave de cuenta de servicio: da acceso total al proyecto de
+# Firebase, salteándose las reglas de seguridad. Si alguna vez se sube, no
+# alcanza con borrarla: hay que revocarla en la consola de Google Cloud.
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+.env
+.env.*
+
+node_modules/
+functions/node_modules/
+tools/node_modules/
+
+# Salidas de las herramientas de migración
+tools/imagenes-descargadas/
+tools/backup-*.json
+tools/mapeo-productos.json
+
+.firebase/
+*.log
+.DS_Store
+Thumbs.db
