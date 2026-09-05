@@ -1,0 +1,35 @@
+rules_version = '2';
+
+// Fotos de producto de GODO Suplementos.
+//
+// Lectura pública: son las imágenes de la tienda, tienen que verse sin sesión.
+// Escritura solo admin: las sube el panel o las herramientas con el Admin SDK,
+// que no pasa por estas reglas.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function esAdmin() {
+      return request.auth != null && (
+        request.auth.token.get('admin', false) == true ||
+        firestore.get(/databases/(default)/documents/usuarios/$(request.auth.uid)).data.get('admin', false) == true
+      );
+    }
+
+    match /productos/{productoId}/{archivo} {
+      allow read: if true;
+
+      // Solo imágenes y hasta 5 MB: una foto de producto no pesa más que eso,
+      // y el límite evita que una subida equivocada llene el bucket.
+      allow write: if esAdmin()
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      allow delete: if esAdmin();
+    }
+
+    // Todo lo demás, denegado.
+    match /{ruta=**} {
+      allow read, write: if false;
+    }
+  }
+}
