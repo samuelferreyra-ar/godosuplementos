@@ -1,0 +1,133 @@
+/* Página de categoría: cabecera, filtros, orden y grilla. */
+
+.f-atras {
+  flex: 0 0 36px; width: 36px; height: 36px; border-radius: 12px;
+  background: var(--sobre-navy-fondo);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--godo-paper); font-size: 17px;
+}
+.f-titulo {
+  flex: 1; text-align: center;
+  font-family: var(--titulo); font-size: 20px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em; color: var(--godo-paper);
+}
+.f-carrito { position: relative; color: var(--godo-amber); font-size: 20px; }
+
+.f-cabecera {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 12px; padding-top: 18px;
+}
+.f-limpiar {
+  background: none; border: 0; padding: 4px 0;
+  font-size: 12.5px; font-weight: 600; color: var(--godo-navy);
+  border-bottom: 1.5px solid var(--godo-amber); cursor: pointer;
+}
+
+/* Fila de filtros: se desborda a lo ancho en vez de apilarse. */
+.f-fila {
+  display: flex; gap: 8px; margin-top: 14px;
+  overflow-x: auto; padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.f-fila::-webkit-scrollbar { display: none; }
+.f-chip {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 14px; border-radius: 999px;
+  font-size: 12px; font-weight: 600; font-family: inherit;
+  cursor: pointer; white-space: nowrap;
+}
+.f-contador { background: var(--godo-navy); color: var(--godo-paper); border: 0; }
+.f-aplicado { background: var(--godo-chip); color: var(--godo-navy); border: 0; }
+.f-aplicado:hover { background: var(--godo-border-strong); }
+.f-libre { background: transparent; color: var(--godo-navy); border: 1px solid var(--godo-border-strong); }
+.f-libre:hover { border-color: var(--godo-navy); }
+
+.f-orden {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--godo-border);
+}
+.f-orden select {
+  border: 0; background: none; font-family: inherit;
+  font-size: 12.5px; font-weight: 600; color: var(--godo-navy); cursor: pointer;
+}
+
+.f-grilla { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+.f-vacio { text-align: center; padding: 48px 0; display: grid; gap: 14px; justify-items: center; }
+
+@media (min-width: 1024px) {
+  .f-contenido { max-width: 1240px; margin: 0 auto; padding: 0 24px 40px; }
+  .g-barra { padding-left: 24px; padding-right: 24px; }
+  .f-grilla { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+}
+
+/* Las marcas se guardan en minúscula (son claves, no etiquetas). */
+.f-aplicado, .f-libre { text-transform: capitalize; }
+
+/* --- Categoría en escritorio ------------------------------------------
+   Los filtros dejan de ser chips con scroll y pasan a columna fija. */
+
+@media (min-width: 1024px) {
+  .f-contenido { max-width: 1240px; margin: 0 auto; padding: 0 40px 0; }
+
+  .f-migas { font-size: 12.5px; color: var(--godo-muted); padding-top: 14px; }
+  .f-migas a { color: var(--godo-muted); }
+  .f-migas a:hover { color: var(--godo-navy); }
+
+  .f-cabecera { padding-top: 6px; align-items: center; gap: 16px; }
+  .f-cabecera > div:first-child { flex: 1; }
+  .f-cabecera h1 { font-family: var(--display); font-size: 32px; font-weight: 800;
+                   text-transform: none; letter-spacing: -.02em; }
+  .f-contexto { font-size: 13.5px; color: var(--godo-muted); margin: 4px 0 0; }
+
+  /* La fila de chips del teléfono desaparece; queda solo la de aplicados. */
+  .f-fila { display: none; }
+  .f-chips-activos { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+  .f-chips-activos .f-chip { background: var(--godo-navy); color: var(--godo-paper); border: 0; }
+  .f-chips-activos .f-chip i { color: var(--godo-amber); }
+
+  .f-cuerpo { display: grid; grid-template-columns: 260px 1fr; gap: 24px; align-items: start; margin-top: 14px; }
+
+  .f-panel { background: var(--godo-white); border: 1px solid var(--godo-border);
+             border-radius: 18px; padding: 20px; position: sticky; top: 20px; }
+  .f-panel-cabecera { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 4px; }
+  .f-panel-cabecera h2 { font-family: var(--titulo); font-size: 19px; font-weight: 700;
+                         text-transform: uppercase; letter-spacing: .04em; margin: 0; }
+  .f-grupo { border-top: 1px solid var(--godo-border-soft); margin-top: 16px; padding-top: 14px; }
+  .f-grupo:first-of-type { border-top: 0; margin-top: 10px; padding-top: 0; }
+  .f-grupo h3 { font-size: 13px; font-weight: 700; margin: 0 0 10px; }
+  .f-opcion { display: flex; align-items: center; gap: 9px; padding: 5px 0; cursor: pointer; }
+  .f-casilla { flex: 0 0 17px; width: 17px; height: 17px; border-radius: 5px; box-sizing: border-box;
+               border: 1px solid var(--godo-border-strong); background: var(--godo-white);
+               display: flex; align-items: center; justify-content: center; }
+  .f-opcion.es-marcada .f-casilla { background: var(--godo-navy); border-color: var(--godo-navy); }
+  .f-casilla i { font-size: 11px; color: var(--godo-amber); opacity: 0; }
+  .f-opcion.es-marcada .f-casilla i { opacity: 1; }
+  .f-opcion .f-nombre { flex: 1; font-size: 13.5px; text-transform: capitalize; }
+  .f-opcion em { font-style: normal; font-size: 12px; color: var(--godo-muted-2); }
+
+  .f-orden-caja { display: flex; align-items: center; gap: 8px; background: var(--godo-white);
+                  border: 1px solid var(--godo-border); border-radius: 12px; padding: 9px 13px; }
+
+  /* Tres columnas: la cuarta la ocupa el panel de filtros. */
+  .f-grilla { grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 0; }
+  .f-grilla .t-foto { height: 158px; }
+}
+
+/* La caja de orden vive en la fila del título. En el teléfono baja a su
+   propia línea; en escritorio queda a la derecha del contador. */
+.f-orden-caja {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--godo-white); border: 1px solid var(--godo-border);
+  border-radius: 12px; padding: 9px 13px;
+  order: 3; width: 100%; margin-top: 12px;
+}
+.f-orden-caja select {
+  flex: 1; border: 0; background: none; font-family: inherit;
+  font-size: 12.5px; font-weight: 600; color: var(--godo-navy); cursor: pointer;
+}
+.f-cabecera { flex-wrap: wrap; }
+
+@media (min-width: 1024px) {
+  .f-orden-caja { order: 0; width: auto; margin-top: 0; flex: 0 0 auto; }
+  .f-cabecera { flex-wrap: nowrap; }
+}

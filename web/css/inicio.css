@@ -1,0 +1,58 @@
+/* Estilos de index.html. Vive en un archivo y no en un <style> del HTML
+   porque un <style> va siempre después de los <link> y les gana: los
+   overrides de escritorio no se aplicaban nunca. */
+
+.h-barra { background: var(--godo-navy); padding: 12px var(--lateral) 14px; }
+.h-barra-fila { display: flex; align-items: center; gap: 12px; }
+.h-barra img { height: 32px; width: auto; flex: 0 0 auto; }
+
+.h-envio { margin-top: 12px; padding: 10px 12px; border-radius: 14px; background: rgba(250,247,241,.08); }
+.h-envio-texto { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--sobre-navy); margin-bottom: 8px; }
+.h-envio-texto i { color: var(--godo-amber); font-size: 15px; }
+.h-envio-texto b { color: var(--godo-amber); font-weight: 700; }
+.h-pista { height: 5px; border-radius: 999px; background: rgba(250,247,241,.16); overflow: hidden; }
+.h-pista span { display: block; height: 100%; background: var(--godo-amber); border-radius: 999px; transition: width .3s ease; }
+
+.h-seccion { margin-top: 24px; }
+.h-titulo-fila { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.h-ver-todas { font-size: 12px; font-weight: 600; color: var(--godo-navy); border-bottom: 1.5px solid var(--godo-amber); padding-bottom: 1px; }
+
+.h-categorias { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.h-cat { display: flex; align-items: center; gap: 10px; padding: 11px; }
+.h-cat .g-foto { flex: 0 0 42px; width: 42px; height: 42px; border-radius: 12px; }
+.h-cat b { display: block; font-family: var(--titulo); font-size: 17px; font-weight: 600; text-transform: uppercase; line-height: 1.05; }
+.h-cat small { font-size: 11px; color: var(--godo-muted); }
+
+.h-destacados { display: grid; gap: 10px; }
+.h-fila { display: flex; align-items: center; gap: 12px; padding: 12px; }
+.h-fila .g-foto { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 14px; }
+.h-fila-cuerpo { flex: 1; min-width: 0; }
+.h-fila-cuerpo b { display: block; font-family: var(--titulo); font-size: 18px; font-weight: 600; text-transform: uppercase; line-height: 1.1; color: var(--godo-navy); }
+.h-fila-cuerpo small { font-size: 11px; color: var(--godo-muted); }
+.h-fila-precio { font-size: 18px; font-weight: 700; display: block; margin-top: 3px; }
+.h-fila .t-agregar { width: auto; margin: 0; flex: 0 0 auto; background: var(--godo-navy); color: var(--godo-amber); }
+.h-fila .t-agregar:hover { background: var(--godo-navy-hover); }
+
+.h-combo { margin-top: 24px; background: var(--godo-navy); border-radius: 20px; padding: 18px; }
+.h-combo .g-etiqueta { color: var(--godo-amber); }
+.h-combo h3 { font-family: var(--titulo); font-size: 26px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; line-height: 1.05; color: var(--godo-paper); margin: 8px 0 14px; }
+.h-combo-fotos { display: flex; gap: 8px; margin-bottom: 14px; }
+.h-combo-fotos .g-foto { width: 56px; height: 56px; border-radius: 14px; }
+.h-combo-precio { font-size: 24px; font-weight: 700; color: var(--godo-amber); }
+
+.h-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 24px; }
+.h-info a { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 6px; border-radius: 16px; border: 1px solid var(--godo-border); background: var(--godo-white); }
+.h-info i { font-size: 17px; }
+.h-info span { font-size: 11.5px; }
+
+.h-resultados { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+@media (min-width: 1024px) {
+  .h-contenido { max-width: 1240px; margin: 0 auto; padding: 0 24px 40px; }
+  .h-barra-fila { max-width: 1240px; margin: 0 auto; }
+  .h-categorias { grid-template-columns: repeat(4, 1fr); }
+  .h-destacados { grid-template-columns: repeat(4, 1fr); }
+  .h-fila { flex-direction: column; align-items: stretch; }
+  .h-fila .g-foto { width: 100%; height: 150px; flex: none; }
+  .h-resultados { grid-template-columns: repeat(4, 1fr); }
+}

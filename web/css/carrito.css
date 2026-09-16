@@ -1,0 +1,77 @@
+/* Estilos de carrito.html. Vive en un archivo y no en un <style> del HTML
+   porque un <style> va siempre después de los <link> y les gana: los
+   overrides de escritorio no se aplicaban nunca. */
+
+.c-envio { margin: 16px 0; padding: 13px 14px; }
+.c-envio p { margin: 0 0 9px; font-size: 13px; font-weight: 500; }
+.c-pista { height: 5px; border-radius: 999px; background: var(--godo-chip); overflow: hidden; }
+.c-pista span { display: block; height: 100%; background: var(--godo-amber); border-radius: 999px; transition: width .3s ease; }
+
+.c-item { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 12px; margin-bottom: 10px; position: relative; }
+.c-principal { display: flex; gap: 12px; flex: 1 1 100%; min-width: 0; padding-right: 22px; }
+.c-item .g-foto { flex: 0 0 76px; width: 76px; height: 76px; border-radius: 14px; }
+.c-item .g-foto img { padding: 6px; }
+.c-cuerpo { flex: 1; min-width: 0; }
+.c-nombre { display: block; font-family: var(--titulo); font-size: 18px; font-weight: 600; text-transform: uppercase; line-height: 1.15; color: var(--godo-navy); }
+.c-unitario { font-size: 12.5px; color: var(--godo-muted); }
+.c-quitar { position: absolute; top: 10px; right: 10px; background: none; border: 0; color: var(--godo-muted-2); cursor: pointer; font-size: 15px; line-height: 1; padding: 2px; }
+.c-quitar:hover { color: var(--godo-danger); }
+.c-variantes { display: flex; flex-wrap: wrap; gap: 5px; margin: 6px 0 4px; }
+.c-variantes span { background: var(--godo-chip); border-radius: 999px; padding: 3px 9px; font-size: 11px; font-weight: 500; }
+.c-cantidad { display: flex; align-items: center; border: 1px solid var(--godo-border-strong); border-radius: 999px; }
+.c-cantidad button { width: 32px; height: 32px; background: none; border: 0; font-size: 15px; color: var(--godo-navy); cursor: pointer; }
+.c-cantidad button:disabled { color: var(--godo-disabled); cursor: not-allowed; }
+.c-cantidad span { min-width: 20px; text-align: center; font-size: 13px; font-weight: 700; }
+.c-subtotal { margin-left: auto; font-size: 18px; font-weight: 700; }
+.c-encabezado { display: none; }
+.c-aviso { margin-top: 7px; font-size: 11.5px; }
+
+.c-sumar { margin-top: 22px; }
+.c-sumar-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; }
+.c-sugerido { padding: 10px; text-align: center; }
+.c-sugerido .g-foto { height: 78px; border-radius: 12px; margin-bottom: 8px; }
+.c-sugerido-texto b { display: block; font-family: var(--titulo); font-size: 15px; font-weight: 600; text-transform: uppercase; line-height: 1.1; }
+.c-sugerido-texto em { display: block; font-style: normal; font-size: 14px; font-weight: 700; margin: 5px 0 8px; }
+.c-sumar-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 4px;
+  background: var(--godo-chip); border: 0; border-radius: 999px;
+  padding: 6px 14px; font-size: 11px; font-weight: 700;
+  color: var(--godo-navy); cursor: pointer;
+}
+/* En el teléfono el botón lleva texto; en escritorio el diseño pide un
+   cuadrado de 34 px con solo el "+". */
+.c-sumar-signo { display: none; }
+.c-sumar-btn:hover { background: var(--godo-border-strong); }
+
+.c-resumen { margin-top: 22px; padding: 14px; }
+.c-resumen > div { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; font-size: 14px; }
+.c-resumen .c-total { border-top: 1px solid var(--godo-border); margin-top: 8px; padding-top: 12px; }
+.c-resumen .c-total b { font-family: var(--titulo); font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.c-resumen .c-total strong { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+.c-nota-envio { color: var(--godo-muted); font-size: 12.5px; }
+
+.c-vacio { text-align: center; padding: 56px 0; }
+.c-vacio i { font-size: 40px; color: var(--godo-disabled); }
+.c-vacio p { margin: 14px 0 20px; color: var(--godo-muted); }
+.c-vacio a { display: inline-block; width: auto; padding: 0 28px; }
+
+#contenido { padding-bottom: 116px; }
+
+/* --- Cómo lo recibís (retiro o envío por zona) ------------------------ */
+
+.c-entrega { margin-top: 22px; }
+.c-entrega-opciones { display: grid; gap: 9px; margin-top: 10px; }
+.c-opcion {
+  display: flex; align-items: center; gap: 11px; width: 100%;
+  padding: 13px; border-radius: 16px; text-align: left; cursor: pointer;
+  background: var(--godo-white); border: 1px solid var(--godo-border);
+  font-family: inherit; color: var(--godo-navy);
+}
+.c-opcion.es-elegida { border: 1.5px solid var(--godo-navy); }
+.c-opcion i { font-size: 18px; color: var(--godo-disabled); }
+.c-opcion.es-elegida i { color: var(--godo-navy); }
+.c-opcion span { flex: 1; }
+.c-opcion b { display: block; font-size: 14px; font-weight: 600; }
+.c-opcion small { display: block; font-size: 12px; color: var(--godo-muted); margin-top: 2px; }
+.c-opcion em { font-style: normal; font-size: 14px; font-weight: 700; }
+.c-zonas { margin-top: 12px; }

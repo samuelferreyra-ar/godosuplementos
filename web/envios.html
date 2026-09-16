@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Envíos — GODO Suplementos</title>
+<meta name="description" content="Zonas, costos y tiempos de entrega de GODO Suplementos en Catamarca.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/godo.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/informativa.css">
+</head>
+<body>
+
+<header class="i-barra">
+  <div class="i-barra-fila">
+    <a href="index.html" class="i-atras" aria-label="Volver"><i class="bi bi-chevron-left"></i></a>
+  </div>
+  <h1>Envíos</h1>
+  <p>Hacemos envíos dentro de Catamarca. También podés retirar por el local sin cargo.</p>
+</header>
+
+<main class="g-pagina i-contenido">
+
+  <section class="g-tarjeta i-bloque">
+    <h2>Zonas y costos</h2>
+    <div class="i-filas" id="zonas"><div class="i-fila"><b>Cargando…</b></div></div>
+    <div id="umbral"></div>
+    <p style="margin-top:12px">El costo se calcula al finalizar la compra, según la zona que elijas.</p>
+  </section>
+
+  <section class="g-tarjeta i-bloque">
+    <h2>Tiempos de entrega</h2>
+    <ul class="i-lista">
+      <li><b>Capital:</b> en el día o al día siguiente, según el horario del pedido.</li>
+      <li><b>Interior de Catamarca:</b> de 2 a 4 días hábiles.</li>
+      <li><b>Retiro en el local:</b> te avisamos por WhatsApp cuando está listo, normalmente el mismo día.</li>
+    </ul>
+    <div class="i-destacado" style="background:var(--godo-info-bg);color:var(--godo-navy)">
+      <i class="bi bi-info-circle"></i>
+      <span>Los pedidos que entran después de las 18 h salen al día siguiente.</span>
+    </div>
+  </section>
+
+  <section class="g-tarjeta i-bloque">
+    <h2>Preguntas frecuentes</h2>
+    <div class="i-faq">
+      <details>
+        <summary>¿Envían a todo el país?</summary>
+        <p>Por ahora no: solo hacemos envíos dentro de Catamarca. Si estás fuera de la provincia, escribinos por WhatsApp y vemos si podemos coordinar algo.</p>
+      </details>
+      <details>
+        <summary>¿Puedo coordinar un horario exacto?</summary>
+        <p>Trabajamos con franjas horarias, no con horarios exactos. Si necesitás que sea en un rango puntual, avisanos al confirmar el pedido e intentamos ajustarlo.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa si el pedido llega dañado o falta algo?</summary>
+        <p>Escribinos dentro de las 48 horas con fotos del embalaje y del producto. Nos hacemos cargo del reemplazo o la devolución.</p>
+      </details>
+      <details>
+        <summary>¿Cómo sé cuándo llega mi pedido?</summary>
+        <p>Te escribimos por WhatsApp para coordinar la entrega. Si comprás con tu cuenta, también podés ver el estado en Mis pedidos.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="i-contacto">
+    <a class="g-btn g-btn-borde" id="link-whatsapp" target="_blank" rel="noopener">
+      <i class="bi bi-whatsapp"></i> Consultar por WhatsApp
+    </a>
+  </div>
+
+</main>
+
+<script type="module" src="js/informativa.js"></script>
+</body>
+</html>

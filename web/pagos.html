@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pagos — GODO Suplementos</title>
+<meta name="description" content="Medios de pago aceptados en GODO Suplementos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/godo.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/informativa.css">
+</head>
+<body>
+
+<header class="i-barra">
+  <div class="i-barra-fila">
+    <a href="index.html" class="i-atras" aria-label="Volver"><i class="bi bi-chevron-left"></i></a>
+  </div>
+  <h1>Pagos</h1>
+  <p>Armá tu carrito y coordiná tu compra por WhatsApp.</p>
+</header>
+
+<main class="g-pagina i-contenido">
+
+  <section class="g-tarjeta i-bloque">
+    <h2>Medios de pago</h2>
+    <div class="i-filas" id="metodos"><div class="i-fila"><b>Cargando…</b></div></div>
+  </section>
+
+  <section class="g-tarjeta i-bloque" data-solo-transferencia hidden>
+    <h2>Cómo pagar por transferencia</h2>
+    <ol class="i-pasos">
+      <li>Elegí <b>Transferencia</b> al finalizar la compra.</li>
+      <li>Te escribimos por WhatsApp con los datos bancarios y el monto exacto.</li>
+      <li>Hacés la transferencia y nos mandás el comprobante por el mismo chat.</li>
+      <li>Confirmamos la acreditación y preparamos tu pedido.</li>
+    </ol>
+    <div class="i-destacado">
+      <i class="bi bi-clock-history"></i>
+      <span>El pedido queda reservado con tu stock desde que lo confirmás. Si no llega el comprobante, lo liberamos y te avisamos.</span>
+    </div>
+  </section>
+
+  <section class="g-tarjeta i-bloque" data-solo-tarjeta hidden>
+    <h2>Pagos con tarjeta</h2>
+    <p>Los pagos con tarjeta se procesan a través de Payway, una pasarela certificada. Los datos de tu tarjeta viajan directo a ellos: <b>no pasan por nuestros servidores ni los guardamos</b>.</p>
+    <p>Las promociones y cuotas dependen de tu banco y del emisor de la tarjeta, y pueden cambiar sin aviso.</p>
+  </section>
+
+  <section class="g-tarjeta i-bloque">
+    <h2>Preguntas frecuentes</h2>
+    <div class="i-faq">
+      <details>
+        <summary>¿Puedo pagar en efectivo?</summary>
+        <p>Sí, pero solo si retirás por el local. Para envíos a domicilio necesitamos que el pago esté hecho antes de despachar.</p>
+      </details>
+      <details>
+        <summary>¿Tienen descuentos?</summary>
+        <p>Consultanos por las promociones vigentes. Si tenés un código de descuento, envialo por WhatsApp junto con tu pedido para que lo revisemos.</p>
+      </details>
+      <details>
+        <summary>¿Emiten factura?</summary>
+        <p>Escribinos por WhatsApp con los datos de facturación antes de confirmar el pedido y lo coordinamos.</p>
+      </details>
+      <details>
+        <summary>¿Es seguro comprar en el sitio?</summary>
+        <p>El sitio funciona sobre HTTPS. Envianos tu carrito por WhatsApp y te confirmamos disponibilidad, importe y forma de pago. Agregar productos al carrito o abrir el chat no reserva stock ni confirma una compra.</p>
+      </details>
+    </div>
+  </section>
+
+  <div class="i-contacto">
+    <a class="g-btn g-btn-borde" id="link-whatsapp" target="_blank" rel="noopener">
+      <i class="bi bi-whatsapp"></i> Consultar por WhatsApp
+    </a>
+  </div>
+
+</main>
+
+<script type="module" src="js/informativa.js"></script>
+</body>
+</html>

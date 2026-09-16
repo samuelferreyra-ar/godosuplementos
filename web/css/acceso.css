@@ -1,0 +1,62 @@
+/* Ingresar, crear cuenta y recuperar contraseña: las tres comparten la misma
+   estructura, cambia el formulario. */
+
+.a-cabecera {
+  background: var(--godo-navy); text-align: center;
+  padding: 28px var(--lateral) 30px;
+}
+.a-cabecera img { height: 38px; width: auto; margin-bottom: 14px; }
+.a-cabecera h1 {
+  font-family: var(--titulo); font-size: 26px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .04em;
+  color: var(--godo-paper); margin: 0 0 6px;
+}
+.a-cabecera p { margin: 0; font-size: 13px; color: var(--sobre-navy-2); }
+
+.a-cuerpo { max-width: 420px; margin: 0 auto; padding: 24px var(--lateral) 48px; }
+
+.a-campos { display: grid; gap: 14px; }
+.a-campo label {
+  display: block; margin-bottom: 5px;
+  font-size: 12px; font-weight: 600; color: var(--godo-navy);
+}
+.a-campo input {
+  width: 100%; padding: 13px 14px; font-family: inherit; font-size: 14px;
+  color: var(--godo-navy); background: var(--godo-white);
+  border: 1px solid var(--godo-border-strong); border-radius: 12px;
+}
+.a-campo input:focus { outline: none; border-color: var(--godo-navy); }
+.a-campo input[aria-invalid="true"] { border-color: var(--godo-danger); background: var(--godo-danger-bg); }
+.a-error { display: block; margin-top: 5px; font-size: 11.5px; color: var(--godo-danger); }
+
+.a-clave { position: relative; }
+.a-clave input { padding-right: 44px; }
+.a-ojo {
+  position: absolute; right: 6px; bottom: 5px;
+  width: 34px; height: 34px; border: 0; background: none;
+  color: var(--godo-muted-2); font-size: 15px; cursor: pointer;
+}
+.a-ojo:hover { color: var(--godo-navy); }
+
+.a-olvide { display: block; text-align: right; margin-top: 8px; font-size: 12.5px; color: var(--godo-muted); }
+.a-olvide:hover { color: var(--godo-navy); }
+
+.a-acciones { display: grid; gap: 10px; margin-top: 20px; }
+.a-acciones .g-btn { min-height: 50px; }
+
+.a-separador { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--godo-muted-2); font-size: 11.5px; }
+.a-separador::before, .a-separador::after { content: ''; flex: 1; height: 1px; background: var(--godo-border); }
+
+.a-info { padding: 14px; border-radius: 16px; background: var(--godo-white); border: 1px solid var(--godo-border); }
+.a-info b { display: block; font-size: 13.5px; margin-bottom: 4px; }
+.a-info p { margin: 0; font-size: 12.5px; color: var(--godo-muted); }
+
+.a-aviso { margin-bottom: 16px; padding: 12px 14px; border-radius: 14px; font-size: 13px; }
+.a-aviso-error { background: var(--godo-danger-bg); color: var(--godo-danger); }
+.a-aviso-ok { background: var(--godo-ok-bg); color: var(--godo-ok); }
+
+@media (min-width: 1024px) {
+  .a-cabecera { padding: 40px 40px 44px; }
+  .a-cabecera h1 { font-size: 30px; }
+  .a-cuerpo { padding: 32px 0 64px; }
+}

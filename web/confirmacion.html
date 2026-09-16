@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pedido confirmado — GODO Suplementos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/godo.css">
+<link rel="stylesheet" href="css/desktop.css">
+<style>
+  .f-cabecera { background: var(--godo-navy); color: var(--godo-paper); text-align: center; padding: 30px var(--lateral) 34px; }
+  .f-tilde { width: 58px; height: 58px; margin: 0 auto 14px; border-radius: 999px; background: var(--godo-amber); display: flex; align-items: center; justify-content: center; }
+  .f-tilde i { font-size: 30px; color: var(--godo-navy); }
+  .f-cabecera h1 { font-family: var(--titulo); font-size: 30px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 6px; }
+  .f-cabecera p { margin: 0; font-size: 13px; color: var(--sobre-navy-2); }
+
+  .f-cuerpo { padding: 0 var(--lateral) 40px; max-width: 620px; margin: 0 auto; }
+  /* El solape sobre el navy es intencional. */
+  .f-entrega { margin-top: -16px; padding: 16px; position: relative; }
+  .f-entrega h2 { font-family: var(--titulo); font-size: 18px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 4px; }
+  .f-entrega p { margin: 0 0 14px; font-size: 13px; color: var(--godo-text); }
+
+  .f-tramos { display: flex; gap: 5px; margin-bottom: 8px; }
+  .f-tramos span { flex: 1; height: 4px; border-radius: 999px; background: var(--godo-chip); }
+  .f-tramos span.hecho { background: var(--godo-navy); }
+  .f-etiquetas { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--godo-muted-2); }
+
+  .f-items { margin-top: 20px; display: grid; gap: 9px; }
+  .f-item { display: flex; align-items: center; gap: 11px; padding: 10px; border-radius: 16px; }
+  .f-item .g-foto { flex: 0 0 48px; width: 48px; height: 48px; border-radius: 12px; }
+  .f-item b { display: block; font-size: 13.5px; font-weight: 600; }
+  .f-item small { font-size: 11.5px; color: var(--godo-muted); }
+  .f-item .f-precio { margin-left: auto; font-size: 14px; font-weight: 700; }
+
+  .f-totales { margin-top: 14px; padding: 14px; }
+  .f-totales div { display: flex; justify-content: space-between; padding: 5px 0; font-size: 13.5px; }
+  .f-totales .f-total { border-top: 1px solid var(--godo-border); margin-top: 7px; padding-top: 11px; font-size: 17px; font-weight: 700; }
+
+  .f-acciones { margin-top: 22px; display: grid; gap: 10px; }
+  .f-vacio { text-align: center; padding: 60px var(--lateral); }
+</style>
+</head>
+<body>
+<main id="contenido">
+  <p class="g-nota" style="padding:40px 16px">Cargando…</p>
+</main>
+<script type="module" src="js/confirmacion.js"></script>
+</body>
+</html>

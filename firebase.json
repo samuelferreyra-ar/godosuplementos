@@ -14,8 +14,8 @@
     }
   ],
   "hosting": {
-    "//": "El sitio vive en la raíz del repo, que es como quedó de GitHub Pages. Al terminar el rediseño esto pasa a apuntar a la carpeta nueva.",
-    "public": ".",
+    "//": "Rediseño publicado con carrito por WhatsApp. La raíz conserva el sitio anterior como referencia.",
+    "public": "web",
     "ignore": [
       "firebase.json",
       ".firebaserc",
@@ -26,6 +26,13 @@
       "tools/**",
       "**/*.zip",
       "README.md"
+    ],
+    "redirects": [
+      { "source": "/comprar.html", "destination": "/carrito.html", "type": 302 },
+      { "source": "/checkout.html", "destination": "/carrito.html", "type": 302 },
+      { "source": "/proteina.html", "destination": "/proteinas.html", "type": 301 },
+      { "source": "/proteina1.html", "destination": "/proteinas.html", "type": 301 },
+      { "source": "/mis-datos.html", "destination": "/mi-cuenta.html", "type": 301 }
     ],
     "rewrites": [
       {

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Recuperar contraseña — GODO Suplementos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@800&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="css/godo.css">
+<link rel="stylesheet" href="css/desktop.css">
+<link rel="stylesheet" href="css/acceso.css">
+</head>
+<body data-pantalla="recuperar">
+
+<header class="a-cabecera">
+  <img src="assets/Logo-Godo.webp" alt="GODO Suplementos">
+  <h1>Recuperar contraseña</h1>
+  <p>Te mandamos un enlace por mail para elegir una nueva.</p>
+</header>
+
+<main class="a-cuerpo">
+  <div id="aviso" hidden></div>
+  <form id="form" novalidate>
+    <div class="a-campos">
+      <div class="a-campo">
+        <label for="email">Mail de tu cuenta</label>
+        <input id="email" type="email" autocomplete="email" inputmode="email" required>
+      </div>
+    </div>
+
+    <div class="a-acciones">
+      <button class="g-btn g-btn-primario" id="enviar" type="submit">Enviar enlace</button>
+      <a class="g-btn g-btn-borde" href="login.html">Volver</a>
+    </div>
+  </form>
+</main>
+
+<script type="module" src="js/acceso.js"></script>
+</body>
+</html>

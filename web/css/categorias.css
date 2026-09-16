@@ -1,0 +1,29 @@
+/* Estilos de categorias.html. Vive en un archivo y no en un <style> del HTML
+   porque un <style> va siempre después de los <link> y les gana: los
+   overrides de escritorio no se aplicaban nunca. */
+
+.c-barra { background: var(--godo-navy); padding: 14px var(--lateral) 14px; }
+.c-barra h1 { font-family: var(--titulo); font-size: 22px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--godo-paper); margin: 0 0 12px; }
+
+/* gap de 1px sobre el color del borde: las separaciones salen del fondo. */
+.c-lista { display: grid; gap: 1px; background: var(--godo-border); border: 1px solid var(--godo-border); border-radius: 16px; overflow: hidden; }
+.c-fila { display: flex; align-items: center; gap: 11px; padding: 14px; background: var(--godo-white); }
+.c-icono { flex: 0 0 38px; width: 38px; height: 38px; border-radius: 12px; background: var(--godo-paper); display: flex; align-items: center; justify-content: center; }
+.c-icono i { font-size: 16px; color: var(--godo-navy); }
+.c-nombre { flex: 1; font-size: 14.5px; font-weight: 500; }
+.c-cuenta { font-size: 12.5px; color: var(--godo-muted); }
+.c-chevron { color: var(--godo-disabled); font-size: 14px; }
+
+.c-info { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 22px; }
+.c-info a { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 6px; border-radius: 16px; border: 1px solid var(--godo-border); background: var(--godo-white); }
+.c-info i { font-size: 17px; }
+.c-info span { font-size: 11.5px; }
+
+.c-resultados { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+@media (min-width: 1024px) {
+  .c-contenido, .c-barra > * { max-width: 1240px; margin-left: auto; margin-right: auto; }
+  .c-contenido { padding: 0 24px 40px; }
+  .c-lista { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+  .c-resultados { grid-template-columns: repeat(4, 1fr); }
+}

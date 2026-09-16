@@ -1,0 +1,96 @@
+/* Ficha de producto en escritorio.
+   Dos columnas 1fr 1fr: galería a la izquierda, caja de compra a la derecha. */
+
+@media (min-width: 1024px) {
+  .p-layout {
+    max-width: 1240px; margin: 0 auto; padding: 28px 40px 0;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start;
+  }
+
+  /* --- Galería ---------------------------------------------------------- */
+
+  .p-galeria { display: grid; grid-template-columns: 74px 1fr; gap: 14px; align-items: start; }
+  .p-miniaturas { display: grid; gap: 10px; }
+  .p-mini {
+    width: 74px; height: 74px; border-radius: 12px;
+    border: 1.5px solid transparent; background: var(--godo-paper);
+    padding: 0; cursor: pointer; overflow: hidden;
+  }
+  .p-mini.es-elegida { border-color: var(--godo-navy); }
+  .p-mini img { width: 100%; height: 100%; object-fit: contain; }
+
+  .p-principal {
+    background: var(--godo-white); border: 1px solid var(--godo-border);
+    border-radius: 18px; min-height: 460px;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
+  }
+  .p-principal img { max-height: 400px; width: auto; max-width: 100%; object-fit: contain; }
+  /* La foto de 300 px del teléfono no se usa acá. */
+  .p-foto { display: none; }
+
+  /* --- Caja de compra --------------------------------------------------- */
+
+  .p-cabecera { padding-top: 0; }
+  .p-marca { font-size: 12px; }
+  .p-titulo {
+    font-family: var(--display); font-size: 34px; font-weight: 800;
+    text-transform: none; letter-spacing: -.02em; line-height: 1.1;
+    margin: 8px 0 12px;
+  }
+  .p-precio-fila .g-precio { font-size: 40px; }
+
+  .p-grupo { margin-top: 20px; }
+  .p-chip-desktop .g-chip {
+    border-radius: 12px; padding: 11px 20px; font-size: 14px; font-weight: 600;
+  }
+  .p-chip-desktop .g-chip:disabled { background: var(--godo-paper); border-style: solid; }
+
+  /* Aviso de stock de la variante elegida. */
+  .p-urgencia {
+    display: flex; align-items: center; gap: 8px;
+    margin-top: 14px; padding: 10px 13px; border-radius: 12px;
+    background: var(--godo-warn-bg); color: var(--godo-warn);
+    font-size: 13.5px;
+  }
+  .p-urgencia::before { content: '\F1C8'; font-family: 'bootstrap-icons'; font-size: 15px; }
+
+  /* --- Fila de compra --------------------------------------------------- */
+
+  .g-pie-fijo { position: static; border: 0; background: none; padding: 22px 0 0; }
+  .p-pie { gap: 12px; }
+  .p-cantidad { border-radius: 12px; }
+  .p-cantidad button { width: 40px; height: 52px; font-size: 18px; }
+  .p-cantidad span { font-size: 15px; }
+  .p-pie .g-btn { flex: 1; min-height: 52px; font-size: 20px; }
+
+  .p-confianza { margin-top: 20px; }
+  .p-confianza div { font-size: 13.5px; }
+
+  /* --- Franja inferior: descripción y opiniones ------------------------- */
+
+  .p-abajo {
+    grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr;
+    gap: 36px; margin-top: 44px; align-items: start;
+  }
+  .p-abajo h2 {
+    font-family: var(--titulo); font-size: 22px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .04em; margin: 0 0 14px;
+  }
+  .p-descripcion { margin-top: 0; font-size: 14.5px; }
+
+  /* Las reseñas dejan de ser el bloque navy del teléfono. */
+  .p-resenas { background: none; border-radius: 0; padding: 0; margin-top: 0; }
+  .p-resenas .g-etiqueta { display: none; }
+  .p-resena {
+    background: var(--godo-white); border: 1px solid var(--godo-border);
+    border-radius: 18px; padding: 16px; margin-bottom: 12px;
+  }
+  .p-resena + .p-resena { border-top: 1px solid var(--godo-border); }
+  .p-resena blockquote { color: var(--godo-text); font-size: 14px; }
+  .p-resena cite { color: var(--godo-muted); }
+
+  .p-sin-resenas {
+    padding: 20px; border-radius: 18px; border: 1px dashed var(--godo-border-strong);
+    color: var(--godo-muted); font-size: 13.5px; text-align: center;
+  }
+}

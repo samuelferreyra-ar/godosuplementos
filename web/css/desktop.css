@@ -1,0 +1,150 @@
+/* Diseño de escritorio (≥1024 px).
+   Contenido a 1240 px centrados, padding lateral 40 px, sin barra inferior:
+   la navegación son dos filas fijas arriba. */
+
+.d-solo { display: none; }
+
+@media (min-width: 1024px) {
+
+  .d-solo { display: block; }
+  .m-solo { display: none !important; }
+
+  /* Las barras de navegación del móvil las reemplaza el chrome de escritorio.
+     La de las páginas informativas se queda: es un título, no navegación. */
+  body.tiene-chrome .h-barra,
+  body.tiene-chrome .c-barra,
+  body.tiene-chrome .g-barra { display: none !important; }
+  .i-barra .i-barra-fila { display: none; }
+
+  .d-ancho { max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+
+  /* --- Fila 1: barra navy ------------------------------------------- */
+
+  .d-navy { background: var(--godo-navy); }
+  .d-navy-fila { display: flex; align-items: center; gap: 20px; padding: 16px 40px; max-width: 1240px; margin: 0 auto; }
+  .d-navy img { height: 40px; width: auto; flex: 0 0 auto; }
+
+  .d-buscador { position: relative; flex: 1; max-width: 620px; }
+  .d-buscador i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--godo-muted-2); font-size: 15px; }
+  .d-buscador input {
+    width: 100%; padding: 11px 16px 11px 38px;
+    background: var(--godo-paper); border: 0; border-radius: 12px;
+    font: inherit; font-size: 14px; color: var(--godo-navy);
+  }
+  .d-buscador input::placeholder { color: var(--godo-muted-2); }
+
+  .d-acciones { display: flex; align-items: center; gap: 10px; margin-left: auto; }
+  .d-cuenta {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 16px; border-radius: 12px;
+    border: 1px solid rgba(250,247,241,.28); color: var(--sobre-navy);
+    font-size: 13.5px; font-weight: 500;
+  }
+  .d-cuenta:hover { border-color: var(--godo-amber); color: var(--godo-amber); }
+  .d-carrito {
+    position: relative; display: inline-flex; align-items: center; gap: 7px;
+    padding: 10px 16px; border-radius: 12px;
+    background: var(--godo-amber); color: var(--godo-navy);
+    font-size: 13.5px; font-weight: 600;
+  }
+  .d-carrito:hover { background: var(--godo-amber-hover); }
+  .d-carrito-badge {
+    min-width: 19px; height: 19px; padding: 0 5px; border-radius: 999px;
+    background: var(--godo-navy); color: var(--godo-amber);
+    font-size: 11px; font-weight: 700; line-height: 19px; text-align: center;
+  }
+
+  /* --- Fila 2: cinta de categorías ----------------------------------- */
+
+  .d-cinta { background: var(--godo-white); border-bottom: 1px solid var(--godo-border); }
+  .d-cinta-fila { display: flex; gap: 4px; max-width: 1240px; margin: 0 auto; padding: 0 40px; overflow-x: auto; scrollbar-width: none; }
+  .d-cinta-fila::-webkit-scrollbar { display: none; }
+  .d-cinta a {
+    flex: 0 0 auto; padding: 13px; white-space: nowrap;
+    font-family: var(--titulo); font-size: 16px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .03em; color: var(--godo-navy);
+    border-bottom: 2px solid transparent;
+  }
+  .d-cinta a:hover { border-bottom-color: var(--godo-amber); }
+  .d-cinta a.es-activa { border-bottom-color: var(--godo-amber); }
+
+  /* --- Franja de confianza ------------------------------------------- */
+
+  .d-confianza { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+  .d-confianza article { padding: 18px; border-radius: 18px; border: 1px solid var(--godo-border); background: var(--godo-white); }
+  .d-confianza i { font-size: 20px; color: var(--godo-navy); }
+  .d-confianza b { display: block; font-size: 14.5px; font-weight: 700; margin: 9px 0 4px; }
+  .d-confianza span { font-size: 12.5px; color: var(--godo-muted); }
+
+  /* --- Footer --------------------------------------------------------- */
+
+  .d-footer { background: var(--godo-navy); margin-top: 56px; padding: 40px 0 28px; }
+  .d-footer-grilla { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; max-width: 1240px; margin: 0 auto; padding: 0 40px; }
+  .d-footer img { height: 36px; width: auto; object-fit: contain; align-self: flex-start; }
+  .d-footer p { margin: 12px 0 0; font-size: 13px; color: rgba(250,247,241,.78); max-width: 34ch; }
+  .d-footer h3 { font-family: var(--titulo); font-size: 16px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--godo-amber); margin: 0 0 12px; }
+  .d-footer ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  .d-footer a { font-size: 13px; color: rgba(250,247,241,.78); }
+  .d-footer a:hover { color: var(--godo-amber); }
+  .d-footer-legal { max-width: 1240px; margin: 28px auto 0; padding: 18px 40px 0; border-top: 1px solid var(--sobre-navy-linea); font-size: 12px; color: rgba(250,247,241,.6); }
+
+  /* --- Botón "Mostrar más" -------------------------------------------- */
+
+  .d-mas {
+    display: block; margin: 28px auto 0; width: auto; padding: 12px 32px;
+    background: transparent; color: var(--godo-navy);
+    border: 1.5px solid var(--godo-navy); border-radius: 12px; cursor: pointer;
+    font-family: var(--titulo); font-size: 16px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .d-mas:hover { background: var(--godo-navy); color: var(--godo-amber); }
+
+  /* Sombra al pasar por una tarjeta de producto: es la única del sistema. */
+  .t-card:hover { border-color: var(--godo-navy); box-shadow: 0 8px 24px rgba(10,35,66,.10); }
+}
+
+/* --- Home de escritorio ---------------------------------------------- */
+
+@media (min-width: 1024px) {
+  .h-contenido { max-width: 1240px; margin: 0 auto; padding: 0 40px 0; }
+  .h-seccion { margin-top: 40px; }
+  .h-titulo-fila { margin-bottom: 18px; }
+  .h-titulo-fila .g-titulo-seccion { font-size: 30px; }
+  .h-ver-todas { font-size: 13.5px; }
+
+  /* Cuatro atajos en una fila: foto de 64 px a la izquierda. */
+  .h-categorias { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .h-cat { padding: 20px; gap: 14px; border-radius: 18px; }
+  .h-cat .g-foto { flex: 0 0 64px; width: 64px; height: 64px; border-radius: 14px; }
+  .h-cat b { font-size: 22px; }
+  .h-cat small { font-size: 12.5px; }
+  .h-cat:hover { border-color: var(--godo-navy); }
+
+  .h-destacados-escritorio { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+
+  /* Combo: foto grande a la izquierda, texto al medio, botón a la derecha. */
+  .h-combo {
+    margin-top: 40px; padding: 24px 28px; border-radius: 20px;
+    display: grid; grid-template-columns: 132px 1fr auto;
+    gap: 28px; align-items: center;
+  }
+  .h-combo-foto { width: 132px; height: 132px; border-radius: 16px; }
+  .h-combo h3 { font-size: 32px; margin: 8px 0 6px; }
+  .h-combo-contenido { font-size: 14px; }
+  .h-combo-precio { font-size: 30px; }
+  .h-combo-btn { width: auto; padding: 0 32px; }
+
+
+  .h-resultados { grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .g-pagina { padding-bottom: 0; }
+}
+
+/* --- Barra reducida del carrito (no lleva chrome) --------------------- */
+
+@media (min-width: 1024px) {
+  body:not(.tiene-chrome) .g-barra {
+    padding: 16px 40px;
+    justify-content: space-between;
+  }
+  body:not(.tiene-chrome) .g-barra > * { flex: 0 0 auto; }
+}

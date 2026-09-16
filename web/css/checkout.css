@@ -1,0 +1,54 @@
+/* Estilos de checkout.html. Vive en un archivo y no en un <style> del HTML
+   porque un <style> va siempre después de los <link> y les gana: los
+   overrides de escritorio no se aplicaban nunca. */
+
+.k-progreso { display: flex; gap: 6px; padding: 0 var(--lateral) 10px; background: var(--godo-navy); }
+.k-progreso span { flex: 1; height: 4px; border-radius: 999px; background: rgba(250,247,241,.2); }
+.k-progreso span.hecho { background: var(--godo-amber); }
+.k-paso-actual { background: var(--godo-navy); color: var(--sobre-navy-2); font-size: 12px; padding: 0 var(--lateral) 12px; }
+
+.k-seccion { margin-top: 20px; }
+.k-seccion > h2 { font-family: var(--titulo); font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 10px; }
+.k-campos { display: grid; gap: 10px; }
+.k-dos { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+.k-campo label { display: block; font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--godo-muted-2); margin-bottom: 4px; }
+.k-campo input, .k-campo select {
+  width: 100%; padding: 11px 12px; font-size: 14px; font-family: inherit; color: var(--godo-navy);
+  background: var(--godo-white); border: 1px solid var(--godo-border-strong); border-radius: 12px;
+}
+.k-campo input:focus, .k-campo select:focus { outline: none; border-color: var(--godo-navy); }
+.k-campo input[aria-invalid="true"] { border-color: var(--godo-danger); background: var(--godo-danger-bg); }
+.k-campo .k-error { display: block; margin-top: 4px; font-size: 11.5px; color: var(--godo-danger); }
+.k-opcional { color: var(--godo-disabled); font-weight: 400; letter-spacing: 0; text-transform: none; }
+
+.k-opcion { display: flex; align-items: center; gap: 11px; padding: 13px; margin-bottom: 9px; border-radius: 16px; border: 1px solid var(--godo-border); background: var(--godo-white); cursor: pointer; }
+.k-opcion.es-elegida { border: 1.5px solid var(--godo-navy); }
+.k-opcion i { font-size: 18px; color: var(--godo-disabled); }
+.k-opcion.es-elegida i { color: var(--godo-navy); }
+.k-opcion-cuerpo { flex: 1; }
+.k-opcion b { display: block; font-size: 14px; font-weight: 600; }
+.k-opcion small { display: block; font-size: 12px; color: var(--godo-muted); margin-top: 2px; }
+.k-opcion .k-monto { font-size: 14px; font-weight: 700; }
+
+.k-cupon { display: flex; gap: 8px; align-items: flex-start; }
+.k-cupon input { flex: 1; text-transform: uppercase; }
+.k-cupon button { width: auto; min-height: 44px; padding: 0 18px; font-size: 13px; }
+.k-cupon-estado { margin-top: 7px; font-size: 12.5px; }
+
+.k-resumen { margin-top: 20px; padding: 14px; }
+.k-resumen > div:not(.k-items) { display: flex; justify-content: space-between; align-items: baseline; padding: 6px 0; font-size: 14px; }
+.k-resumen .k-total { border-top: 1px solid var(--godo-border); margin-top: 8px; padding-top: 12px; }
+.k-resumen .k-total b { font-family: var(--titulo); font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.k-resumen .k-total strong { font-size: 26px; font-weight: 700; letter-spacing: -.02em; }
+
+.k-falla { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: var(--godo-danger-bg); color: var(--godo-danger); font-size: 13px; }
+.k-falla ul { margin: 6px 0 0; padding-left: 18px; }
+
+#contenido { padding-bottom: 116px; }
+@media (min-width: 1024px) {
+  .k-layout { max-width: 1240px; margin: 0 auto; padding: 24px; display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start; }
+  .k-columna-resumen { position: sticky; top: 20px; }
+  .k-resumen { margin-top: 0; }
+  .g-pie-fijo { position: static; border: 0; background: none; padding: 14px 0 0; }
+  #contenido { padding-bottom: 40px; }
+}

@@ -1,0 +1,250 @@
+/* GODO Suplementos — tokens y componentes base del rediseño.
+   Cuatro colores de marca y cinco semánticos. Sin hues nuevos: si hace falta
+   un tono intermedio, derivarlo en oklch() desde el navy o el ámbar. */
+
+:root {
+  --godo-navy: #0A2342;
+  --godo-navy-hover: #123258;
+  --godo-amber: #E8B417;
+  --godo-amber-hover: #D3A310;
+
+  --godo-paper: #FAF7F1;
+  --godo-paper-alt: #FBF8F2;
+  --godo-white: #FFFFFF;
+
+  --godo-border: #E6DFD2;
+  --godo-border-strong: #DDD5C6;
+  --godo-border-soft: #F1EBE0;
+  --godo-chip: #EFE9DD;
+
+  --godo-text: #4B4438;
+  --godo-muted: #7A7263;
+  --godo-muted-2: #9A9080;
+  --godo-disabled: #BDB5A6;
+
+  --godo-ok-bg: #E7F2EA;      --godo-ok: #1F7A4D;
+  --godo-warn-bg: #FDF3D6;    --godo-warn: #8A6A05;   --godo-warn-text: #B37400;
+  --godo-danger-bg: #FBE9E9;  --godo-danger: #B33A3A;
+  --godo-info-bg: #E9EEF6;
+
+  /* Sobre navy se usan blancos con alfa, nunca grises. */
+  --sobre-navy: rgba(250, 247, 241, .85);
+  --sobre-navy-2: rgba(250, 247, 241, .7);
+  --sobre-navy-3: rgba(250, 247, 241, .6);
+  --sobre-navy-fondo: rgba(250, 247, 241, .1);
+  --sobre-navy-linea: rgba(250, 247, 241, .14);
+
+  --titulo: 'Barlow Condensed', 'Arial Narrow', system-ui, sans-serif;
+  --cuerpo: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  --display: 'Archivo', 'IBM Plex Sans', system-ui, sans-serif;
+
+  --lateral: 16px;   /* padding lateral de pantalla móvil */
+  --barra-inferior: 62px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--godo-paper);
+  color: var(--godo-navy);
+  font-family: var(--cuerpo);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+p { text-wrap: pretty; }
+img { max-width: 100%; }
+a { color: var(--godo-navy); text-decoration: none; }
+button { font-family: inherit; }
+
+/* El diseño es plano: la jerarquía la dan el borde de 1 px y el contraste
+   papel hundido / tarjeta blanca. Sin sombras dentro de la interfaz. */
+
+/* --- Tipografía ------------------------------------------------------- */
+
+.g-titulo-pantalla,
+.g-titulo-seccion,
+.g-nombre {
+  font-family: var(--titulo);
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  line-height: 1.05;
+  margin: 0;
+}
+.g-titulo-pantalla { font-size: 34px; font-weight: 700; }
+.g-titulo-seccion  { font-size: 24px; font-weight: 700; }
+.g-nombre          { font-size: 17px; font-weight: 600; line-height: 1.15; }
+
+.g-etiqueta {
+  font-size: 10.5px; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--godo-muted-2);
+}
+.g-nota { font-size: 12px; color: var(--godo-muted); }
+.g-precio { font-size: 32px; font-weight: 700; letter-spacing: -.02em; }
+.g-precio-tarjeta { font-size: 18px; font-weight: 700; }
+
+/* --- Superficies ------------------------------------------------------ */
+
+.g-tarjeta {
+  background: var(--godo-white);
+  border: 1px solid var(--godo-border);
+  border-radius: 18px;
+}
+.g-pozo {
+  background: var(--godo-paper);
+  border-radius: 16px;
+}
+
+/* Imagen que no carga: pozo de papel con el logo al 20%, nunca un icono roto. */
+.g-foto {
+  display: flex; align-items: center; justify-content: center;
+  background: var(--godo-paper);
+  overflow: hidden;
+}
+/* El logo se pinta SOLO cuando no hay imagen. Si se pintara siempre, se
+   asomaría por detrás de las fotos con fondo transparente, que son la mayoría.
+   El onerror del <img> lo quita del DOM, así que esto también cubre la foto
+   que falla al cargar. */
+.g-foto:not(:has(img)) {
+  background-image: url('../assets/Logo-Godo.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 42% auto;
+  opacity: .55;
+}
+.g-foto img { width: 100%; height: 100%; object-fit: contain; }
+
+/* --- Botones ---------------------------------------------------------- */
+
+.g-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; min-height: 48px; padding: 0 18px;
+  border: 0; border-radius: 12px; cursor: pointer;
+  font-family: var(--titulo); font-size: 15px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .05em;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+.g-btn-primario { background: var(--godo-navy); color: var(--godo-amber); }
+.g-btn-primario:hover:not(:disabled) { background: var(--godo-navy-hover); }
+.g-btn-acento { background: var(--godo-amber); color: var(--godo-navy); }
+.g-btn-acento:hover:not(:disabled) { background: var(--godo-amber-hover); }
+.g-btn-borde {
+  background: transparent; color: var(--godo-navy);
+  border: 1px solid var(--godo-border-strong);
+}
+.g-btn-borde:hover:not(:disabled) { border-color: var(--godo-navy); }
+.g-btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.g-enlace-wa {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  width: 100%; padding: 10px 0;
+  font-size: 12.5px; color: var(--godo-muted); background: none; border: 0; cursor: pointer;
+}
+.g-enlace-wa:hover { color: var(--godo-navy); }
+
+/* --- Chips de variante ------------------------------------------------ */
+
+.g-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.g-chip {
+  padding: 9px 16px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 600;
+  background: var(--godo-white); color: var(--godo-navy);
+  border: 1px solid var(--godo-border-strong);
+  cursor: pointer; transition: background-color .15s ease, border-color .15s ease;
+}
+.g-chip:hover:not(.es-elegido):not(:disabled) { border-color: var(--godo-navy); }
+.g-chip.es-elegido {
+  background: var(--godo-navy); color: var(--godo-paper);
+  border-color: var(--godo-navy);
+}
+/* Sin stock: visible pero no seleccionable. Nunca oculto ni tachado. */
+.g-chip:disabled {
+  background: #F4EFE5; color: var(--godo-disabled);
+  border: 1px dashed var(--godo-border-strong);
+  cursor: not-allowed;
+}
+.g-chip small { display: block; font-size: 11px; font-weight: 400; opacity: .8; }
+
+/* --- Píldoras de estado ----------------------------------------------- */
+
+.g-pildora {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px; border-radius: 999px;
+  font-size: 11px; font-weight: 600;
+}
+.g-pildora-aviso { background: var(--godo-warn-bg); color: var(--godo-warn); }
+.g-pildora-sin   { background: var(--godo-danger-bg); color: var(--godo-danger); }
+.g-pildora-ok    { background: var(--godo-ok-bg); color: var(--godo-ok); }
+
+/* --- Barra superior navy ---------------------------------------------- */
+
+.g-barra {
+  background: var(--godo-navy); color: var(--godo-paper);
+  padding: 12px var(--lateral);
+  display: flex; align-items: center; gap: 12px;
+}
+.g-barra a, .g-barra button { color: var(--sobre-navy); background: none; border: 0; }
+
+/* --- Barra inferior de navegación ------------------------------------- */
+
+.g-nav-inferior {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  background: var(--godo-white);
+  border-top: 1px solid var(--godo-border);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.g-nav-inferior a {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 9px 0; font-size: 10.5px; color: var(--godo-muted-2);
+}
+.g-nav-inferior a.es-activo { color: var(--godo-navy); }
+.g-nav-inferior i { font-size: 19px; }
+
+.g-badge-carrito {
+  position: absolute; transform: translate(9px, -6px);
+  min-width: 17px; height: 17px; padding: 0 4px;
+  border-radius: 999px; background: var(--godo-amber); color: var(--godo-navy);
+  font-size: 10.5px; font-weight: 700; line-height: 17px; text-align: center;
+}
+@keyframes g-latido { 0%, 100% { transform: translate(9px, -6px) scale(1); } 50% { transform: translate(9px, -6px) scale(1.35); } }
+.g-badge-carrito.late { animation: g-latido .2s ease; }
+
+/* --- Utilidades ------------------------------------------------------- */
+
+.g-pagina { padding: 0 var(--lateral) calc(var(--barra-inferior) + 24px); }
+.g-pie-fijo {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: var(--godo-white); border-top: 1px solid var(--godo-border);
+  padding: 10px var(--lateral) calc(10px + env(safe-area-inset-bottom, 0));
+}
+.g-oculto { display: none !important; }
+
+@media (min-width: 1024px) {
+  /* La barra inferior y la cinta de categorías nunca conviven. */
+  .g-nav-inferior { display: none; }
+  .g-pagina { padding-bottom: 40px; }
+}
+
+/* --- Bloque de combo (home) ------------------------------------------- */
+
+.h-combo-foto { width: 92px; height: 92px; border-radius: 16px; background: var(--godo-paper); }
+.h-combo-contenido {
+  margin: 0 0 12px; font-size: 13px; line-height: 1.4;
+  color: var(--sobre-navy-2);
+}
+.h-combo-btn { margin-top: 4px; }
+
+/* --- Confirmación de "agregado al carrito" ----------------------------- */
+/* El cambio de texto solo no se ve: el botón también cambia de color, con
+   los tonos de "guardado" que ya están en el sistema. */
+
+.es-agregado {
+  background: var(--godo-ok-bg) !important;
+  color: var(--godo-ok) !important;
+}
+.es-agregado:hover { background: var(--godo-ok-bg) !important; }

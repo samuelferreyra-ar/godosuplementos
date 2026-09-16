@@ -1,0 +1,83 @@
+/* Checkout en escritorio: los tres pasos en una página, con el resumen fijo
+   a la derecha. La barra es mínima a propósito — en un flujo de compra no
+   corresponde la cinta de categorías tentando a irse. */
+
+@media (min-width: 1024px) {
+  .g-barra { padding: 16px 40px; }
+  .g-barra > .g-nombre { flex: 0 0 auto; }
+  .k-barra-ancho { max-width: 1240px; margin: 0 auto; display: flex; align-items: center; gap: 16px; width: 100%; }
+
+  /* La barra de tres segmentos del teléfono la reemplaza la fila de pasos. */
+  .k-progreso, .k-paso-actual { display: none; }
+
+  .k-pasos {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    background: var(--godo-white); border-bottom: 1px solid var(--godo-border);
+    padding: 18px 40px;
+  }
+  .k-paso { display: flex; align-items: center; gap: 9px; }
+  .k-paso-num {
+    width: 28px; height: 28px; border-radius: 999px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+    background: var(--godo-white); border: 1px solid var(--godo-border-strong); color: var(--godo-muted-2);
+  }
+  .k-paso.es-hecho .k-paso-num,
+  .k-paso.es-actual .k-paso-num {
+    background: var(--godo-navy); border-color: var(--godo-navy); color: var(--godo-amber);
+  }
+  .k-paso span { font-size: 14px; color: var(--godo-muted); }
+  .k-paso.es-actual span, .k-paso.es-hecho span { color: var(--godo-navy); font-weight: 600; }
+  .k-separador { width: 60px; height: 1.5px; background: var(--godo-border); }
+
+  .k-layout {
+    max-width: 1240px; margin: 0 auto; padding: 28px 40px 0;
+    display: grid; grid-template-columns: 1fr 380px; gap: 24px; align-items: start;
+  }
+
+  /* Cada paso es una tarjeta; la activa lleva borde navy. */
+  .k-seccion {
+    background: var(--godo-white); border: 1px solid var(--godo-border);
+    border-radius: 18px; padding: 22px; margin-top: 16px;
+  }
+  .k-seccion:first-child { margin-top: 0; }
+  .k-seccion.es-actual { border: 1.5px solid var(--godo-navy); }
+  /* El pago espera a que la entrega esté resuelta. */
+  .k-seccion.es-pendiente { opacity: .72; }
+  .k-seccion-cabecera { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 16px; }
+  .k-seccion > h2 { margin: 0; font-size: 22px; }
+
+  .k-campos { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .k-campos > .k-campo:first-child { grid-column: 1 / -1; }
+  .k-campo label { font-size: 12px; font-weight: 600; letter-spacing: .04em; }
+  .k-campo input, .k-campo select {
+    background: var(--godo-paper); border-color: transparent; border-radius: 12px; padding: 12px 14px;
+  }
+  .k-campo input:focus { background: var(--godo-white); border-color: var(--godo-navy); }
+
+  .k-opcion { border-radius: 14px; padding: 16px; }
+  .k-entrega-opciones { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .k-opcion b { font-size: 14.5px; font-weight: 700; }
+  .k-opcion small { font-size: 12.5px; }
+  .k-opcion .k-monto { font-size: 14px; font-weight: 700; }
+  .k-opcion .k-monto.es-gratis { color: var(--godo-ok); }
+
+  .k-dos { grid-template-columns: 2fr 1fr; }
+
+  /* --- Resumen ---------------------------------------------------------- */
+
+  .k-columna-resumen { position: sticky; top: 20px; }
+  .k-resumen { margin-top: 0; padding: 20px; }
+  .k-resumen .k-total b { font-size: 24px; }
+  .k-resumen .k-total strong { font-size: 30px; }
+
+  .k-items { display: grid; gap: 10px; padding-bottom: 14px; margin-bottom: 6px; border-bottom: 1px solid var(--godo-border); }
+  .k-item { display: flex; align-items: center; gap: 11px; }
+  .k-item .g-foto { flex: 0 0 52px; width: 52px; height: 52px; border-radius: 12px; }
+  .k-item b { display: block; font-size: 13px; font-weight: 600; line-height: 1.2; }
+  .k-item small { font-size: 11.5px; color: var(--godo-muted); }
+  .k-item em { margin-left: auto; font-style: normal; font-size: 13.5px; font-weight: 700; }
+
+  .g-pie-fijo { position: static; border: 0; background: none; padding: 14px 0 0; }
+  #contenido { padding-bottom: 40px; }
+}
